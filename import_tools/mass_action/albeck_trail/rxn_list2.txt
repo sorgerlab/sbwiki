@@ -1,0 +1,254 @@
+% L + R <--> L:R --> R*
+k(1)=4E-7; k_(1)=1E-3; kc(1)=1E-5;
+
+% flip + R* <-->  flip:R*  
+k(2)=1E-6; k_(2)=1E-3;
+
+% C8 + R* <--> R*:C8 --> C8* + R*
+k(3)=1E-6; k_(3)=1E-3; kc(3)=1;
+
+% C8* + BAR <--> BAR:C8* 
+k(4)=1E-6; k_(4)=1E-3;
+
+% C3 + C8* <--> C3:C8* --> C3* + C8*
+k(5)=1E-7; k_(5)=1E-3; kc(5)=1;
+
+% C6 + C3* <--> C6:C3* --> C6* + C3*
+k(6)=1E-6; k_(6)=1E-3; kc(6)=1;
+
+% C8 + C6* <--> C8:C6* --> C8* + C6*
+k(7)=3E-8; k_(7)=1E-3; kc(7)=1; % 060829
+
+% XIAP + C3* <--> XIAP:C3* --> XIAP + C3_U
+k(8)=2E-6; k_(8)=1E-3;  kc(8)=.1;
+
+% PARP + C3* <--> PARP:C3* --> CPARP + C3*
+k(9)=1E-6; k_(9)=1E-3; kc(9)=1;
+
+% Bid + C8* <--> Bid:C8* --> tBid + C8*
+k(10)=1E-7; k_(10)=1E-3; kc(10)=1;
+
+% tBid + Bclx <-->  tBid:Bclx  
+k(11)=1E-6; k_(11)=1E-3; 
+
+% Bax + tBid <--> Bax:tBid --> Bax* + tBid 
+k(12)=1E-7; k_(12)=1E-3; kc(12)=1;
+
+% Bax* <-t->  Bax_m* 
+k(13)=delay; k_(13)=delay;
+
+% Bax_m* + Bcl2 <-->  Bax_m*:Bcl2  
+k(14)=1E-6; k_(14)=1E-3; 
+
+% Bax_m* + Bax_m* <--> Bax_m*:Bax_m* == Bax2
+k(15)=1E-6; k_(15)=1E-3;
+
+% Bax2 + Bcl2 <-->  Bax_m*2:Bcl2  
+k(16)=1E-6; k_(16)=1E-3; % RIGHT
+
+% Bax2 + Bax2 <-->  Bax2:Bax2 == Bax4
+k(17)=1E-6; k_(17)=1E-3;
+
+% Bax4 + Bcl2 <-->  Bax_m*4:Bcl2  
+k(18)=1E-6; k_(18)=1E-3; % RIGHT
+
+% Bax4 + M <-->  Bax4:M -->  M*  
+k(19)=1E-6; k_(19)=1E-3; kc(19)=1;
+
+% M* + CyC_m <-->  M*:CyC_m --> M* + CyC_r  
+k(20)=2E-6; k_(20)=1E-3; kc(20)=10; % IT
+
+% M* + Smac_m <-->  M*:Smac_m --> M* + Smac_r  
+k(21)=2E-6; k_(21)=1E-3; kc(21)=10; % IT
+
+% CyC_r <-t->  CyC
+k(22)=delay; k_(22)=delay;
+
+% Apaf + CyC <-->  Apaf:CyC  
+k(23)=5E-7; k_(23)=1E-3; kc(23)=1; 
+
+% Apaf:CyC + C9 <--> Apaf:CyC:C9 == Apop
+k(24)=5E-8; k_(24)=1E-3;
+
+% Apop + C3 <-->  Apop:C3 --> Apop + C3*  
+k(25)=5E-9; k_(25)=1E-3; kc(25)=1;
+
+% Smac_r <-t->  Smac
+k(26)=delay; k_(26)=delay;
+
+% Apop + XIAP <-->  Apop:XIAP  
+k(27)=2E-6; k_(27)=1E-3;
+
+% Smac + XIAP <-->  Smac:XIAP  
+k(28)=7E-6; k_(28)=1E-3;
+
+% 0 <--> Apaf
+ks=0;kr=0;
+
+% 0 <--> Apaf:CyC
+ks=0;kr=0;
+
+% 0 <--> Apop
+ks=0;kr=0;
+
+% 0 <--> Apop:C3
+ks=0;kr=0;
+
+% 0 <--> Apop:XIAP
+ks=0;kr=0;
+
+% 0 <--> BAR
+ks=0;kr=0;
+
+% 0 <--> BAR:C8*
+ks=0;kr=0;
+
+% 0 <--> Bax
+ks=0;kr=0;
+
+% 0 <--> Bax*
+ks=0;kr=0;
+
+% 0 <--> Bax2
+ks=0;kr=0;
+
+% 0 <--> Bax4
+ks=0;kr=0;
+
+% 0 <--> Bax4:M
+ks=0;kr=0;
+
+% 0 <--> Bax:tBid
+ks=0;kr=0;
+
+% 0 <--> Bax_m*
+ks=0;kr=0;
+
+% 0 <--> Bax_m*2:Bcl2
+ks=0;kr=0;
+
+% 0 <--> Bax_m*4:Bcl2
+ks=0;kr=0;
+
+% 0 <--> Bax_m*:Bcl2
+ks=0;kr=0;
+
+% 0 <--> Bcl2
+ks=0;kr=0;
+
+% 0 <--> Bclx
+ks=0;kr=0;
+
+% 0 <--> Bid
+ks=0;kr=0;
+
+% 0 <--> Bid:C8*
+ks=0;kr=0;
+
+% 0 <--> C3
+ks=0;kr=0;
+
+% 0 <--> C3*
+ks=0;kr=0;
+
+% 0 <--> C3:C8*
+ks=0;kr=0;
+
+% 0 <--> C3_U
+ks=0;kr=0;
+
+% 0 <--> C6
+ks=0;kr=0;
+
+% 0 <--> C6*
+ks=0;kr=0;
+
+% 0 <--> C6:C3*
+ks=0;kr=0;
+
+% 0 <--> C8
+ks=0;kr=0;
+
+% 0 <--> C8*
+ks=0;kr=0;
+
+% 0 <--> C8:C6*
+ks=0;kr=0;
+
+% 0 <--> C9
+ks=0;kr=0;
+
+% 0 <--> CPARP
+ks=0;kr=0;
+
+% 0 <--> CyC
+ks=0;kr=0;
+
+% 0 <--> CyC_m
+ks=0;kr=0;
+
+% 0 <--> CyC_r
+ks=0;kr=0;
+
+% 0 <--> L
+ks=0;kr=0;
+
+% 0 <--> L:R
+ks=0;kr=0;
+
+% 0 <--> M
+ks=0;kr=0;
+
+% 0 <--> M*
+ks=0;kr=0.001;
+
+% 0 <--> M*:CyC_m
+ks=0;kr=0;
+
+% 0 <--> M*:Smac_m
+ks=0;kr=0;
+
+% 0 <--> PARP
+ks=0;kr=0;
+
+% 0 <--> PARP:C3*
+ks=0;kr=0;
+
+% 0 <--> R
+ks=0;kr=0;
+
+% 0 <--> R*
+ks=0;kr=0;
+
+% 0 <--> R*:C8
+ks=0;kr=0;
+
+% 0 <--> Smac
+ks=0;kr=0;
+
+% 0 <--> Smac:XIAP
+ks=0;kr=0;
+
+% 0 <--> Smac_m
+ks=0;kr=0;
+
+% 0 <--> Smac_r
+ks=0;kr=0;
+
+% 0 <--> XIAP
+ks=0;kr=0;
+
+% 0 <--> XIAP:C3*
+ks=0;kr=0;
+
+% 0 <--> flip
+ks=0;kr=0;
+
+% 0 <--> flip:R*
+ks=0;kr=0;
+
+% 0 <--> tBid
+ks=0;kr=0;
+
+% 0 <--> tBid:Bclx
+ks=0;kr=0;

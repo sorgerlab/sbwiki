@@ -1,0 +1,217 @@
+S |          1 |  abl       |        Abl | Abelson protein tyrosine kinase |         K  
+S |          2 |   akap79   |     Akap79 | A kinase (PRKA) anchor protein 79 |         A  
+S |          3 |  ap1       |       Ap1  | v-jun sarcoma virus 17 oncogene homology |         T  
+S |          4 |  bad       |        Bad | BCL2-antagonist of cell death  |            
+S |          5 |    Bcat    |  ß-catenin | Catenin (cadherin-associated protein) beta 1 |            
+S |          6 |   bcl10    |      BCL10 | B-cell CLL/lymphoma 10  |            
+S |          7 |  bclxl     |     BCL2L1 | BCL2-like 1 |            
+S |          8 |  ca        |   CA, Ca2+ |    Calcium |            
+S |          9 |    cabin1  | Cabin1, CAIN | Calcineurin-binding protein |            
+S |         10 |  calcin    | Calcineurin | Calcineurin |          P 
+S |         11 |  calpr1    |       Csp1 | Calcipressin 1 |            
+S |         12 |   cam      |       CaM  | Calmodulin |            
+S |         13 |   camk2    | Camk2,CamKII | calcium/calmodulin-dependent protein kinase (CaM kinase) II  |         K  
+S |         14 |  camk4     | CamK4, CamKIV | calcium/calmodulin-dependent protein kinase IV |         K  
+S |         15 |  card11a   | CARD11 + CARMA1 + BCL10 | Complex of CARD11, CARMA1, and BCL10, which is their fully active form (see Fig. 1) |            
+S |         16 |    card11  | CARMA1, CARD11 | caspase recruitment domain family, member 11    |            
+S |         17 |   cblb     |      Cbl-b | Cas-Br-M (murine) ecotropic retroviral transforming sequence b |            
+S |         18 |     ccblp1 |     c-Cbl  | Casitase B-lineage lymphoma proto-oncogene (ZAP70-dependent pool) |         A  
+S |         19 |  ccblp2    |      c-Cbl | Casitase B-lineage lymphoma proto-oncogene (Fyn-dependent pool) |         A  
+S |         20 |   ccblr    |     c-Cbl  | Casitase B-lineage lymphoma proto-oncogene (Reservoir, see legend) |         A  
+S |         21 |    cd28    |       CD28 | CD28 antigen (Tp44)    |         R  
+S |         22 |  cd45      | CD45, PTPRC | protein tyrosine phosphatase, receptor type, C  |         P  
+S |         23 |       cd4  |   CD4, p55 | CD4 antigen (p55)  |         R  
+S |         24 |   cdc42    | CDC42, BB1 | cell division cycle 42 (GTP binding protein, 25kDa)    |         G  
+S |         25 |    cre     |        Cre | cAMP responsive element binding protein 1  |            
+S |         26 |  creb      | CREB, CREB1 | cAMP responsive element |         T  
+S |         27 |      csk   |        Csk | c-src tyrosine kinase    |         K  
+S |         28 |       cyc1 |       Cyc1 | cytochrome c-1    |            
+S |         29 |    dag     |        DAG | Diacylglycerol |            
+S |         30 |  dgk       |        DGK | diacylglycerol kinase |         K  
+S |         31 |        erk | ERK, MAPK1 | Extracellular signal-regulated kinases, mitogen-activated protein kinase 1    |         K  
+S |         32 |    fkhr    | FOXO1, fkhr | forkhead box O1A  |         T  
+S |         33 |    fos     |   Fos, FRA | FOS-like antigen |            
+S |         34 |       fyn  |        Fyn | FYN oncogene related to SRC, FGR, YES  |         K  
+S |         35 |      gab2  |       Gab2 | GRB2-associated binding protein 2    |         A  
+S |         36 |  gadd45    |    GADD45A | growth arrest and DNA-damage-inducible, alpha |            
+S |         37 |    gads    | GRAP-2, GADS, P38 | GRB2-related adaptor protein 2   |         A  
+S |         38 |      gap   |        GAP | GTPase-activating protein |            
+S |         39 |       grb2 |       Grb2 | growth factor receptor-bound protein 2  |            
+S |         40 |        sos |       Sos1 | Son of sevenless homolog 1 |            
+S |         41 |    gsk3    |       GSK3 | glycogen synthase kinase 3 |         K  
+S |         42 |  hpk1      | HPK1, MAP4K1 | Hematopoietic progenitor kinase 1, mitogen-activated protein kinase kinase kinase kinase 1   |         K  
+S |         43 |   ikb      |        I&kappa;B | Inhibitor protein I&kappa;B |            
+S |         44 |      ikkab | I&kappa;KA + I&kappa;KB | inhibitor of kappa light polypeptide gene enhancer in B-cells, kinase alpha and kinase beta |            
+S |         45 |     ikkg   |       I&kappa;KG | inhibitor of kappa light polypeptide gene enhancer in B-cells, kinase gamma    |            
+S |         46 |    ip3     |       IP3K | inositol 1,4,5-trisphosphate   |          K 
+S |         47 |   itk      |        ITK | IL2-inducible T-cell kinase |         K  
+S |         48 |    jnk     | JNK, SAPK, MAPK8 | mitogen-activated protein kinase 8  |          K 
+S |         49 |      jun   |  JUN, ap1  | v-jun sarcoma virus 17 oncogene homolog |         T  
+S |         50 |     lat    |        LAT | linker for activation of T cells |         A  
+S |         51 |    lckp1   |        Lck | lymphocyte-specific protein tyrosine kinase ( CD4-dependent pool)    |          K 
+S |         52 |    lckp2   |        Lck | lymphocyte-specific protein tyrosine kinase  (CD28/TCR-dependent pool) |          K 
+S |         53 |     lckr   |        Lck | lymphocyte-specific protein tyrosine kinase (Reservoir, see legend)    |          K 
+S |         54 |     malt1  |      MALT1 | mucosa associated lymphoid tissue lymphoma translocation gene 1    |            
+S |         55 |    mek     | MEK, MAP2K, MAPKK | mitogen-activated protein kinase kinase |          K 
+S |         56 |    mekk1   | MEKK1, MAP3K1, MAPKKK1 | mitogen-activated protein kinase kinase kinase |          K 
+S |         57 |   mkk4     | MKK4, MAP2K4, MAPKK4 | mitogen-activated protein kinase kinase 4  |          K 
+S |         58 |     mlk3   | MLK3, MAP3K11 | mitogen-activated protein kinase kinase kinase 11   |          K 
+S |         59 |      nfat  | NFATC1, NFATC2, NFATC3 | nuclear factor of activated T-cells, cytoplasmic, calcineurin-dependent 1    |         T  
+S |         60 |    nfkb    |       Nf&kappa;B | nuclear factor of kappa light polypeptide gene enhancer in B-cells 1, 2 |         T  
+S |         61 |       p21c | P21Cip1, Cdkn1a, p21 | cyclin-dependent kinase inhibitor 1A (p21, Cip1) |            
+S |         62 |    p27k    | CDKN1B, p27Kip1 | cyclin-dependent kinase inhibitor 1B (p27, Kip1)  |            
+S |         63 |     p38    | P38, MAPK14 | mitogen-activated protein kinase 14 |          K 
+S |         64 |    p70s    | RPS6KB1, p70s6k | ribosomal protein S6 kinase, 70kDa, polypeptide 1  |          K 
+S |         65 |      pag   |       PAG1 | phosphoprotein associated with glycosphingolipid microdomains 1  |         A  
+S |         66 |     pdk1   | PDPK1, PDK1 | 3-phosphoinositide dependent protein kinase-1    |          K 
+S |         67 |      pi3k  | PI3K, PIK3CA | phosphoinositide-3-kinase, catalytic, alpha polypeptide   |          K 
+S |         68 |     pip3   |       PIP3 | Phosphatidylinositol (3,4,5)-trisphosphate |            
+S |         69 |      pkb   |  PKB, AKT1 | v-akt murine thymoma viral oncogene homolog 1 |          K 
+S |         70 |     pkcth  | Prkcq, PKC-&gamma; | protein kinase C, theta  |          K 
+S |         71 |    plcga   | Active form of PLC&gamma;1, PLC-gamma-1 | phospholipase C, gamma 1  |            
+S |         72 |    plcgb   | PLCG1, PLC-&gamma;-1 bound to LAT (but not active, see plcga) | phospholipase C, gamma 1  |            
+S |         73 |      pten  |       PTEN | phosphatase and tensin homolog (mutated in multiple advanced cancers 1)    |         P  
+S |         74 |    rac1p1  | RAC1, p21-Rac1, MIG5 | ras-related C3 botulinum toxin substrate 1 (rho family, small GTP binding protein Rac1)  (Vav-1 dependent pool) |         G  
+S |         75 |    rac1p2  | RAC1, p21-Rac1, MIG5 | ras-related C3 botulinum toxin substrate 1 (rho family, small GTP binding protein Rac1)  (Vav-3 dependent pool) |         G  
+S |         76 |     rac1r  | RAC1, p21-Rac1, MIG5 | ras-related C3 botulinum toxin substrate 1 (rho family, small GTP binding protein Rac1) (Reservoir, see footnote)  |         G  
+S |         77 |     raf    |       RAF1 | v-raf-1 murine leukemia viral oncogene homolog 1  |          K 
+S |         78 |     ras    |        Ras |        Ras |         G  
+S |         79 |  rasgrp    |    RasGRP1 | Ras guanyl releasing protein 1 |            
+S |         80 |      rlk   | TXK, RLK, TKL | TXK tyrosine kinase    |          K 
+S |         81 |     rsk    | RPS6KA1, RSK | ribosomal protein S6 kinase, 90kDa, polypeptide 1 |          K 
+S |         82 |     Sh3bp2 | 3BP2, SH3BP2 | SH3-domain binding protein 2   |         A  
+S |         83 |      ship1 | INPP5D, SHIP1 | inositol polyphosphate-5-phosphatase, 145kDa   |         P  
+S |         84 |     shp1   | Shp1, PTPN6 | protein tyrosine phosphatase, non-receptor type 6    |         P  
+S |         85 |    shp2    | SHP2, PTPN11 | protein tyrosine phosphatase, non-receptor type 11 (Noonan syndrome 1)  |         P  
+S |         86 |      slp76 | LCP2, SLP76 | lymphocyte cytosolic protein 2 (SH2 domain containing leukocyte protein of 76kDa)    |         A  
+S |         87 |      sre   |        Sre | Serum responsive element |            
+S |         88 |       tcrb |       TCR  | T-cell Receptor (bound to ligand) |         R  
+S |         89 |     tcrlig |   PMHC, Ab | Ligand of T cell receptor (peptide-MHC complex or antibody) |         R  
+S |         90 |      tcrp  |        TCR | T-cell Receptor phosphorylated |         R  
+S |         91 |       vav1 |       VAV1 | Vav 1 oncogene |            
+S |         92 |       vav3 |       VAV3 | Vav 3 oncogene |            
+S |         93 |          X |          - | Non-identified kinase involved in CD28-mediated signaling (see main text) |          K 
+S |         94 |     zap70  |      ZAP70 | zeta-chain (TCR) associated protein kinase 70kDa  |          K 
+R | 1|       --> cd28 |1| Binding of ligand or antibody to cd28 is an input of the model. 
+R | 2|       --> cd4  |1| Binding of ligand or antibody to cd4 is an input of the model. 
+R | 3|     --> tcrlig |1| Binding of ligand or antibody to the tcr is an input of the model. 
+R | 4| !bad --> bclxl               |1| bad inhibits bclxl\cite{zha:1997,yang:1995}. 
+R | 5| !cabin + !calpr + !akap7 + cam --> calcin  |1|  cam binds to and activates calcineurin (calcin), while  cabin1, calpr1, akap79 inhibit calcin\cite{Matsuda_EMBO_2000,ryeom:2003,Kashishian_JBC_1998}. 
+R | 6| !camk4 --> cabin1                              |1| camk4 regulates via phosphorylation nuclear export of Cabin1\cite{pan:2005}. 
+R | 7| card11a + pkcth --> ikkg  |1| The complex card1 +bcl10 +malt1 is required for ikkg activation \cite{Thome_NatRevImm_2004,weil:2006,MatthewS}. Phosphorylation, probably via pkcth\cite{khoshnan:2000}, is also required.
+R | 8| !ccblp1 + tcrlig --> tcrb  |1| Binding        of ligand activates the tcr, while active ccbl ubiquinates it, thus        leading to tcr degradation\cite{Huang_JBC_04}. 
+R | 9| !ccblp1 + tcrp + abl --> zap70            |1| abl phosphorylates and thus activates zap70\cite{ZipfelPA_CurrBiol_04} once it is bound to the tcr. Active ccbl can degrade zap70. 
+R | 10| !cd28 --> cblb               |2| cd28 induces cblb ubiquitination and degradation\cite{ZhangJ_JImm_02} after the early events thus, &tau;=2. 
+R | 11| !dg + plcga --> dag |1| The active form of plc &gamma; 1 (plcga) splits pip2 into diacylglycerol (dag) and ip3 (see hyperarc 83)\cite{Huang_JBC_04}. Active dgks degrade dag into phosphatic acid\cite{TophamMK_JCB_06}. 
+R | 12| !er + lckp1 --> shp1                           |2| lck phosphorylates shp1 leading to its activation which allows it to dephosphorylate and thus deactivate lck. erk phosphorylates lck at p59, protecting it from shp1's effect\cite{StefanovaI_Nature_02,Altan-Bonnet_PLoSBiol_05}. Since shp1 activation comes some time after lck activation, it takes place at &tau;=2. 
+R | 13| !gab2 + zap70 + gads --> slp76        |1| slp76 associates with lat via gads\cite{HorejsiV_NatRevImm_04,TogniM_MolImm_04}. gab2 competes for binding, and thus inhibits binding of slp76 to gads\cite{yamasaki:2001,yamasaki:2003}. 
+R | 14| !gsk3 --> bcat                              |1| Gsk3 inhibits bcat\cite{Liang_CC_03}. 
+R | 15| !gsk3 --> cyc1                       |1| Gsk3 inhibits cyc1\cite{Liang_CC_03}. 
+R | 16| !ikb --> nfkb                      |1| nfkb is retained in the cytoplasm by tight binding to the inhibitory protein ikb\cite{Huang_JBC_04}. 
+R | 17| !ikkab --> ikb               |1| ikb is phosphorylated by ikkab, leading to its ubiquination and subsequent degradation\cite{Huang_JBC_04,Krauss}. 
+R | 18| ikk + camk2 --> ikkab           |1|        Both the regulatory molecule ikkg and phosphorylation probably (but not only) via camk2 are required for the activation of the kinase subunits ikkalpha and beta (ikkab)\cite{Thome_NatRevImm_2004,weil:2006,MatthewS}. 
+R | 19| !pkb --> bad              |1| pkb inhibits bad\cite{hanada:2004}. 
+R | 20| !pkb --> fkhr             |1| pkb inhibits fkhr\cite{hanada:2004}. 
+R | 21| !pkb --> gsk3        |1| pkb inhibits gsk3 \cite{Liang_CC_03,hanada:2004}. 
+R | 22| !pkb --> p21c        |1| pkb inhibits p21c \cite{Liang_CC_03,hanada:2004}. 
+R | 23| !pkb --> p27k          |1| pkb inhibits p27k \cite{Liang_CC_03,hanada:2004}. 
+R | 24| !gadd4 + zap70 --> p38          |1|        gadd45 inhibits the zap70 mediated activation of p38\cite{SalvadorJM_NatImmunol_05}. 
+R | 25| !shp + cd4 + cd + !cs + lckr --> lckp1  |1| Full activation of the cd4-bound pool (there is also a tcr-dependent pool, see hyperarc 62/64 and legend) of lck requires dephosphorylation of the negative regulatory site (by cd45, and in absence of csk, which phosphorylates it) and autophosphorylation of the positive regulatory site, which cd4-bound lck can perform upon cd4 crosslinking\cite{PalaciosEH_Onco_04}. 
+R | 26| !tcrb --> pag                               |1| upon ligand binding to the tcr, pag is dephosphorylated by an unidentified phosphatase (probably cd45)\cite{DavidsonD_MCB_03}. 
+R | 27| ap1 -->                                     |1| the transcription factor ap1 is an output of the model. 
+R | 28| bcat -->                            |1| bcat is an output of the model. 
+R | 29| bclxl -->                                     |1| bclx is an output of the model. 
+R | 30| ca --> cam                    |1| calcium binds to calmodulin and this complex to calcineurin\cite{Feske_NI_2001}. 
+R | 31| calcin --> nfat                        |1| calcineurin dephosphorylates nfat leading to  nuclear translocation and activation of nfat\cite{Huang_JBC_04,macian:2005,Krauss}.
+R | 32| cam --> camk4             |1| camk2 activation is dependent on calmodulin (cam)\cite{Anderson_Biometals_1998}. 
+R | 33| ccblr + fyn --> ccblp2                  |2| Upon Fyn phosphorylation, ccbl can inhibit  plcg\cite{Rellahan_ECR_03}. This is one out of 2 mechanisms ccbl is        involved in, and we call it ccblp2 (pool 2, see legend). Since ccbl mediated inhibition is slower than the early events, &tau;=2. 
+R | 34| ccblr + zap70 --> ccblp1  |2| ccbl binds to activated (and thus phosphorylated) zap70, leading to the ubiquination and subsequent degradation of zap70 and tcr\cite{RaoN_JImm_00}.  This is one out of 2 mechanisms ccbl is involved in, and we call it ccblp1 (pool 1, see legend). Since ccbl mediated degradation has to be slower than the early events, &tau;=2. 
+R | 35| x --> vav1                   |1| CD28 stimulation leads to Vav1 activation\cite{MichelF_Jimmunol_00,Raab2001,HehnerSP_JBC_00,Kovacs2005}, a process mediated by a yet unidentified kinase (see hyperarc 48). 
+R | 36| cdc42 --> mekk1              |1| The GTP         bound cdc42 (and rac1, see hyperarc 87) is able to bind mekk1\cite{FangerGR_EMBO_1997}; CD28 activates mekk1  in a  cdc42 mediated manner\cite{Kaga_JI_1998}. 
+R | 37| cre -->                            |1| cre is an output of the model. 
+R | 38| creb --> cre                         |1| The creb protein is a transcription factor that binds to cre ativating the related genes\cite{Krauss}. 
+R | 39| cyc1 -->                               |1| cyc1 is an output of the model, and is involved in  cell cycle regulation\cite{Krauss}. 
+R | 40| dag --> rasgrp  |1| dag causes the cytoplasmic rasgrp1 to move to the golgi, where it can act on Golgi associated-ras\cite{DiFiore_Nature_03,BivonaTG_Nature_03}. Even though pkcth phosphorylates rasgrp at t184,\cite{RooseJP_MCB_05} we did not include  connection pkcth  -->  rasgrp1 since this effect is not specific to pkcth, but general to other pkcs (less well-characterized in T cells and therefore not included in the model); inclusion of this effect would make this step strictly dependent on pkcth, which is not the case. 
+R | 41| da + vav + pdk1 --> pkcth                 |1| Activation of pkcth requires binding to dag, phosphorylation by pdk1\cite{LeeKY_Science_05}, and vav1\cite{VillalbaM_JCB_02}. 
+R | 42| erk --> fos                                 |1| erk phosphorylates fos\cite{Huang_JBC_04}. 
+R | 43| erk --> rsk                         |1| erk activates rsk via phosphorylation\cite{FrodinM_MCE_99}. 
+R | 44| fkhr -->                            |1| The transcription factor fkhr is an output of the model. 
+R | 45| fo + jun --> ap1                       |1| Binding of jun with fos leads to the formation of ap1\cite{Huang_JBC_04,Krauss}. 
+R | 46| fyn --> abl     |1| abl kinases are activated following tcr stimulation via a Src kinase (lck or fyn, see hyperarc 59)\cite{ZipfelPA_CurrBiol_04}. 
+R | 47| fyn --> pag                               |2| fyn phosphorylates pag\cite{DavidsonD_MCB_03}, leading to the binding of csk. This process takes place 3-5 min after tcr activation, and thus it belongs to the time scale &tau;=2\cite{TorgersenKM_JBC_01}. \\ \hline 
+R | 48| cd28 --> x                                |1| Vav1 activation requires cd28 activation\cite{MichelF_Jimmunol_00,Raab2001,Kovacs2005} and is mediated by an non-identified kinase x (see hyperarcs 35 and 63). 
+R | 49| gab2 --> shp2                                |1| Gab2 recruits shp2\cite{arnaud:2004}. 
+R | 50| gad + la + zap70 --> gab2                   |2| zap70 phosphorylates gab2 upon binding to lat and gads\cite{yamasaki:2001,yamasaki:2003}.  This process must take place after the early events to allow signal propagation, thus &tau;=2. 
+R | 51| grb + la + zap70 --> gab2                  |2| zap70 phosphorylates gab2 upon binding to lat and grb2\cite{yamasaki:2001,yamasaki:2003}. This process must take place after the early events to allow signal propagation, thus &tau;=2. 
+R | 52| hpk1 --> mekk1                           |1| hpk1 binds and phosphorylates mekk1\cite{HuMC_GDev_96}. 
+R | 53| hpk1 --> mlk3                            |1| hpk1 binds and phosphorylates mlk3\cite{Tibbles_EMBO_1996}. 
+R | 54| ip3 --> ca                                 |1| Binding of ip3 to the ip3 receptor in the endoplasmatic reticulum leads to the release of calcium\cite{Chan_ARB_1999}. 
+R | 55| jnk --> jun                                |1| jnk phosphorylates jun\cite{Krauss}. 
+R | 56| lat --> grb2                     |1| grb2        (which in turn binds sos) can bind to phosphorylated lat\cite{LindquistJA_ImmRev_03}\cite{HorejsiV_NatRevImm_04}. 
+R | 57| lat --> hpk1                              |1| hpk1 binds to lat and is recruited to the lipid raftss\cite{LiouJ_Immunity_00}. 
+R | 58| lat --> plcgb                                |1| plcgamma binds to lat\cite{HorejsiV_NatRevImm_04,TogniM_MolImm_04}. 
+R | 59| lckp1 --> abl            |1| abl kinases        are activated following tcr stimulation via a Src kinase (lck or fyn,        see hyperarc 46)\cite{ZipfelPA_CurrBiol_04}. 
+R | 60| lckp1 --> rlk                                |1| lck phosphorylates rlk leading to its activation\cite{ShanX_MCB_00}. 
+R | 61| lckp + cd45 --> fyn                       |1| lck activates fyn\cite{FilippD_JImm_04}, a process where the        dephosphorylation of the negative regulatory site of fyn by cd45 is also required. 
+R | 62| lckp + !cblb --> pi3k                     |1| pi3k is dependent on the Src kinase lck for activation\cite{DeaneJA_AnnRevImmunol_04}. Additionally, cblb promotes pi3k ubiquination\cite{FangD_NatImmunol_01}. 
+R | 63| x + !cblb --> pi3k                      |1|  pi3k is also activated upon CD28\cite{august:1994,ghiotto_ragueneau:1996}  via an non-determined kinase x (see hyperarc 48). Even though Lck has been proposed to be involved in this process\cite{vonWillebrandM_EJI_94,GibsonS_BiochemJ_98,holdorf:1999,huang:2002}, our experiments show that, at least for primary human T-cells, PI3K activation is not strictly Src-kinase dependent (see Fig. S4). A reasonable candidate would be a Tec kinase, but since it is not experimentally verified, we keep an undetermined x.  \\ \hline 
+R | 64| lck + tcrb --> lckp2 |1| The activation        of pi3k is determined by a second pool of lck (lckp2) (see legend) which can be activated by tcr activation\cite{OkkenhaugK_NatRevImmunol_03}. 
+R | 65| malt1 + card11 + bcl10 --> card11a                |1| The binding of  malt1 to card11 and bcl10 forms the active card11 complex\cite{Thome_NatRevImm_2004,Gaide_NI_2002, Uren_MolCell_2000, Lucas_JBC_2001}. 
+R | 66| mek --> erk                      |1| mek phosphorylates erk  leading to erk activation\cite{Huang_JBC_04,Krauss}. 
+R | 67| mekk1 --> jnk                  |1| mekk1 activates jnk\cite{Davis_Cell_2000}. 
+R | 68| mekk1 --> mkk4             |1| mekk1 is able  to phosphorylate MKK4 leading to its activation\cite{yan:1994}. 
+R | 69| mekk1 --> p38                            |1|   mekk1 leads to p38 activation\cite{Guan_JBC_1998}. 
+R | 70| mkk4 --> jnk                                  |1|  MKK 4 activates jnk\cite{Davis_Cell_2000,Derijard_Science_1995}. 
+R | 71| mlk3 --> mkk4                         |1| mlk3 phosphorylates mkk4\cite{Tibbles_EMBO_1996}. 
+R | 72| nfkb -->                                 |1| nfkb is an output of the model. 
+R | 73| p21c -->                |1| p21cip is an output of the model controlling the cell cycle. 
+R | 74| p27k -->                    |1| p27kip is an output of the model controlling the cell cycle. 
+R | 75| p38 -->                  |1| p38 is an output of the model. 
+R | 76| p70s -->         |1| p70s is an output of the model. 
+R | 77| pag --> csk        |1| Phosphorylation of pag allows csk to bind it and then act on lck\cite{LindquistJA_ImmRev_03,HorejsiV_NatRevImm_04}.  
+R | 78| pdk1 --> p70s      |1| pkd1 phosphorylates p70s leading to its activation\cite{pullen:1998,hinton:2004}. 
+R | 79| pdk1 --> pkb                    |1| pdk1 phosphorylates pkb leading to its activation\cite{LafontV_FEBSletters_00,alessi:1997,anderson:1998}. 
+R | 80| pi3 + !ship + !pten --> pip3    |1| pi3k leads to the production of pip3, while ship1 and pten inhibit this process\cite{okkenhaug:2004,Rameh99}. 
+R | 81| pip3 --> pdk1          |1| pip3 is required for pdk1 activation\cite{ mora:2004}. 
+R | 82| pip + zap7 + slp76 --> itk    |1| When phosphorylated, slp76 can bind to itk; additional binding to pip3 and phosphorylation via zap70 activates itk\cite{Huang_JBC_04,TogniM_MolImm_04,CzarMJ_BiochemSocTran_01}. 
+R | 83| plcga --> ip3                |1| Active plcga splits pip2 into ip3 and diacylglycerol (dag,see hyperarc 11)\cite{Huang_JBC_04,TogniM_MolImm_04}. 
+R | 84| plcg + !ccblp + slp7 + zap7 + vav + itk --> plcga  |1| Once bound to phosphorylated lat, plcgb is activated by the combined action of vav and itk (or rlk, see hyperarc 85)\cite{CzarMJ_BiochemSocTran_01}. Additionally, binding to slp76 (phosphorylated by zap70)  is required to establish and stabilize the complex. Activated ccbl degrades plcga\cite{Rellahan_ECR_03}. 
+R | 85| plcg + !ccblp + zap7 + vav + slp7 + rlk        --> plcga  |1| Once bound to phosphorylated lat,        plcgb is activated by the combined action of vav and rlk (or itk, see hyperarc 84)\cite{CzarMJ_BiochemSocTran_01}. Additionally, binding to slp76 (phosphorylated by zap70)  is required to establish and stabilize the complex. Activated ccbl degrades plcga\cite{Rellahan_ECR_03}. 
+R | 86| rac1p1 --> mlk3   |1| Rac1p1 activates mlk3\cite{teramoto:1996}. 
+R | 87| rac1p2 --> mekk1     |1| GTP-bound Rac1p2 is able to bind mekk1\cite{FangerGR_EMBO_1997}, and active mekk1 leads to JNK activation\cite{minden:1995, Kaga_JI_1998}. 
+R | 88| rac1p2 --> sre   |1| Vav3-dependent Rac1 is able to activate Sre via SRF\cite{hill:1995}. 
+R | 89| rac1 + vav1 --> rac1p1 |1| Downregulation of Vav1 but not Vav3 affects IL-2 production in T cells\cite{zakaria:2004} via the rac1-mediated jnk pathway.  Since rac1 mediates this process, we defined a vav1-dependent pool of rac1 (see hyperarc 90 and legend).
+R | 90| rac1 + vav3 --> rac1p2          |1| Downregulation of Vav3 but not Vav1 affects Sre activity\cite{zakaria:2004}. Since rac1 mediates this process, we defined a vav3-dependent pool of rac1 (see hyperarc 89 and legend)
+R | 91| raf --> mek                              |1| Raf phosphorylates mek  leading to mek activation\cite{FranklinRA_JClinInvest_94}. 
+R | 92| ras --> raf                                  |1| Ras mediates raf localization to the membrane, and consequently, raf is activated\cite{Krauss}.
+R | 93| rsk --> creb   |1| Rsk phosphorylates creb increasing its activity\cite{FrodinM_MCE_99}. 
+R | 94| sh3bp2 --> vav3        |1| sh3bp2 binds vav3 via an sh2 domain, leading to its activation\cite{zakaria:2004}. 
+R | 95| so + !ga + rasgrp --> ras  |1| Bound to lat via grb2, sos catalyzes the exchange of GTP for GDP in the cellular-membrane-located ras, while rasgrp1 catalyzes the exchange of GTP for GDP in golgi-located ras\cite{DiFiore_Nature_03}. In turn gap catalyzes the conversion GTP to GDP and thus deactivates ras\cite{GenotE_CurrOpinImmunol_00}. 
+R | 96| sre -->                                  |1| Sre is an output of the model. 
+R | 97| tcrb --> dgk                    |2| dgks get activated after tcr activation in yet an unclear manner, we therefore make it dependent on activation of the tcr. Since dag must be produced in the early events, we assign it a &tau;=2\cite{SanjuanMA_JImmunol_03}. 
+R | 98| tcr + fyn --> tcrp             |1| Upon ligand binding to the tcr, active fyn can phosphorylate the tcr\cite{FilippD_MolImm_04}. 
+R | 99| tcr + lckp1 --> tcrp               |1|        The  co-localization of tcr with cd4 mediated by peptide-MHC or        antibody crosslinking results in an increased local concentration of lck around the tcr leading to phosphorylation of ITAMs\cite{FilippD_JImm_04}. 
+R | 100| tcr + lckr --> fyn                           |1| A fraction of fyn is bound to the tcr, and tcr crosslinking  leads to fyn auotophosphorylation and activation\cite{FilippD_MolImm_04}. Since lck is required in the development for having capable fyn\cite{ZamoyskaR_ImmunolRev_03}, lckr (existence of lck in the cell) is required as well. 
+R | 101| zap70 --> lat                             |1| zap70 phosphorylates lat at different sites\cite{Huang_JBC_04}. 
+R | 102| zap7 + lat --> sh3bp2                      |1| sh3bp2 binds to phosphorylated lat upon phosphorylation by zap70\cite{Qu_Biochem_05}. 
+R | 103| zap7 + sh3bp2 --> vav1             |1| zap70 phosphorylates vav1\cite{zakaria:2004} which together with binding of vav1 to sh3bp2\cite{Qu_Biochem_05}, leads to vav1 activation. 
+R | 104|--> card11 |1| Regulation of card11 is not clear, thus we set an external input to it. Default value is 1.
+R | 105|--> gadd45 |1| Regulation of  gadd45 is not clear, thus we set an external input to it. Default value is 1.
+R | 106|--> gap |1| GTP activating proteins (gaps) are important regulators of ras activation but their own regulation is not clear\cite{CantrellDA_ImmRev_03}. Therefore they are included in the model with an external input. 
+R | 107|--> lckr |1| Input to the system (presence of Lck in the cell). Default value is 1. 
+R | 108 | cam --> camk2 |1|  cam (calmodulin) activates calmodulin-dependent kinase II (camk2) \cite{Hughes_JBC_2001}. 
+R | 109 | grb2 --> sos |1| sos binds to grb2 and thus get recruited to the membrane via lat\cite{BudayL_JBC_94}. 
+R | 110| lat --> gads  |1| gads can bind to phosphorylated lat\cite{TogniM_MolImm_04,HorejsiV_NatRevImm_04}. 
+R | 111| cdc42 --> sre   |1| cdc42 is able to activate Sre via SRF\cite{hill:1995}. 
+R | 112 | nfat -->  |1| nfat is an output of the model. 
+R | 113 | shp2 -->  |1| shp2 is an output of the        model.  
+R | 114|       --> cd45 |1| Regulation of cd45 is not clear, thus we set an external input to it. Default value is 1.
+R | 115|       --> pten |1| Regulation of pten is not clear, thus we set an external input. Default value is 0.
+R | 116|      --> bcl10 |1| Regulation of bcl10 is not clear, thus we set an external input to it. Default value is 1.
+R | 117|      --> ccblr |1| Input to the system (presence of ccbl in the cell). Default value is 1.
+R | 118|      --> cdc42 |1| Regulation of  cdc42 is not clear, thus we set an external input to it. Default value is 0.
+R | 119|      --> malt1 |1| Regulation of malt1 is not clear, thus we set an external input to it. Default value is 1.
+R | 120|      --> rac1r |1| Input to the system (presence of rac1 in the cell). Default value is 1.
+R | 121|      --> ship1 |1| Regulation of ship1 is not clear, thus we set an external input. Default value is 0.
+R | 122|     --> akap79 |1| Regulation of akap79 is not clear, thus we set an external input to it. Default value is 0.
+R | 123|     --> calpr1 |1| Regulation of calpr1 is not clear, thus we set an external input to it. Default value is 0.
