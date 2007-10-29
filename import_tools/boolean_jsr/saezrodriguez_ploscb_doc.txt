@@ -116,7 +116,7 @@ R | 21| !pkb --> gsk3        |1| pkb inhibits gsk3 \cite{Liang_CC_03,hanada:2004
 R | 22| !pkb --> p21c        |1| pkb inhibits p21c \cite{Liang_CC_03,hanada:2004}. 
 R | 23| !pkb --> p27k          |1| pkb inhibits p27k \cite{Liang_CC_03,hanada:2004}. 
 R | 24| !gadd4 + zap70 --> p38          |1|        gadd45 inhibits the zap70 mediated activation of p38\cite{SalvadorJM_NatImmunol_05}. 
-R | 25| !shp + cd4 + cd45 + !csk + lckr --> lckp1  |1| Full activation of the cd4-bound pool (there is also a tcr-dependent pool, see hyperarc 62/64 and legend) of lck requires dephosphorylation of the negative regulatory site (by cd45, and in absence of csk, which phosphorylates it) and autophosphorylation of the positive regulatory site, which cd4-bound lck can perform upon cd4 crosslinking\cite{PalaciosEH_Onco_04}. 
+R | 25| !shp + cd45 + cd4 + !csk + lckr --> lckp1  |1| Full activation of the cd4-bound pool (there is also a tcr-dependent pool, see hyperarc 62/64 and legend) of lck requires dephosphorylation of the negative regulatory site (by cd45, and in absence of csk, which phosphorylates it) and autophosphorylation of the positive regulatory site, which cd4-bound lck can perform upon cd4 crosslinking\cite{PalaciosEH_Onco_04}. 
 R | 26| !tcrb --> pag                               |1| upon ligand binding to the tcr, pag is dephosphorylated by an unidentified phosphatase (probably cd45)\cite{DavidsonD_MCB_03}. 
 R | 27| ap1 -->                                     |1| the transcription factor ap1 is an output of the model. 
 R | 28| bcat -->                            |1| bcat is an output of the model. 
