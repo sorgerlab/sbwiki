@@ -84,14 +84,14 @@ while(defined(my $line = <IN>)){
     if ($entity_code eq 'S')
     {
       # species
-      my ($id, $code_name, $name, $full_name, $type) = @tokens;
+      my ($id, $code_name, $name, $full_name, $type) = map(escape_html($_), @tokens);
       $species{$code_name} = {id=>$id,name=>$name,full_name=>$full_name,type=>$type,logical_type=>'intermediate'};
       $species[$id] = $code_name;
     }
     elsif ($entity_code eq 'R')
     {
       # rule
-      my ($id, $equation, $timescale, $description) = @tokens;
+      my ($id, $equation, $timescale, $description) = map(escape_html($_), @tokens);
       $reactions{$equation} = {id=>$id,timescale=>$timescale,description=>$description};
       $reactions[$id] = $equation;
     }
@@ -529,7 +529,6 @@ sub write_species_pages {
     my $code_name = $species[$s];
     my %sd = %{$species{$code_name}}; # species data
 
-    # FIXME: inefficient to loop over all equations every time
     my @reactions_wikitext;
     foreach my $r (1..$#reactions)
     {
@@ -537,25 +536,35 @@ sub write_species_pages {
       (my $equation_escaped = $equation) =~ s/>/&gt;/g;
       my %rd = %{$reactions{$equation}};
 
+      # output annotated rule text for all rules in which this species participates
       my ($inputs, $outputs) = parse_equation($equation);
       if ( (my $match) = grep { $_ =~ /^!?\Q$code_name\E$/ } (@$inputs, @$outputs) )
       {
-        my $is_output = (@$outputs and $outputs->[0] eq $code_name);
-        my $is_inactive_in_input = $match =~ /^!/;
-        my $species_activity = $is_inactive_in_input ? 'inactivity' : 'activity';
-        my $species_relation = $is_output ? 'determined by' : "$species_activity of";
-        my $rule_activity = $is_inactive_in_input ? 'inactive' : 'active';
-        my $rule_relation = $is_output ? 'activated by' : "$rule_activity drives";
+        my $output = $outputs->[0]; # assume one output
+        my $is_output = $output && $output eq $code_name;
 
+        # build annotated input species list
         my @inputs_wikitext;
-        foreach my $input (@inputs)
+        foreach my $input (@$inputs)
         {
-          push @inputs_wikitext, "[[$species_uids[$species{$outputs->[0]}{id}]]]]";
+          my $input_activity = $input =~ s/^!// ? 'inactive' : 'active';
+          my $input_relation = $is_output ? 'determined by::' : '';
+          my $input_uid = $species_uids[$species{$input}{id}];
+          push @inputs_wikitext, "$input_activity " .
+            ($input eq $code_name ? "'''$code_name'''" : "[[${input_relation}${input_uid}]]");
         }
-        my $output_wikitext = "[[$species_uids[$species{$outputs->[0]}{id}]]]]";
 
-        push @reactions_wikitext, join(" ''and'' ", @inputs_wikitext) . " ''drives the activity of'' " . $output_wikitext;
-        push @reactions_wikitext, ": [[${rule_relation}::$reactions_uids[$rd{id}]|[$rd{id}]]]: " . $equation_escaped;
+        my $output_relation = $is_output ? '' : 'determines activity of::';
+        my $output_uid = $species_uids[$species{$output}{id}];
+        my $output_wikitext = $is_output ? "'''$code_name'''" : "[[${output_relation}${output_uid}]]";
+
+        my $self_activity = $match =~ /^!/ ? 'inactive' : 'active';
+        my $rule_relation = $is_output ? 'activated by::' : "$self_activity drives::";
+
+        my $drive_text = @$inputs == 1 ? 'drives' : 'drive';
+
+        push @reactions_wikitext, join(" AND ", @inputs_wikitext) . " $drive_text the activity of " . $output_wikitext;
+        push @reactions_wikitext, ": [[${rule_relation}$reactions_uids[$rd{id}]|[$rd{id}]]]: " . $equation_escaped;
       }
     }
 
@@ -633,7 +642,7 @@ sub write_reaction_pages {
 {{Logical_rule
 |logical_equation=$equation_escaped
 |name=r$rd{id}
-|parameters=&tau; = $rd{timescale}
+|parameters=&amp;tau; = $rd{timescale}
 |references=
 }}
 $rd{description}
@@ -971,6 +980,15 @@ sub escape_url() {
   $url =~ s/:/%3A/g;
 
   return $url;
+}
+
+
+sub escape_html {
+  my $text = shift;
+
+  $text =~ s/&/&amp;/g;
+
+  return $text;
 }
 
 
