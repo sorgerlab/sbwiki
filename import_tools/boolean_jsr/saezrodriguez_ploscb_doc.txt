@@ -12,7 +12,7 @@ S |         11 |  calpr1    |       Csp1 | Calcipressin 1 |
 S |         12 |   cam      |       CaM  | Calmodulin |            
 S |         13 |   camk2    | Camk2,CamKII | calcium/calmodulin-dependent protein kinase (CaM kinase) II  |         K  
 S |         14 |  camk4     | CamK4, CamKIV | calcium/calmodulin-dependent protein kinase IV |         K  
-S |         15 |  card11a   | CARD11 + CARMA1 + BCL10 | Complex of CARD11, CARMA1, and BCL10, which is their fully active form (see Fig. 1) |            
+S |         15 |  card11a   | CARD11 + CARMA1 + BCL10 | Complex of CARD11, CARMA1, and BCL10, which is their fully active form |            
 S |         16 |    card11  | CARMA1, CARD11 | caspase recruitment domain family, member 11    |            
 S |         17 |   cblb     |      Cbl-b | Cas-Br-M (murine) ecotropic retroviral transforming sequence b |            
 S |         18 |     ccblp1 |     c-Cbl  | Casitase B-lineage lymphoma proto-oncogene (ZAP70-dependent pool) |         A  
@@ -154,7 +154,7 @@ R | 59| lckp1 --> abl            |1| abl kinases        are activated following 
 R | 60| lckp1 --> rlk                                |1| lck phosphorylates rlk leading to its activation\cite{ShanX_MCB_00}. 
 R | 61| lckp1 + cd45 --> fyn                       |1| lck activates fyn\cite{FilippD_JImm_04}, a process where the        dephosphorylation of the negative regulatory site of fyn by cd45 is also required. 
 R | 62| lckp1 + !cblb --> pi3k                     |1| pi3k is dependent on the Src kinase lck for activation\cite{DeaneJA_AnnRevImmunol_04}. Additionally, cblb promotes pi3k ubiquination\cite{FangD_NatImmunol_01}. 
-R | 63| x + !cblb --> pi3k                      |1|  pi3k is also activated upon CD28\cite{august:1994,ghiotto_ragueneau:1996}  via an non-determined kinase x (see hyperarc 48). Even though Lck has been proposed to be involved in this process\cite{vonWillebrandM_EJI_94,GibsonS_BiochemJ_98,holdorf:1999,huang:2002}, our experiments show that, at least for primary human T-cells, PI3K activation is not strictly Src-kinase dependent (see Fig. S4). A reasonable candidate would be a Tec kinase, but since it is not experimentally verified, we keep an undetermined x.  \\ \hline 
+R | 63| x + !cblb --> pi3k                      |1|  pi3k is also activated upon CD28\cite{august:1994,ghiotto_ragueneau:1996}  via an non-determined kinase x (see hyperarc 48). Even though Lck has been proposed to be involved in this process\cite{vonWillebrandM_EJI_94,GibsonS_BiochemJ_98,holdorf:1999,huang:2002}, our experiments show that, at least for primary human T-cells, PI3K activation is not strictly Src-kinase dependent. A reasonable candidate would be a Tec kinase, but since it is not experimentally verified, we keep an undetermined x.  \\ \hline 
 R | 64| lckr + tcrb --> lckp2 |1| The activation        of pi3k is determined by a second pool of lck (lckp2) (see legend) which can be activated by tcr activation\cite{OkkenhaugK_NatRevImmunol_03}. 
 R | 65| malt1 + card11 + bcl10 --> card11a                |1| The binding of  malt1 to card11 and bcl10 forms the active card11 complex\cite{Thome_NatRevImm_2004,Gaide_NI_2002, Uren_MolCell_2000, Lucas_JBC_2001}. 
 R | 66| mek --> erk                      |1| mek phosphorylates erk  leading to erk activation\cite{Huang_JBC_04,Krauss}. 
