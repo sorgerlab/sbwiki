@@ -22,6 +22,13 @@ my %processes = ("<-->"  => 2,
 		 "-->"   => 1,
 		 "<-t->" => 2,
 		 "=="    => 0 );
+my %molecule_types = ('K' => 'protein kinase activity',
+                      'A' => 'protein binding, bridging',
+                      'G' => 'GTPase activity',
+                      'P' => 'phosphoprotein phosphatase activity',
+                      'T' => 'transcription regulator activity',
+                      'R' => 'receptor activity',
+                      ''  => '');
 my $model_uid;
 my %reactions; # Should point to ID number, which should maintain order.
 my @reactions; # Should maintain order.
@@ -34,7 +41,7 @@ my %facts;
 my %wikifacts;
 my %equivalences;
 my %skip_reactions;
-my %uid_counts = (SP => 0, RX => 0, BM => 0);
+my %uid_counts = (SP => 0, RX => 0, MD => 0);
 
 
 open(IN, "$infile") or die "Can't read $infile";
@@ -44,7 +51,7 @@ my $j = 0; # species counter;
 
 if (defined $uidfile)
 {
-  push @species_uids,   undef; # 1-based indexing, grrr
+  push @species_uids,   undef; # 1-based indexing
   push @reactions_uids, undef;
 
   my $line_number = 1;
@@ -52,14 +59,14 @@ if (defined $uidfile)
   while (my $uid = <UIDFILE>)
   {
     chomp $uid;
-    if (my ($type) = $uid =~ /^([A-Z]{2})-[A-Z]{2,3}-\d+-?/)
+    if (my ($type) = $uid =~ /^([A-Z]{2})-[A-Z]+-\d+-?/)
     {
       exists $uid_counts{$type} or die("Error in $uidfile line $line_number: bad type, must be one of: ".
                                          join(',',keys(%uid_counts))."\n");
       $uid_counts{$type}++;
       push @species_uids,   $uid if $type eq 'SP';
       push @reactions_uids, $uid if $type eq 'RX';
-      $model_uid = $uid          if $type eq 'BM';
+      $model_uid = $uid          if $type eq 'MD';
     }
     $line_number++;
   }
@@ -68,8 +75,33 @@ if (defined $uidfile)
 
 
 while(defined(my $line = <IN>)){
-    $line =~ s/\r//g;
-    my @tokens;
+    chomp $line;
+    my @tokens = split(/\|/, $line);
+    @tokens = map { s/^\s*(.*?)\s*$/$1/; $_ } @tokens;
+
+    my $entity_code = shift @tokens;
+
+    if ($entity_code eq 'S')
+    {
+      # species
+      my ($id, $code_name, $name, $full_name, $type) = @tokens;
+      $species{$code_name} = {id=>$id,name=>$name,full_name=>$full_name,type=>$type,logical_type=>'intermediate'};
+      $species[$id] = $code_name;
+    }
+    elsif ($entity_code eq 'R')
+    {
+      # rule
+      my ($id, $equation, $timescale, $description) = @tokens;
+      $reactions{$equation} = {id=>$id,timescale=>$timescale,description=>$description};
+      $reactions[$id] = $equation;
+    }
+    else
+    {
+      warn("unknown entity code '$entity_code'\n");
+    }
+
+=pod
+
     if ($line =~ /^\s*%/){
         $i++;
         chomp $line;
@@ -102,39 +134,75 @@ while(defined(my $line = <IN>)){
 	}
     }
 
+=cut
+
 }
 close IN;
 
-&postprocess_equivalences(\%facts, \%wikifacts, \%equivalences, \%species);
 
-
-if (defined $uidfile) {
-  unless ($uid_counts{SP} >= @species-1 and  $uid_counts{RX} >= @reactions-1 and $uid_counts{BM} >= 1)
+if (defined $uidfile)
+{
+  unless ($uid_counts{SP} >= @species-1 and  $uid_counts{RX} >= @reactions-1 and $uid_counts{MD} >= 1)
   {
     print "You must provide the following numbers of UIDs for the given types:\n";
     printf "  species:   %4d  (I read %d)\n", scalar(@species)-1,   $uid_counts{SP}; # -1 since [0] is undef -- 1-based indexing!
     printf "  reactions: %4d  (I read %d)\n", scalar(@reactions)-1, $uid_counts{RX};
-    printf "  models:    %4d  (I read %d)\n", 1,                    $uid_counts{BM};
+    printf "  models:    %4d  (I read %d)\n", 1,                    $uid_counts{MD};
     exit(1);
   }
-  if ($uid_counts{BM} > 1)
+  if ($uid_counts{MD} > 1)
   {
-    print "You must only provide one model (BM) UID.  I read $uid_counts{BM}.\n";
+    print "You must only provide one model (MD) UID.  I read $uid_counts{MD}.\n";
     exit(1);
   }
 }
+else
+{
+  # generate fake uids
+  @species_uids = map { "SP-x-n-".$_ } @species[1..$#species];
+  unshift(@species_uids, undef);
+  @reactions_uids = map { "RX-x-n-r".$_->{id} } @reactions{@reactions[1..$#reactions]};
+  unshift(@reactions_uids, undef);
+  $model_uid = "MD-x-n-$outdir";
+}
 
 
-&write_main_page();
-&write_allspecies_page();
-&write_allreaction_page();
-&write_species_pages();
-&write_reaction_pages();
+fixup_species_types();
+
+write_main_page();
+#write_allspecies_page();
+#write_allreaction_page();
+write_species_pages();
+write_reaction_pages();
 open(XML, ">>$outdir/$outdir.xml") or die "Can't write $outdir/$outdir.xml";
 print XML "</mediawiki>\n";
 close XML;
 # END OF MAIN STRUCTURE
 ################################################
+
+
+sub fixup_species_types
+{
+
+  foreach my $rid (1..$#reactions){
+
+    my $equation = $reactions[$rid];
+
+    my ($inputs, $outputs) = parse_equation($equation, strip_bang => 1);
+    if (!@$inputs)
+    {
+      $species{$outputs->[0]}{logical_type} = 'input';
+    }
+    if (!@$outputs)
+    {
+      # assumes just one input (any others will be ignored)
+      $species{$inputs->[0]}{logical_type} = 'output';
+    }
+
+  }
+
+}
+
 
 #############################################################################
 sub tokenize_comment_line(){
@@ -300,7 +368,7 @@ sub parse_reaction_token(){
     else {die "What's this process: $process";}
 }
 #############################################################################
-sub write_main_page(){
+sub write_main_page {
     if(! -d "$outdir"){
 	`mkdir $outdir`;
 	`cp $infile $outdir/$infile`;
@@ -309,18 +377,17 @@ sub write_main_page(){
     my $nr = (scalar(@reactions) - 1) - scalar(keys %skip_reactions);
     my $ns = scalar(@species) - 1 - scalar(keys %equivalences);
 
-    open(OUT, ">$outdir/index.html") or die "Can't write $outdir/index.html";
-    print OUT "<head><title>$model_uid Model</title>\n";
-    print OUT "</head><body>\n";
-    print OUT "<h1>$model_uid Model</h1>\n";
-    print OUT "<BR><HR><BR>\n";
-    print OUT "This model website was autogenned from <A HREF=\"rxn_list2.txt\">this source</A>.<BR><HR>\n";
-    
-    print OUT "This model contains <A HREF=\"species.html\">" . $ns . " unique species</A>.<BR>\n"; 
-    print OUT "This model contains <A HREF=\"reactions.html\">" . $nr . " reactions</A>, plus <A HREF=\"synthdeg.html\">". scalar(keys %skip_reactions) ." synthesis and degradation reactions</A>.<BR><HR>\n"; 
-    print OUT "If you approve of this model, download the file <A HREF=\"$outdir.xml\">$outdir.xml</A> now, and upload it at <A HREF=\"http://ome-sorger7.mit.edu/~jmuhlich/mwtest/index.php/Special:Import\">http://ome-sorger7.mit.edu/~jmuhlich/mwtest/index.php/Special:Import</A>.<BR><HR>\n";
-    print OUT "</body></html>\n";
-    close OUT;
+#    open(OUT, ">$outdir/index.html") or die "Can't write $outdir/index.html";
+#    print OUT "<head><title>$model_uid Model</title>\n";
+#    print OUT "</head><body>\n";
+#    print OUT "<h1>$model_uid Model</h1>\n";
+#    print OUT "<BR><HR><BR>\n";
+#    print OUT "This model website was autogenned from <A HREF=\"rxn_list2.txt\">this source</A>.<BR><HR>\n";
+#    print OUT "This model contains <A HREF=\"species.html\">" . $ns . " unique species</A>.<BR>\n"; 
+#    print OUT "This model contains <A HREF=\"reactions.html\">" . $nr . " reactions</A>, plus <A HREF=\"synthdeg.html\">". scalar(keys %skip_reactions) ." synthesis and degradation reactions</A>.<BR><HR>\n"; 
+#    print OUT "If you approve of this model, download the file <A HREF=\"$outdir.xml\">$outdir.xml</A> now, and upload it at <A HREF=\"http://ome-sorger7.mit.edu/~jmuhlich/mwtest/index.php/Special:Import\">http://ome-sorger7.mit.edu/~jmuhlich/mwtest/index.php/Special:Import</A>.<BR><HR>\n";
+#    print OUT "</body></html>\n";
+#    close OUT;
 
 
     open(XML, ">$outdir/$outdir.xml") or die "Can't write $outdir/$outdir.xml";
@@ -328,19 +395,17 @@ sub write_main_page(){
     print XML "<page>\n";
     print XML "<title>$model_uid</title>\n";
     print XML "<revision><timestamp>".`date -u  +%Y-%m-%dT%H:%M:%SZ` ."</timestamp><text xml:space=\"preserve\">\n";
-#    print XML "This is the homepage for the model '''''$outdir'''''.\n\n";
-    print XML "{{Model_simple\n";
+    print XML "{{Logical_model\n";
 #    print XML "|name=$outdir/\n";
     print XML "|organism=\n";
     print XML "|cell type=\n";
     print XML "|cell processes=\n";
-    print XML "|references=\n";
     print XML "|modeler=\n";
-    print XML "|description=\n";
+    print XML "|references=\n";
     print XML "}}\n\n";
     print XML "== Model Contents == \n\n";
-    print XML "This model describes [[$model_uid/Species|$ns unique species]].\n\n";
-    print XML "This model describes [[$model_uid/Reactions|$nr reactions]], plus [[$model_uid/Synthesis and Degradation|". scalar(keys %skip_reactions) ." synthesis and degradation reactions]].\n\n";
+#    print XML "This model describes [[$model_uid/Species|$ns unique species]].\n\n";
+#    print XML "This model describes [[$model_uid/Reactions|$nr reactions]], plus [[$model_uid/Synthesis and Degradation|". scalar(keys %skip_reactions) ." synthesis and degradation reactions]].\n\n";
     foreach my $species (1..$#species){
 	print XML "[[has species::$species_uids[$species]| ]]\n";
     }
@@ -349,7 +414,7 @@ sub write_main_page(){
 
 }
 #############################################################################
-sub write_allspecies_page(){
+sub write_allspecies_page {
     open(OUT, ">$outdir/species.html") or die "Can't write $outdir/species.html";
     print OUT "<head><title>$model_uid Model</title>\n";
     print OUT "</head><body>\n";
@@ -394,7 +459,7 @@ sub write_allspecies_page(){
     close XML;
 }
 #############################################################################
-sub write_allreaction_page(){
+sub write_allreaction_page {
     open(OUT, ">$outdir/reactions.html") or die "Can't write $outdir/reactions.html";
     print OUT "<head><title>$model_uid Model</title>\n";
     print OUT "</head><body>\n";
@@ -456,119 +521,132 @@ sub write_allreaction_page(){
 
 }
 #############################################################################
-sub write_species_pages(){
-    foreach my $species (sort keys %species){
-	open (OUT, ">$outdir/$species_uids[$species{$species}].html") or die "Can't write $outdir/$species_uids[$species{$species}].html";
-	print OUT "<head><title>$model_uid Model</title>\n";
-	print OUT "</head><body>\n";
-	print OUT "<h1>$model_uid Model - Species $species</h1>\n";
-	print OUT "<BR><HR><BR>\n";
-	print OUT "<B><U>Facts:</B></U><BR>\n";
-	my %printedfacts;
-	foreach my $fact (sort { $a =~ /\[(\d*)\]/; my $anum = $1;
-			         $b =~ /\[(\d*)\]/; my $bnum = $1; 
-				 return $anum <=> $bnum; } @{$facts{$species}}){
-	    if (! defined $printedfacts{$fact}){
-		print OUT $fact."\n";
-		$printedfacts{$fact} = 1;
-	    }
-	}
-	print OUT "<HR>Back to <A HREF=\"index.html\">model home</A>.<BR>\n";
-	print OUT "Back to <A HREF=\"species.html\">species catalog</A>.<BR>\n";
-	print OUT "<HR></body></html>\n";
-	close OUT;
-    }
-    foreach my $s (1..$#species){
-	open(XML, ">>$outdir/$outdir.xml") or die "Can't write $outdir/$outdir.xml";
-	print XML "<page>\n";
-	print XML "<title>$species_uids[$s]</title>\n";
-	print XML "<revision><timestamp>".`date +%Y-%m-%dT%H:%M:%SZ` ."</timestamp><text xml:space=\"preserve\">\n";
-#	print XML "This is the homepage for the species '''''$species[$s]'''''.\n\n";
-	print XML "{{Molecule_simple\n";
-	print XML "|name=$species[$s]\n";
-	print XML "|organism=\n";
-	print XML "|synonyms=\n";
-	print XML "|uniprot=\n";
-	print XML "|type=\n";
-	print XML "|localization=\n";
-	print XML "|amount=\n";
-	print XML "|references=\n";
-	print XML "|description=\n";
-	print XML "}}\n\n";
-	print XML "== Inferred Facts == \n\n";
-	my %printedwfacts;
-	# I need to print the facts SORTED, since I'm pushing them around equivalencies.
-	foreach my $wfact (sort { $a =~ /\[(\d*)\]/; my $anum = $1;
-				  $b =~ /\[(\d*)\]/; my $bnum = $1;
-				  return $anum <=> $bnum;} @{$wikifacts{$species[$s]}}){
-   	    $wfact =~ s/</\&lt\;/g;
-	    $wfact =~ /\n: \'\'\[(\d+)\]/;
-	    my $num = $1;
-	    $wfact =~ s/\n: \'\'\[\d+\]/\n: \'\'[[participates in reaction::$reactions_uids[$num]|[$num]]]/;
-#	    print $wfact;
+sub write_species_pages {
 
-	    if (! defined $printedwfacts{$wfact}){
-		print XML $wfact;
-		$printedwfacts{$wfact} = 1;
-	    }
-	}
-	
-	print XML "</text></revision></page>\n";
-	close XML;
+  open(XML, ">>$outdir/$outdir.xml") or die "Can't write $outdir/$outdir.xml";
+
+  foreach my $s (1..$#species){
+    my $code_name = $species[$s];
+    my %sd = %{$species{$code_name}}; # species data
+
+    # FIXME: inefficient to loop over all equations every time
+    my @reactions_wikitext;
+    foreach my $r (1..$#reactions)
+    {
+      my $equation = $reactions[$r];
+      (my $equation_escaped = $equation) =~ s/>/&gt;/g;
+      my %rd = %{$reactions{$equation}};
+
+      my ($inputs, $outputs) = parse_equation($equation);
+      if ( (my $match) = grep { $_ =~ /^!?\Q$code_name\E$/ } (@$inputs, @$outputs) )
+      {
+        my $is_output = (@$outputs and $outputs->[0] eq $code_name);
+        my $is_inactive_in_input = $match =~ /^!/;
+        my $species_activity = $is_inactive_in_input ? 'inactivity' : 'activity';
+        my $species_relation = $is_output ? 'determined by' : "$species_activity of";
+        my $rule_activity = $is_inactive_in_input ? 'inactive' : 'active';
+        my $rule_relation = $is_output ? 'activated by' : "$rule_activity drives";
+
+        my @inputs_wikitext;
+        foreach my $input (@inputs)
+        {
+          push @inputs_wikitext, "[[$species_uids[$species{$outputs->[0]}{id}]]]]";
+        }
+        my $output_wikitext = "[[$species_uids[$species{$outputs->[0]}{id}]]]]";
+
+        push @reactions_wikitext, join(" ''and'' ", @inputs_wikitext) . " ''drives the activity of'' " . $output_wikitext;
+        push @reactions_wikitext, ": [[${rule_relation}::$reactions_uids[$rd{id}]|[$rd{id}]]]: " . $equation_escaped;
+      }
     }
-    open(XML, ">>$outdir/$outdir.xml") or die "Can't write $outdir/$outdir.xml";
-    close XML;
-    
+
+    print XML "<page>\n";
+    print XML "<title>$species_uids[$s]</title>\n";
+    print XML "<revision><timestamp>".`date +%Y-%m-%dT%H:%M:%SZ` ."</timestamp><text xml:space=\"preserve\">\n";
+    # TODO: logical_species_type based on rules; references by parsing description
+    print XML <<SPECIES;
+{{Logical_species
+|name=$sd{name}
+|synonyms=
+|full_name=$sd{full_name}
+|uniprot=
+|molecule_type=$molecule_types{$sd{type}}
+|logical_species_type=$sd{logical_type}
+|localization=
+|initial_value=
+|references=
+}}
+SPECIES
+
+    print XML "== Rules == \n\n";
+    print XML join("\n\n", @reactions_wikitext), "\n\n";
+
+    print XML "</text></revision></page>\n";
+  }
+
+  close XML;
+
 }
 #############################################################################
-sub write_reaction_pages(){
-    foreach my $rid (1..$#reactions){
-	open (OUT, ">$outdir/$reactions_uids[$rid].html") or die "Can't write $outdir/$reactions_uids[$rid].html";
-	print OUT "<head><title>$model_uid Model</title>\n";
-	print OUT "</head><body>\n";
-	print OUT "<h1>$model_uid Model - Reaction $rid</h1>\n";
-	print OUT "<BR><HR><BR>\n";
-	print OUT "Reaction:<BR>\n";
-	print OUT "[$rid]: $reactions[$rid]<BR><BR>\n";
-	print OUT "Kinetic parameters:<BR>\n";
-	print OUT "$kinetics{$reactions[$rid]}<BR>\n";
-	print OUT "<HR>Back to <A HREF=\"index.html\">model home</A>.<BR>\n";
-	print OUT "Back to <A HREF=\"reactions.html\">reactions catalog</A>.<BR>\n";
-	print OUT "<HR></body></html>\n";
-	close OUT;
-	open(XML, ">>$outdir/$outdir.xml") or die "Can't write $outdir/$outdir.xml";
-	print XML "<page>\n";
-	print XML "<title>$reactions_uids[$rid]</title>\n";
-	print XML "<revision><timestamp>".`date +%Y-%m-%dT%H:%M:%SZ` ."</timestamp><text xml:space=\"preserve\">\n";
-#	print XML "This is the homepage for reaction '''''r$rid'''''\n";
-	my $r = $reactions[$rid];
-	$r =~ s/</\&lt\;/g;
-        my $k = $kinetics{$reactions[$rid]};
-        $k =~ s/\s*;\s*/\n\n/g; # semicolon to paragraph break
-        $k =~ s/ ?= ?/ = /;     # force spaces around equals sign
-        $k =~ s/^\s+//;         # strip leading/trailing spaces
-        $k =~ s/\s+$//;
-	print XML "{{Reaction_simple\n";
-	print XML "|id=r$rid\n";
-	print XML "|mass action=$r\n";
-	print XML "|kinetics=$k\n";
-	print XML "|references=\n";
-	print XML "|description=\n";
-	print XML "}}\n\n";
-	foreach my $s (1..$#species){
-	    if ( $reactions[$rid] =~ /\s\Q$species[$s]\E\s/ ||
-		 $reactions[$rid] =~ /\s\Q$species[$s]\E$/ ||
-		 $reactions[$rid] =~ /^\Q$species[$s]\E\s/ ||
-		 $reactions[$rid] =~ /^\Q$species[$s]\E$/ ){
-		print XML "[[has participant::$species_uids[$s]| ]]\n";
-		if (defined($equivalences{$species[$s]})){
-		    print XML "[[has participant::$species_uids[$species{$equivalences{$species[$s]}}]| ]]\n";
-		}
-	    }
-	}
-	print XML "</text></revision></page>\n";
-	close XML;
+sub write_reaction_pages {
+
+  open(XML, ">>$outdir/$outdir.xml") or die "Can't write $outdir/$outdir.xml";
+
+  foreach my $rid (1..$#reactions){
+    my $equation = $reactions[$rid];
+    my %rd = %{$reactions{$equation}}; # reaction data
+
+    (my $equation_escaped = $equation) =~ s/>/&gt;/g;
+
+    my ($inputs, $outputs) = parse_equation($equation, strip_bang=>1);
+    my @inputs  = @$inputs;
+    my @outputs = @$outputs;
+
+    my @inputs_wikitext;
+    foreach my $input_name (@inputs)
+    {
+      if ( !exists $species{$input_name} )
+      {
+        warn("undefined input species '$input_name' in rule $rd{id}: $equation\n");
+        next;
+      }
+      my $species_uid = $species_uids[$species{$input_name}{id}];
+      my $species_name = $species{$input_name}{name};
+      push @inputs_wikitext, "[[driven by activity of::$species_uid]]";
     }
+    my @outputs_wikitext;
+    foreach my $output_name (@outputs)
+    {
+      if ( !exists $species{$output_name} )
+      {
+        warn("undefined ouput species '$output_name' in rule $rd{id}: $equation\n");
+        next;
+      }
+      my $species_uid = $species_uids[$species{$output_name}{id}];
+      push @outputs_wikitext, "[[leads to activation of::$species_uid]]";
+    }
+
+    print XML "<page>\n";
+    print XML "<title>$reactions_uids[$rid]</title>\n";
+    print XML "<revision><timestamp>".`date +%Y-%m-%dT%H:%M:%SZ` ."</timestamp><text xml:space=\"preserve\">\n";
+    # TODO: parse references from description
+    print XML <<RULE;
+{{Logical_rule
+|logical_equation=$equation_escaped
+|name=r$rd{id}
+|parameters=&tau; = $rd{timescale}
+|references=
+}}
+$rd{description}
+RULE
+
+    print XML "== Participants ==\n";
+    print XML "Inputs:\n", join(",\n", @inputs_wikitext), "\n\n";
+    print XML "Outputs:\n", join(",\n", @outputs_wikitext), "\n\n";
+
+    print XML "</text></revision></page>\n";
+  }
+
+  close XML;
 }
 #############################################################################
 
@@ -885,67 +963,6 @@ sub equivalence(){
 
 }
 
-sub postprocess_equivalences() {
-    my $facts = shift;
-    my $wikifacts = shift;
-    my $equivalences = shift;
-    my $speciesnums = shift;
-
-
-
-    # I need to redirect references from oldname to newname.
-    # I need to pass all facts from oldname to newname
-    # Oldname's page need only mention the equivalence.
-
-    foreach my $k (keys %{$equivalences}){
-	# First, identify the wiki and html tags of the old and new species.
-	my $old = $k;
-	my $new = $equivalences->{$k};
-
-	my $oldhtml = "<A HREF=\"". escape_url($species_uids[$speciesnums->{$old}]) . ".html\">$old</A>" ;
-	my $newhtml = "<A HREF=\"". escape_url($species_uids[$speciesnums->{$new}]) . ".html\">$new (aka $old)</A>" ;
-
-	my $oldwiki = $species_uids[$speciesnums->{$old}]."|$old";
-	my $newwiki = $species_uids[$speciesnums->{$new}]."|$new (aka $old)";
-
-	foreach my $species (keys %{$facts}){
-	    if($species eq $old){
-		foreach my $f (reverse(0..$#{$facts->{$species}})){
-		    if ($facts->{$species}->[$f] !~ /equivalent/){
-			# Fix this fact.
-			$facts->{$species}->[$f] =~ s/^\Q$old\E/$new (aka $old)/g;
-			$facts->{$species}->[$f] =~ s/\Q$oldhtml\E/$newhtml/g;
-			# Move this fact to new.
-			push @{$facts->{$new}}, $facts->{$species}->[$f];
-			# Undef this fact.
-			splice(@{$facts->{$species}}, $f, 1);
-		    }
-		    if ($wikifacts->{$species}->[$f] !~ /equivalent/){
-			# Fix this fact.
-			$wikifacts->{$species}->[$f] =~ s/^\Q$old\E/$new (aka $old)/g;
-			$wikifacts->{$species}->[$f] =~ s/\Q$oldwiki\E/$newwiki/g;
-			# Move this fact to new.
-			push @{$wikifacts->{$new}}, $wikifacts->{$species}->[$f];
-			# Undef this fact.
-			splice(@{$wikifacts->{$species}}, $f, 1);
-		    }
-		}
-	    }
-	    else{
-		foreach my $f (0..$#{$facts->{$species}}){
-		    if ($facts->{$species}->[$f] !~ /equivalent/){
-			$facts->{$species}->[$f] =~ s/\Q$oldhtml\E/$newhtml/g;
-		    }
-		}
-		foreach my $f (0..$#{$wikifacts->{$species}}){
-		    if ($wikifacts->{$species}->[$f] !~ /equivalent/){
-			$wikifacts->{$species}->[$f] =~ s/\Q$oldwiki\E/$newwiki/g;
-		    }
-		}
-	    }
-	}
-    }
-}
 
 
 sub escape_url() {
@@ -954,4 +971,18 @@ sub escape_url() {
   $url =~ s/:/%3A/g;
 
   return $url;
+}
+
+
+sub parse_equation
+{
+  my ($equation, %options) = @_;
+
+  my ($lhs, $rhs) = split(/-->/, $equation);
+  my @inputs  = grep { $_ ne '+' } split(' ', $lhs);
+  my @outputs = grep { $_ ne '+' } split(' ', $rhs);
+
+  @inputs = map { s/^!//; $_ } @inputs if $options{strip_bang};
+
+  return (\@inputs, \@outputs);
 }
