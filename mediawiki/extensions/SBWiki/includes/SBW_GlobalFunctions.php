@@ -64,7 +64,7 @@ function sbwfSetupMessages() {
   $messages = array(
                     'adddatauid'          => 'Add data with UID',
                     'generateuidlist'     => 'Generate several UIDs at once',
-                    'listuids'            => 'List of all UIDs',
+                    'listuids'            => 'UID List',
                     'uploadattachfileuid' => 'Upload file content for a UID',
                     );
 

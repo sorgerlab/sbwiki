@@ -18,7 +18,7 @@ function doSpecialListUIDs() {
 
   $uids = sbwfListUIDs();
   foreach ($uids as $uid) {
-    $wgOut->addSecondaryWikiText("[[$uid]]<br>");
+    $wgOut->addSecondaryWikiText("[[$uid|$uid]]<br>");
   }
 }
 
