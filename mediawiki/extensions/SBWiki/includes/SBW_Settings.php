@@ -14,6 +14,8 @@ $sbwgScriptPath = $wgScriptPath . '/extensions/SBWiki';
 # issues.
 ##
 $sbwgIP = $IP . '/extensions/SBWiki';
+$sbwgMIP = "$sbwgIP/maintenance/includes";  # maintenance includes path
+$sbwgMRP = "$sbwgIP/maintenance/resources"; # maintenance resources path
 ##
 
 

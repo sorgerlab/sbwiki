@@ -11,9 +11,7 @@
 $mwRoot = dirname(__FILE__) . '/../../..'; # XXX could break if our dir structure changes
 require_once("$mwRoot/maintenance/commandLine.inc");
 
-global $sbwgIP;
-$sbwgMIP = "$sbwgIP/maintenance/includes"; # maintenance includes path
-$sbwgMRP = "$sbwgIP/maintenance/resources"; # maintenance resources path
+global $sbwgMIP, $sbwgMRP;
 require_once("$sbwgMIP/SBW_initdatabase.php");
 require_once("$sbwgMIP/SBW_MaintenanceHelpers.php");
 
