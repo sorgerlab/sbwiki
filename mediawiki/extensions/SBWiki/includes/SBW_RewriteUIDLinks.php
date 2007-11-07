@@ -4,7 +4,14 @@ $wgHooks['ParserAfterTidy'][] = 'sbwRewriteUIDLinks';
 
 /**
  * Rewrite wiki links to UID pages such that they display as just the
- * annotation (the last part of the UID string).
+ * annotation (the last part of the UID string).  Will leave links
+ * alone if they have display text that's something other than the
+ * UID, so links like [[XX-YYY-ZZZ-foo|blah]] will be skipped.
+ *
+ * If you want to override this filter and cause a UID link to display
+ * as the full UID, insert a space in the link text,
+ * e.g. [[XX-YY-ZZZ-foo| XX-YY-ZZZ-foo]]. (See the 'UID List' special
+ * page, SBW_ListUIDs.php, for an example of this)
  */
 function sbwRewriteUIDLinks($obj, $text) {
   global $wgRequest;
