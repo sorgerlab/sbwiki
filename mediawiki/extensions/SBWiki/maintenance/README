@@ -1,0 +1,6 @@
+== SBWiki maintenance scripts ==
+
+These maintenance scripts are designed to be run in-place -- no need to copy
+them to your main MediaWiki maintenance directory.  Scripts can be run with a
+command line PHP call if your MediaWiki is properly configured to run
+maintenance scripts (i.e. AdminSettings.php is configured).
