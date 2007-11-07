@@ -12,8 +12,9 @@ $mwRoot = dirname(__FILE__) . '/../../..'; # XXX could break if our dir structur
 require_once("$mwRoot/maintenance/commandLine.inc");
 
 global $sbwgIP;
-$sbwgMP = "$sbwgIP/maintenance"; # maintenance path
-require_once("$sbwgMP/SBW_initdatabase.inc");
+$sbwgMIP = "$sbwgIP/maintenance/includes"; # maintenance includes path
+$sbwgMRP = "$sbwgIP/maintenance/resources"; # maintenance resources path
+require_once("$sbwgMIP/SBW_initdatabase.php");
 
 if( isset( $options['help'] ) ) {
   showHelp();
