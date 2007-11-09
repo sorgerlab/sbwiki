@@ -33,13 +33,16 @@ function method_list_raw_data($request) {
 
   header('Content-type: text/plain');
 
-  $query = SMWQueryProcessor::createQuery('[[Category:Raw_data]] [[has attached file::+]]', array());
+  $query = SMWQueryProcessor::createQuery(
+    '[[Category:Raw_data]] [[has attached file::+]] [[has attached file::*]]',
+    array());
 
   if ($query instanceof SMWQuery) { // query parsing successful
     $res = smwfGetStore()->getQueryResult($query);
     while ( $row = $res->getNext() ) {
-      $title = $row[0]->getNextHTMLText();
-      print "$title\n";
+      $filename = $row[1]->getNextHTMLText();
+      $filename = preg_replace('/^Image:/', '', $filename);
+      print "$filename\n";
     }
   } else {
     // error string
@@ -51,24 +54,13 @@ function method_list_raw_data($request) {
 function method_get_file($request) {
   global $wgServer;
 
-  $uid = $request->getVal('uid');
+  $filename = $request->getVal('filename');
 
-  $query = SMWQueryProcessor::createQuery("[[$uid]] [[has attached file::*]]", array());
+  $file = Image::newFromName($filename);
 
-  if ($query instanceof SMWQuery) { // query parsing successful
-    $res = smwfGetStore()->getQueryResult($query);
-    $row = $res->getNext();
-    $title = preg_replace('/^Image:/', '', $row[0]->getNextHTMLText());
-    $file = Image::newFromName($title);
-
-    header('Content-type: ' . $file->getMimeType());
-    header('Content-disposition: filename=' . $file->getName());
-    readfile($file->getPath());
-
-  } else {
-    // error string
-    print $query;
-  }
+  header('Content-type: ' . $file->getMimeType());
+  header('Content-disposition: filename=' . $file->getName());
+  readfile($file->getPath());
 }
 
 
