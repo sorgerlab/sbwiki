@@ -20,22 +20,21 @@ function sbwRewriteUIDLinks($obj, $text) {
   $db =& wfGetDB( DB_SLAVE );
   $table_name = $db->tableName('sbw_uid');
   $select_vars = array('id');
-  $condition_vars = array('type_code', 'creator_initials', 'id');
+  $condition_vars = array('type_code', 'creator_initials', 'id', 'annotation');
 
   // loop over links whose text looks like a UID
   $offset = 0;
+  // FIXME: this matches text after *any* tag, and also the Special:Browse link at the top of the SMW factbox
   while ( preg_match('/>([A-Z]+-[A-Z]+-\d+(-[^|]*?)?)</', $text, $matches,
                      PREG_OFFSET_CAPTURE, $offset) ) {
     $uid_text  = $matches[1][0];
     $uid_start = $matches[1][1];
 
     $uid_parts = explode('-', $uid_text, 4);
-    // grab the annotation for later use, and remove it from the parts array
-    // because we aren't searching the db with it at the moment (FIXME: avoids
-    // a space-vs-underscore issue that I haven't tracked down yet...
-    list($annotation) = array_splice($uid_parts, 3, 1);
+    $annotation = $uid_parts[3];
 
     // check the db table to make sure this is a legitimate UID
+    // FIXME: there is some space-vs-underscore issue with annotation matching... maybe always normalize spaces when creating a UID?
     $select_conds = array_combine($condition_vars, $uid_parts);  // keys => values
     $res = $db->selectRow( $table_name, $select_vars, $select_conds ); // sanitizes values automatically
 

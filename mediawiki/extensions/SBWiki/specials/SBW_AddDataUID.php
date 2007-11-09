@@ -38,8 +38,8 @@ function doSpecialAddDataUID() {
   if ( $wgRequest->wasPosted() and $submitted and empty($errors) ) {
     $formArticle = new Article($form_title);
     $special_adddata_title = Title::makeTitle(NS_SPECIAL, 'AddData');
-    $page_title = sbwfAllocateUID($type_code, $creator_initials, $annotation);
-    $wgOut->redirect($special_adddata_title->getFullURL("form=$form&page_title=$page_title"));
+    $target = sbwfAllocateUID($type_code, $creator_initials, $annotation);
+    $wgOut->redirect($special_adddata_title->getFullURL("form=$form&target=$target"));
     return; // success!
   }
 

@@ -9,16 +9,12 @@ SpecialPage::addPage( new SpecialPage('UploadAttachFileUID','',true,'doSpecialUp
 
 
 function doSpecialUploadAttachFileUID() {
-  global $wgOut, $wgRequest;
+  global $wgRequest;
 
   $uid = $wgRequest->getVal('uid');
-  if ( !strlen($uid) ) {
-    $wgOut->showErrorPage('missinguid','missinguidtext');
-    return;
-  }
 
   $form = new UploadFormUID( $wgRequest );
-  $form->mDestFile = $uid;
+  $form->mUid = $uid; // FIXME: should override constructor and do this there
   $form->execute();
 }
 
@@ -26,20 +22,33 @@ function doSpecialUploadAttachFileUID() {
 
 class UploadFormUID extends UploadForm {
 
-  function mainUploadForm( $msg='' ) {
-    global $wgOut;
+  var $mUid;
 
-    // first, let the original method do its thing
+  function mainUploadForm( $msg='' ) {
+    global $wgOut, $wgAjaxUploadDestCheck;
+
+    if ( !strlen($this->mUid) ) {
+      $wgOut->showErrorPage('missinguid','missinguidtext');
+      return;
+    }
+
+    $this->mDesiredDestName = $this->mUid;
+
+    // first, let the original method do its thing, disabling the ajax
+    // destination filename stuff (via a global variable, ugh)
+    $oldAUDC = $wgAjaxUploadDestCheck;
+    $wgAjaxUploadDestCheck = false;
     parent::mainUploadForm($msg);
+    $wgAjaxUploadDestCheck = $oldAUDC;
 
     // now we perform some modifications to the form html
     $html = $wgOut->getHTML();
 
     // change destination file input into a hidden form and plain html text
-    $sourcefilename = array_pop( explode( '.', $this->mOname ) );
-    $encDestFile = htmlspecialchars( $this->mDestFile );
-    $html = preg_replace("/type='text' (name='wpDestFile'.*?\/>)/",
-                         "type='hidden' $1 <strong>$encDestFile</strong>.???",
+    $encDestName = htmlspecialchars( $this->mDesiredDestName );
+    $html = preg_replace("/type='text' (name='wpDestFile'.*?\/>)/s",
+                         "type='hidden' $1 <strong>$encDestName</strong>.??? " .
+                           "<input type='hidden' name='uid' value='".$this->mUid."'/>",
                          $html);
 
     // fix form submit url
@@ -54,20 +63,16 @@ class UploadFormUID extends UploadForm {
 
 
   function processUpload() {
-    global $wgOut;
-
     $this->fixupDestExtension();
     parent::processUpload();
   }
 
 
   function fixupDestExtension() {
-    if ( trim( $this->mOname ) != '' ) {
-      #error_log("mOname: ".$this->mOname);
-      $regex = '/\..*$/';
-      preg_match($regex, $this->mOname, $matches);
-      $this->mDestFile = preg_replace($regex, '', $this->mDestFile);
-      $this->mDestFile .= $matches[0];
+    if ( trim( $this->mSrcName ) != '' ) {
+      // append extension from upload filename to destination filename
+      preg_match('/\..*$/', $this->mSrcName, $extension_match);
+      $this->mDesiredDestName .= $extension_match[0];
     }
   }
 

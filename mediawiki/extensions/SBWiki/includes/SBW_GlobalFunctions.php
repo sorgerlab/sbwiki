@@ -28,6 +28,7 @@ function sbwgSetupExtension() {
   require_once($sbwgIP . '/specials/SBW_AddDataUID.php');
   require_once($sbwgIP . '/specials/SBW_GenerateUIDList.php');
   require_once($sbwgIP . '/specials/SBW_ListUIDs.php');
+  require_once($sbwgIP . '/specials/SBW_API.php');
   require_once($sbwgIP . '/specials/SBW_UploadAttachFileUID.php');
 
   /**********************************************/
@@ -65,6 +66,7 @@ function sbwfSetupMessages() {
                     'adddatauid'          => 'Add data with UID',
                     'generateuidlist'     => 'Generate several UIDs at once',
                     'listuids'            => 'UID List',
+                    'sbw_api'             => 'SBwiki API endpoint',
                     'uploadattachfileuid' => 'Upload file content for a UID',
                     );
 
