@@ -2,7 +2,7 @@ S |          1 |  abl       |        Abl | Abelson protein tyrosine kinase |    
 S |          2 |   akap79   |     Akap79 | A kinase (PRKA) anchor protein 79 |         A  
 S |          3 |  ap1       |       Ap1  | v-jun sarcoma virus 17 oncogene homology |         T  
 S |          4 |  bad       |        Bad | BCL2-antagonist of cell death  |            
-S |          5 |    bcat    |  ß-catenin | Catenin (cadherin-associated protein) beta 1 |            
+S |          5 |    bcat    |  &beta;-catenin | Catenin (cadherin-associated protein) beta 1 |            
 S |          6 |   bcl10    |      BCL10 | B-cell CLL/lymphoma 10  |            
 S |          7 |  bclxl     |     BCL2L1 | BCL2-like 1 |            
 S |          8 |  ca        |   CA, Ca2+ |    Calcium |            
@@ -13,28 +13,28 @@ S |         12 |   cam      |       CaM  | Calmodulin |
 S |         13 |   camk2    | Camk2,CamKII | calcium/calmodulin-dependent protein kinase (CaM kinase) II  |         K  
 S |         14 |  camk4     | CamK4, CamKIV | calcium/calmodulin-dependent protein kinase IV |         K  
 S |         15 |  card11a   | CARD11 + CARMA1 + BCL10 | Complex of CARD11, CARMA1, and BCL10, which is their fully active form |            
-S |         16 |    card11  | CARMA1, CARD11 | caspase recruitment domain family, member 11    |            
+S |         16 |    card11  | CARMA1, CARD11 | caspase recruitment domain family, member 11  |            
 S |         17 |   cblb     |      Cbl-b | Cas-Br-M (murine) ecotropic retroviral transforming sequence b |            
 S |         18 |     ccblp1 |     c-Cbl  | Casitase B-lineage lymphoma proto-oncogene (ZAP70-dependent pool) |         A  
 S |         19 |  ccblp2    |      c-Cbl | Casitase B-lineage lymphoma proto-oncogene (Fyn-dependent pool) |         A  
 S |         20 |   ccblr    |     c-Cbl  | Casitase B-lineage lymphoma proto-oncogene (Reservoir, see legend) |         A  
-S |         21 |    cd28    |       CD28 | CD28 antigen (Tp44)    |         R  
+S |         21 |    cd28    |       CD28 | CD28 antigen (Tp44)  |         R  
 S |         22 |  cd45      | CD45, PTPRC | protein tyrosine phosphatase, receptor type, C  |         P  
 S |         23 |       cd4  |   CD4, p55 | CD4 antigen (p55)  |         R  
-S |         24 |   cdc42    | CDC42, BB1 | cell division cycle 42 (GTP binding protein, 25kDa)    |         G  
+S |         24 |   cdc42    | CDC42, BB1 | cell division cycle 42 (GTP binding protein, 25kDa)  |         G  
 S |         25 |    cre     |        Cre | cAMP responsive element binding protein 1  |            
 S |         26 |  creb      | CREB, CREB1 | cAMP responsive element |         T  
-S |         27 |      csk   |        Csk | c-src tyrosine kinase    |         K  
-S |         28 |       cyc1 |       Cyc1 | cytochrome c-1    |            
+S |         27 |      csk   |        Csk | c-src tyrosine kinase  |         K  
+S |         28 |       cyc1 |       Cyc1 | cytochrome c-1  |            
 S |         29 |    dag     |        DAG | Diacylglycerol |            
 S |         30 |  dgk       |        DGK | diacylglycerol kinase |         K  
-S |         31 |        erk | ERK, MAPK1 | Extracellular signal-regulated kinases, mitogen-activated protein kinase 1    |         K  
+S |         31 |        erk | ERK, MAPK1 | Extracellular signal-regulated kinases, mitogen-activated protein kinase 1  |         K  
 S |         32 |    fkhr    | FOXO1, fkhr | forkhead box O1A  |         T  
 S |         33 |    fos     |   Fos, FRA | FOS-like antigen |            
 S |         34 |       fyn  |        Fyn | FYN oncogene related to SRC, FGR, YES  |         K  
-S |         35 |      gab2  |       Gab2 | GRB2-associated binding protein 2    |         A  
+S |         35 |      gab2  |       Gab2 | GRB2-associated binding protein 2  |         A  
 S |         36 |  gadd45    |    GADD45A | growth arrest and DNA-damage-inducible, alpha |            
-S |         37 |    gads    | GRAP-2, GADS, P38 | GRB2-related adaptor protein 2   |         A  
+S |         37 |    gads    | GRAP-2, GADS, P38 | GRB2-related adaptor protein 2  |         A  
 S |         38 |      gap   |        GAP | GTPase-activating protein |            
 S |         39 |       grb2 |       Grb2 | growth factor receptor-bound protein 2  |            
 S |         40 |        sos |       Sos1 | Son of sevenless homolog 1 |            
@@ -42,48 +42,48 @@ S |         41 |    gsk3    |       GSK3 | glycogen synthase kinase 3 |         
 S |         42 |  hpk1      | HPK1, MAP4K1 | Hematopoietic progenitor kinase 1, mitogen-activated protein kinase kinase kinase kinase 1   |         K  
 S |         43 |   ikb      |        I&kappa;B | Inhibitor protein I&kappa;B |            
 S |         44 |      ikkab | I&kappa;KA + I&kappa;KB | inhibitor of kappa light polypeptide gene enhancer in B-cells, kinase alpha and kinase beta |            
-S |         45 |     ikkg   |       I&kappa;KG | inhibitor of kappa light polypeptide gene enhancer in B-cells, kinase gamma    |            
-S |         46 |    ip3     |       IP3K | inositol 1,4,5-trisphosphate   |          K 
+S |         45 |     ikkg   |       I&kappa;KG | inhibitor of kappa light polypeptide gene enhancer in B-cells, kinase gamma  |            
+S |         46 |    ip3     |       IP3K | inositol 1,4,5-trisphosphate  |          K 
 S |         47 |   itk      |        ITK | IL2-inducible T-cell kinase |         K  
 S |         48 |    jnk     | JNK, SAPK, MAPK8 | mitogen-activated protein kinase 8  |          K 
 S |         49 |      jun   |  JUN, ap1  | v-jun sarcoma virus 17 oncogene homolog |         T  
 S |         50 |     lat    |        LAT | linker for activation of T cells |         A  
-S |         51 |    lckp1   |        Lck | lymphocyte-specific protein tyrosine kinase ( CD4-dependent pool)    |          K 
-S |         52 |    lckp2   |        Lck | lymphocyte-specific protein tyrosine kinase  (CD28/TCR-dependent pool) |          K 
-S |         53 |     lckr   |        Lck | lymphocyte-specific protein tyrosine kinase (Reservoir, see legend)    |          K 
-S |         54 |     malt1  |      MALT1 | mucosa associated lymphoid tissue lymphoma translocation gene 1    |            
+S |         51 |    lckp1   |        Lck | lymphocyte-specific protein tyrosine kinase ( CD4-dependent pool)  |          K 
+S |         52 |    lckp2   |        Lck | lymphocyte-specific protein tyrosine kinase (CD28/TCR-dependent pool) |          K 
+S |         53 |     lckr   |        Lck | lymphocyte-specific protein tyrosine kinase (Reservoir, see legend)  |          K 
+S |         54 |     malt1  |      MALT1 | mucosa associated lymphoid tissue lymphoma translocation gene 1  |            
 S |         55 |    mek     | MEK, MAP2K, MAPKK | mitogen-activated protein kinase kinase |          K 
 S |         56 |    mekk1   | MEKK1, MAP3K1, MAPKKK1 | mitogen-activated protein kinase kinase kinase |          K 
 S |         57 |   mkk4     | MKK4, MAP2K4, MAPKK4 | mitogen-activated protein kinase kinase 4  |          K 
-S |         58 |     mlk3   | MLK3, MAP3K11 | mitogen-activated protein kinase kinase kinase 11   |          K 
-S |         59 |      nfat  | NFATC1, NFATC2, NFATC3 | nuclear factor of activated T-cells, cytoplasmic, calcineurin-dependent 1    |         T  
+S |         58 |     mlk3   | MLK3, MAP3K11 | mitogen-activated protein kinase kinase kinase 11  |          K 
+S |         59 |      nfat  | NFATC1, NFATC2, NFATC3 | nuclear factor of activated T-cells, cytoplasmic, calcineurin-dependent 1  |         T  
 S |         60 |    nfkb    |       Nf&kappa;B | nuclear factor of kappa light polypeptide gene enhancer in B-cells 1, 2 |         T  
 S |         61 |       p21c | P21Cip1, Cdkn1a, p21 | cyclin-dependent kinase inhibitor 1A (p21, Cip1) |            
 S |         62 |    p27k    | CDKN1B, p27Kip1 | cyclin-dependent kinase inhibitor 1B (p27, Kip1)  |            
 S |         63 |     p38    | P38, MAPK14 | mitogen-activated protein kinase 14 |          K 
 S |         64 |    p70s    | RPS6KB1, p70s6k | ribosomal protein S6 kinase, 70kDa, polypeptide 1  |          K 
-S |         65 |      pag   |       PAG1 | phosphoprotein associated with glycosphingolipid microdomains 1  |         A  
-S |         66 |     pdk1   | PDPK1, PDK1 | 3-phosphoinositide dependent protein kinase-1    |          K 
-S |         67 |      pi3k  | PI3K, PIK3CA | phosphoinositide-3-kinase, catalytic, alpha polypeptide   |          K 
+S |         65 |      pag   |       PAG1 | phosphoprotein associated with glycosphingolipid microdomains 1 |         A  
+S |         66 |     pdk1   | PDPK1, PDK1 | 3-phosphoinositide dependent protein kinase-1  |          K 
+S |         67 |      pi3k  | PI3K, PIK3CA | phosphoinositide-3-kinase, catalytic, alpha polypeptide  |          K 
 S |         68 |     pip3   |       PIP3 | Phosphatidylinositol (3,4,5)-trisphosphate |            
 S |         69 |      pkb   |  PKB, AKT1 | v-akt murine thymoma viral oncogene homolog 1 |          K 
 S |         70 |     pkcth  | Prkcq, PKC-&gamma; | protein kinase C, theta  |          K 
 S |         71 |    plcga   | Active form of PLC&gamma;1, PLC-gamma-1 | phospholipase C, gamma 1  |            
 S |         72 |    plcgb   | PLCG1, PLC-&gamma;-1 bound to LAT (but not active, see plcga) | phospholipase C, gamma 1  |            
-S |         73 |      pten  |       PTEN | phosphatase and tensin homolog (mutated in multiple advanced cancers 1)    |         P  
-S |         74 |    rac1p1  | RAC1, p21-Rac1, MIG5 | ras-related C3 botulinum toxin substrate 1 (rho family, small GTP binding protein Rac1)  (Vav-1 dependent pool) |         G  
-S |         75 |    rac1p2  | RAC1, p21-Rac1, MIG5 | ras-related C3 botulinum toxin substrate 1 (rho family, small GTP binding protein Rac1)  (Vav-3 dependent pool) |         G  
-S |         76 |     rac1r  | RAC1, p21-Rac1, MIG5 | ras-related C3 botulinum toxin substrate 1 (rho family, small GTP binding protein Rac1) (Reservoir, see footnote)  |         G  
+S |         73 |      pten  |       PTEN | phosphatase and tensin homolog (mutated in multiple advanced cancers 1)  |         P  
+S |         74 |    rac1p1  | RAC1, p21-Rac1, MIG5 | ras-related C3 botulinum toxin substrate 1 (rho family, small GTP binding protein Rac1) (Vav-1 dependent pool) |         G  
+S |         75 |    rac1p2  | RAC1, p21-Rac1, MIG5 | ras-related C3 botulinum toxin substrate 1 (rho family, small GTP binding protein Rac1) (Vav-3 dependent pool) |         G  
+S |         76 |     rac1r  | RAC1, p21-Rac1, MIG5 | ras-related C3 botulinum toxin substrate 1 (rho family, small GTP binding protein Rac1) (Reservoir, see footnote) |         G  
 S |         77 |     raf    |       RAF1 | v-raf-1 murine leukemia viral oncogene homolog 1  |          K 
 S |         78 |     ras    |        Ras |        Ras |         G  
 S |         79 |  rasgrp    |    RasGRP1 | Ras guanyl releasing protein 1 |            
-S |         80 |      rlk   | TXK, RLK, TKL | TXK tyrosine kinase    |          K 
+S |         80 |      rlk   | TXK, RLK, TKL | TXK tyrosine kinase  |          K 
 S |         81 |     rsk    | RPS6KA1, RSK | ribosomal protein S6 kinase, 90kDa, polypeptide 1 |          K 
-S |         82 |     sh3bp2 | 3BP2, SH3BP2 | SH3-domain binding protein 2   |         A  
-S |         83 |      ship1 | INPP5D, SHIP1 | inositol polyphosphate-5-phosphatase, 145kDa   |         P  
-S |         84 |     shp1   | Shp1, PTPN6 | protein tyrosine phosphatase, non-receptor type 6    |         P  
+S |         82 |     sh3bp2 | 3BP2, SH3BP2 | SH3-domain binding protein 2  |         A  
+S |         83 |      ship1 | INPP5D, SHIP1 | inositol polyphosphate-5-phosphatase, 145kDa  |         P  
+S |         84 |     shp1   | Shp1, PTPN6 | protein tyrosine phosphatase, non-receptor type 6  |         P  
 S |         85 |    shp2    | SHP2, PTPN11 | protein tyrosine phosphatase, non-receptor type 11 (Noonan syndrome 1)  |         P  
-S |         86 |      slp76 | LCP2, SLP76 | lymphocyte cytosolic protein 2 (SH2 domain containing leukocyte protein of 76kDa)    |         A  
+S |         86 |      slp76 | LCP2, SLP76 | lymphocyte cytosolic protein 2 (SH2 domain containing leukocyte protein of 76kDa)  |         A  
 S |         87 |      sre   |        Sre | Serum responsive element |            
 S |         88 |       tcrb |       TCR  | T-cell Receptor (bound to ligand) |         R  
 S |         89 |     tcrlig |   PMHC, Ab | Ligand of T cell receptor (peptide-MHC complex or antibody) |         R  
