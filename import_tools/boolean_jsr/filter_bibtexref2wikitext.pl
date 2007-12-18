@@ -10,6 +10,8 @@ use Data::Dumper;
 use constant {
   CITE_BEGIN => '\cite{',
   CITE_END   => '}',
+  PMID_BASE  => 'http://www.ncbi.nlm.nih.gov/sites/entrez?cmd=Retrieve&db=pubmed&list_uids=',
+  DOI_BASE   => 'http://dx.doi.org/',
 };
 
 
@@ -55,7 +57,7 @@ foreach my $text_elt ( $twig->findnodes('/mediawiki/page/revision/text') )
 
   my $ref_text = join("\n\n", @$references{keys %seen_refs});
   $ref_text =~ s/\|/&#124;/g;
-  $ref_text =~ tr/{}//d;
+  $ref_text =~ tr/~{}/ /d;
   $input_content =~ s/(references=)/$1$ref_text/;
 
   $text_elt->set_text($input_content);
@@ -88,37 +90,44 @@ sub parse_references
       next;
     }
 
-    my $wikitext = "UNKNOWN REFERENCE";
+    my ($url, $id);
     if ( $entry->exists('pmid') )
     {
-      $wikitext = "PMID " . $entry->get('pmid');
+      $url = PMID_BASE . $entry->get('pmid');
+      $id = 'pmid:' . $entry->get('pmid');
     }
     elsif ( $entry->exists('doi') )
     {
-      $wikitext = "[[http://dx.doi.org/" . $entry->get('doi') . "]]";
+      $url = DOI_BASE . $entry->get('doi');
+      $id = 'doi:' . $entry->get('doi');
     }
     elsif ( $entry->exists('isbn') )
     {
-      $wikitext = "ISBN " . $entry->get('isbn');
+      $url = '{{fullurl:Special:Booksources|isbn=' . $entry->get('isbn');
+      $id = 'isbn:' . $entry->get('isbn');
     }
     elsif ( $entry->exists('url') )
     {
       if ( my ($pmid) = $entry->get('url') =~ m|www\.ncbi\.nlm\.nih\.gov/entrez.*?(\d{5,})| )
       {
-        $wikitext = "PMID " . $pmid;
+        $url = PMID_BASE . $pmid;
+        $id = 'pmid:' . $pmid;
       }
       else
       {
-        $wikitext = "[[" . $entry->get('url') . "]]";
+        $url = $entry->get('url');
+        $id = $entry->get('url');
       }
     }
     else
     {
       warn($entry->key . ": no usable identifier found\n");
+      $id = "??? FIXME - no usable identifier found ???";
     }
 
-    $citations{$entry->key} = $wikitext;
-    $references{$entry->key} = format_reference($entry);
+    my $citation_label = format_citation($entry);
+    $citations{$entry->key} = "[$url $citation_label]";
+    $references{$entry->key} = format_reference($entry) . ' ' . "[$url $id]";
   }
 
   return \%citations, \%references;
@@ -130,6 +139,7 @@ sub format_reference
   my ($entry) = @_;
 
   my @blocks = $entry->format;
+  @blocks = grep($_, @blocks);
 
   # the following was borrowed from btformat in the Text::BibTeX distribution
  BLOCK:
@@ -162,4 +172,23 @@ sub format_reference
   my $reference = join(' ', @blocks);
 
   return $reference;
+}
+
+
+sub format_citation
+{
+  my ($entry) = @_;
+
+  my $citation = "???FIXME - could not format citation???"; # in case we fail to produce a reasonable format
+
+  if ( my @names = $entry->names('author') )
+  {
+    $citation = join(' ', $names[0]->part('last')); # last name
+    if ( $entry->exists('year') )
+    {
+      $citation .= ' ' . $entry->get('year');
+    }
+  }
+
+  return $citation;
 }
