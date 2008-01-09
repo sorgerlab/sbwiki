@@ -115,6 +115,7 @@ function sbwfAllocateUID($type_code, $creator_initials, $annotation) {
 
   $insert_values = array('type_code'        => $type_code,
                          'creator_initials' => $creator_initials);
+  $annotation = strtr($annotation, ' ', '_'); // normalize space to underscore
   if ( $annotation != '' ) {
     $insert_values['annotation'] = $annotation;
   }
@@ -146,6 +147,7 @@ function sbwfGetUserInitials() {
   if ( User::isValidUserName($wgUser->getName()) ) {
 
     $db =& wfGetDB(DB_SLAVE);
+    // FIXME: this just retrieves the first attribute, not specifically the Initials!  and it should maybe use the Query API instead.
     $result = $db->select($db->tableName('smw_attributes'),
                           'value_xsd',
                           'subject_id='. $wgUser->getUserPage()->getArticleID(),

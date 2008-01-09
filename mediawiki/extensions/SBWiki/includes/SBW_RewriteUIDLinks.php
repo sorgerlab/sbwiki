@@ -30,11 +30,11 @@ function sbwRewriteUIDLinks($obj, $text) {
     $uid_text  = $matches[1][0];
     $uid_start = $matches[1][1];
 
+    $uid_text = strtr($uid_text, ' ', '_');
     $uid_parts = explode('-', $uid_text, 4);
     $annotation = $uid_parts[3];
 
     // check the db table to make sure this is a legitimate UID
-    // FIXME: there is some space-vs-underscore issue with annotation matching... maybe always normalize spaces when creating a UID?
     $select_conds = array_combine($condition_vars, $uid_parts);  // keys => values
     $res = $db->selectRow( $table_name, $select_vars, $select_conds ); // sanitizes values automatically
 
