@@ -70,7 +70,7 @@ function doSpecialAddDataUID() {
 <tr><td><strong>Semantic Form:</strong></td><td>$form_input</td></tr>
 <tr><td><strong>Type Code:</strong></td><td>$type_code_input</td></tr>
 <tr><td><strong>Creator Initials:</strong></td><td><input name="creator_initials" type="text" value="$creator_initials"></td></tr>
-<tr><td><strong>Annotation (optional):</strong></td><td><input name="annotation" type"text" value"$annotation"></td></tr>
+<tr><td><strong>Annotation (optional):</strong></td><td><input name="annotation" type="text" value="$annotation"></td></tr>
 <tr><td></td><td><input name="create" type="submit" value="Create UID"></td></tr>
 </table>
 
