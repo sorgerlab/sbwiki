@@ -34,8 +34,12 @@ class SBWSbmlReader {
         $reaction->addReactant($model->getSpecies((string) $speciesref_elt['species']));
       }
       foreach ( $reaction_elt->listOfProducts->speciesReference as $speciesref_elt ) {
-        $reaction->addProduct($mode->getSpecies((string) $speciesref_elt['species']));
-      }  
+        $reaction->addProduct($model->getSpecies((string) $speciesref_elt['species']));
+      }
+      foreach ( $reaction_elt->kineticLaw->listOfParameters->parameter as $par_elt ) {
+        $reaction->addParameter((string) ($par_elt['name'] ? $par_elt['name'] : $par_elt['id']),
+                                (float) $par_elt['value']);
+      }
       $model->addReaction($reaction);
     }
 
@@ -55,6 +59,7 @@ class SBWSbmlReader {
 
 class SBWSbmlModel {
 
+  public $uid;
   protected $species_set  = array();
   protected $reaction_set = array();
 
@@ -95,6 +100,7 @@ class SBWSbmlModel {
 
 class SBWSbmlSpecies {
   
+  public $uid;
   public $id;
   public $name;
   public $initialConcentration;
@@ -114,11 +120,13 @@ class SBWSbmlSpecies {
 
 class SBWSbmlReaction {
   
+  public    $uid;
   public    $id;
   public    $name;
   public    $isReversible;
   protected $reactants    = array();
   protected $products     = array();
+  protected $parameters   = array();
 
 
   public function SBWSbmlReaction($id) {
@@ -128,12 +136,24 @@ class SBWSbmlReaction {
     $this->id = $id;
   }
 
+
   public function addReactant($species) {
     $this->reactants[] = $species;
   }
 
+
   public function addProduct($species) {
     $this->products[] = $species;
+  }
+
+
+  public function addParameter($name, $value) {
+    $this->parameters[$name] = $value;
+  }
+
+
+  public function getParameters() {
+    return $this->parameters;
   }
 
 

@@ -4,9 +4,12 @@ if ( !defined('MEDIAWIKI') ) die();
 
 global $IP, $sbwgIP;
 require_once( $IP . '/includes/SpecialPage.php' );
-require_once( $sbwgIP . '/includes/classes/SBW_SbmlParser.php' );
+require_once( $sbwgIP . '/includes/classes/SBW_SbmlReader.php' );
+require_once( $sbwgIP . '/includes/classes/SBW_ModelFormatter.php' );
+
 
 SpecialPage::addPage( new SpecialPage('ImportModel','',true,'doSpecialImportModel',false) );
+
 
 function doSpecialImportModel() {
   global $wgOut, $wgRequest, $wgScriptPath;
@@ -29,20 +32,34 @@ function doSpecialImportModel() {
 
 
   if ( $wgRequest->wasPosted() and $submitted and empty($errors) ) {
-
     // successful form submission (but the SBML might still be invalid)
-    $parser = new SBWSbmlParser($model_contents);
-    $wgOut->addWikiText('== Species ==');
-    foreach ( $parser->getSpeciesIds() as $id ) {
-      $wgOut->addWikiText('* ' . $parser->getSpecies($id)->name);
+
+    $parser = new SBWSbmlReader($model_contents);
+    $model = $parser->getModel();
+
+    // assign fake UIDs for preview display purposes
+    $fake_counter = 100;
+    $model->uid = sbwfFormatUID('MD', $creator_initials, $fake_counter++, $annotation);
+    foreach ( $model->getSpeciesIds() as $id ) {
+      $species = $model->getSpecies($id);
+      $species->uid = sbwfFormatUID('SP', $creator_initials, $fake_counter++, $species->name);
     }
-    $wgOut->addWikiText('== Reactions ==');
-    foreach ( $parser->getReactionIds() as $id ) {
-      $reaction = $parser->getReaction($id);
-      $wgOut->addWikiText('* ' . $reaction->name . ' : ' . $reaction->asText());
+    foreach ( $model->getReactionIds() as $id ) {
+      $reaction = $model->getReaction($id);
+      $reaction->uid = sbwfFormatUID('RX', $creator_initials, $fake_counter++, $reaction->name);
     }
 
+    $formatter = new SBWModelFormatter($parser->getModel());
+    $wgOut->addWikiText(<<<INTRO
+Below is a preview of what your model will look like in the wiki.
+'''DO NOT CLICK''' on any of the links!
 
+----
+
+
+INTRO
+                        );
+    $wgOut->addWikiText($formatter->formatAll());
 
   } else {
 

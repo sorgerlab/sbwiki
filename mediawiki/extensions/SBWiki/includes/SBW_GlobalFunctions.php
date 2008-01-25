@@ -82,7 +82,7 @@ function sbwfSetupMessages() {
 function sbwfFormatUID($type_code, $creator_initials, $id, $annotation = NULL) {
   $parts = array($type_code, $creator_initials, $id);
   if ( $annotation != NULL and $annotation != '' ) {
-    array_push($parts, $annotation);
+    array_push($parts, strtr($annotation, ' ', '_')); // normalize space to underscore
   }
   $uid = join('-', $parts);
 

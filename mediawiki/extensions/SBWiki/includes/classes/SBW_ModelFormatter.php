@@ -85,6 +85,8 @@ WIKI;
 
 WIKI;
 
+    // TODO: output part_of_model
+
     return $wikitext;
   }
 
@@ -93,13 +95,22 @@ WIKI;
     $wikitext = '';
 
     $reaction = $this->model->getReaction($id);
-    $name          = $reaction->name;
-    $mass_action   = $reaction->asText();
+    $parameter_names  = array_keys($reaction->getParameters());
+    $parameter_values = array_values($reaction->getParameters());
+
+    $name        = $reaction->name;
+    $mass_action = $reaction->asText();
+    $parameters  = implode(
+                           "\n\n", 
+                           array_map(create_function('$n,$v', 'return "$n = $v";'),
+                                     $parameter_names, $parameter_values)
+                           );
+
     $wikitext .= <<<WIKI
 {{Physicochemical_reaction
 |name=$name
 |mass_action=$mass_action
-|parameters=
+|parameters=$parameters
 |references=
 }}
 
@@ -111,6 +122,8 @@ WIKI;
      
 WIKI;
 
+    // TODO: output part_of_model
+
     return $wikitext;
   }
 
@@ -118,22 +131,26 @@ WIKI;
   public function formatAll() {
     $wikitext = '';
 
+    $uid = $this->model->uid;
     $wikitext .= "<div style='border: 1px dashed #000000; background: #fcf8ff; padding: .5em;'>\n";
+    $wikitext .= "= $uid =\n";
     $wikitext .= $this->formatModel();
-    $wikitext .= "</div>\n----\n";
+    $wikitext .= "</div>\n\n\n";
     
     foreach ( $this->model->getSpeciesIds() as $id ) {
-      $name = $this->model->getSpecies($id)->name;
+      $uid = $this->model->getSpecies($id)->uid;
       $wikitext .= "<div style='border: 1px dashed #000000; background: #f8fff8; padding: .5em;'>\n";
+      $wikitext .= "= $uid =\n";
       $wikitext .= $this->formatSpecies($id);
-      $wikitext .= "</div>\n----\n";
+      $wikitext .= "</div>\n\n\n";
     }
 
     foreach ( $this->model->getReactionIds() as $id ) {
-      $name = $this->model->getReaction($id)->name;
+      $uid = $this->model->getReaction($id)->uid;
       $wikitext .= "<div style='border: 1px dashed #000000; background: #fff8f8; padding: .5em;'>\n";
+      $wikitext .= "= $uid =\n";
       $wikitext .= $this->formatReaction($id);
-      $wikitext .= "</div>\n----\n";
+      $wikitext .= "</div>\n\n\n";
     }
 
     return $wikitext;
