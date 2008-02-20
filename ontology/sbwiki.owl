@@ -1,0 +1,534 @@
+<?xml version="1.0"?>
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns="http://www.owl-ontologies.com/Ontology1203111018.owl#"
+  xml:base="http://www.owl-ontologies.com/Ontology1203111018.owl">
+  <owl:Ontology rdf:about=""/>
+  <owl:Class rdf:ID="Post_Treatment">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="Experimental_Module"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="Data_Acquisition">
+    <rdfs:subClassOf rdf:resource="#Experimental_Module"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Protocol">
+    <owl:disjointWith>
+      <owl:Class rdf:ID="Cell_Type"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:ID="Study"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:ID="Model_Species"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:ID="Assay"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:ID="Investigation"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:ID="Raw_Data"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:ID="Model"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:ID="Molecule"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:ID="Model_Interaction"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:ID="Cell_Line"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:ID="Person"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:ID="Instrument"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:ID="Gene"/>
+    </owl:disjointWith>
+  </owl:Class>
+  <owl:Class rdf:about="#Assay">
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Gene"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Molecule"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Study"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Model_Interaction"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Cell_Type"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Protocol"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Model_Species"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Investigation"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Person"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Raw_Data"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Instrument"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Model"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Cell_Line"/>
+    </owl:disjointWith>
+  </owl:Class>
+  <owl:Class rdf:about="#Raw_Data">
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Model"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Gene"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Person"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Assay"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Model_Interaction"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Investigation"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Molecule"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Model_Species"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Study"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Cell_Type"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Protocol"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Instrument"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Cell_Line"/>
+    </owl:disjointWith>
+  </owl:Class>
+  <owl:Class rdf:about="#Model">
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Model_Species"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Assay"/>
+    <owl:disjointWith rdf:resource="#Protocol"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Cell_Line"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Person"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Cell_Type"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Instrument"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Molecule"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Model_Interaction"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Gene"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Raw_Data"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Investigation"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Study"/>
+    </owl:disjointWith>
+  </owl:Class>
+  <owl:Class rdf:ID="Nucleic_Acid">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="Biomolecule"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="#Person">
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Model_Interaction"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Instrument"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Study"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Raw_Data"/>
+    <owl:disjointWith rdf:resource="#Protocol"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Cell_Type"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Gene"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Molecule"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Model_Species"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Cell_Line"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Investigation"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Assay"/>
+    <owl:disjointWith rdf:resource="#Model"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Antibody">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="Protein"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="Drug">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="#Molecule"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="Lipid">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="#Biomolecule"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="SI_RNA">
+    <rdfs:subClassOf rdf:resource="#Nucleic_Acid"/>
+  </owl:Class>
+  <owl:Class rdf:about="#Gene">
+    <owl:disjointWith rdf:resource="#Raw_Data"/>
+    <owl:disjointWith rdf:resource="#Assay"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Instrument"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Model"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Molecule"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Person"/>
+    <owl:disjointWith rdf:resource="#Protocol"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Cell_Line"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Cell_Type"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Investigation"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Model_Species"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Study"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Model_Interaction"/>
+    </owl:disjointWith>
+  </owl:Class>
+  <owl:Class rdf:ID="Metabolite">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="#Biomolecule"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="#Investigation">
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Study"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Model"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Model_Species"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Instrument"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Cell_Line"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Raw_Data"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Model_Interaction"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Cell_Type"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Assay"/>
+    <owl:disjointWith rdf:resource="#Protocol"/>
+    <owl:disjointWith rdf:resource="#Gene"/>
+    <owl:disjointWith rdf:resource="#Person"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Molecule"/>
+    </owl:disjointWith>
+  </owl:Class>
+  <owl:Class rdf:ID="Treatment">
+    <rdfs:subClassOf rdf:resource="#Experimental_Module"/>
+  </owl:Class>
+  <owl:Class rdf:about="#Biomolecule">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="#Molecule"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="#Cell_Type">
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Cell_Line"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Model_Interaction"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Molecule"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Study"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Assay"/>
+    <owl:disjointWith rdf:resource="#Protocol"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Instrument"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Gene"/>
+    <owl:disjointWith rdf:resource="#Raw_Data"/>
+    <owl:disjointWith rdf:resource="#Person"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Model_Species"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Model"/>
+    <owl:disjointWith rdf:resource="#Investigation"/>
+  </owl:Class>
+  <owl:Class rdf:about="#Model_Species">
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Cell_Line"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Assay"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Model_Interaction"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Molecule"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Raw_Data"/>
+    <owl:disjointWith rdf:resource="#Gene"/>
+    <owl:disjointWith rdf:resource="#Protocol"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Instrument"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Investigation"/>
+    <owl:disjointWith rdf:resource="#Cell_Type"/>
+    <owl:disjointWith rdf:resource="#Person"/>
+    <owl:disjointWith rdf:resource="#Model"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Study"/>
+    </owl:disjointWith>
+  </owl:Class>
+  <owl:Class rdf:about="#Instrument">
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Model_Interaction"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Protocol"/>
+    <owl:disjointWith rdf:resource="#Gene"/>
+    <owl:disjointWith rdf:resource="#Person"/>
+    <owl:disjointWith rdf:resource="#Assay"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Molecule"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Model_Species"/>
+    <owl:disjointWith rdf:resource="#Investigation"/>
+    <owl:disjointWith rdf:resource="#Cell_Type"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Study"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Raw_Data"/>
+    <owl:disjointWith rdf:resource="#Model"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Cell_Line"/>
+    </owl:disjointWith>
+  </owl:Class>
+  <owl:Class rdf:about="#Protein">
+    <rdfs:subClassOf rdf:resource="#Biomolecule"/>
+  </owl:Class>
+  <owl:Class rdf:about="#Cell_Line">
+    <owl:disjointWith rdf:resource="#Gene"/>
+    <owl:disjointWith rdf:resource="#Assay"/>
+    <owl:disjointWith rdf:resource="#Model"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Model_Interaction"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Instrument"/>
+    <owl:disjointWith rdf:resource="#Raw_Data"/>
+    <owl:disjointWith rdf:resource="#Investigation"/>
+    <owl:disjointWith rdf:resource="#Protocol"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Study"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Molecule"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Model_Species"/>
+    <owl:disjointWith rdf:resource="#Cell_Type"/>
+    <owl:disjointWith rdf:resource="#Person"/>
+  </owl:Class>
+  <owl:Class rdf:about="#Study">
+    <owl:disjointWith rdf:resource="#Model"/>
+    <owl:disjointWith rdf:resource="#Investigation"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Molecule"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Model_Species"/>
+    <owl:disjointWith rdf:resource="#Cell_Line"/>
+    <owl:disjointWith rdf:resource="#Protocol"/>
+    <owl:disjointWith rdf:resource="#Assay"/>
+    <owl:disjointWith rdf:resource="#Person"/>
+    <owl:disjointWith rdf:resource="#Cell_Type"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Model_Interaction"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Gene"/>
+    <owl:disjointWith rdf:resource="#Raw_Data"/>
+    <owl:disjointWith rdf:resource="#Instrument"/>
+  </owl:Class>
+  <owl:Class rdf:about="#Molecule">
+    <owl:disjointWith rdf:resource="#Protocol"/>
+    <owl:disjointWith rdf:resource="#Investigation"/>
+    <owl:disjointWith rdf:resource="#Model"/>
+    <owl:disjointWith rdf:resource="#Study"/>
+    <owl:disjointWith rdf:resource="#Model_Species"/>
+    <owl:disjointWith rdf:resource="#Raw_Data"/>
+    <owl:disjointWith rdf:resource="#Assay"/>
+    <owl:disjointWith rdf:resource="#Instrument"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Model_Interaction"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Person"/>
+    <owl:disjointWith rdf:resource="#Cell_Line"/>
+    <owl:disjointWith rdf:resource="#Gene"/>
+    <owl:disjointWith rdf:resource="#Cell_Type"/>
+  </owl:Class>
+  <owl:Class rdf:about="#Model_Interaction">
+    <owl:disjointWith rdf:resource="#Model"/>
+    <owl:disjointWith rdf:resource="#Assay"/>
+    <owl:disjointWith rdf:resource="#Investigation"/>
+    <owl:disjointWith rdf:resource="#Cell_Line"/>
+    <owl:disjointWith rdf:resource="#Cell_Type"/>
+    <owl:disjointWith rdf:resource="#Molecule"/>
+    <owl:disjointWith rdf:resource="#Gene"/>
+    <owl:disjointWith rdf:resource="#Protocol"/>
+    <owl:disjointWith rdf:resource="#Person"/>
+    <owl:disjointWith rdf:resource="#Model_Species"/>
+    <owl:disjointWith rdf:resource="#Study"/>
+    <owl:disjointWith rdf:resource="#Raw_Data"/>
+    <owl:disjointWith rdf:resource="#Instrument"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Data_Compendium"/>
+  <owl:Class rdf:ID="Reagent"/>
+  <owl:ObjectProperty rdf:ID="hasCompendium">
+    <rdfs:range rdf:resource="#Data_Compendium"/>
+    <rdfs:domain rdf:resource="#Study"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasEncodedProtein">
+    <rdfs:domain rdf:resource="#Gene"/>
+    <rdfs:range rdf:resource="#Protein"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasAssay">
+    <rdfs:domain rdf:resource="#Study"/>
+    <rdfs:range rdf:resource="#Assay"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasModule">
+    <rdfs:domain rdf:resource="#Assay"/>
+    <rdfs:range rdf:resource="#Experimental_Module"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasComponentMolecule">
+    <rdfs:domain rdf:resource="#Reagent"/>
+    <rdfs:range rdf:resource="#Molecule"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasReagent">
+    <rdfs:range rdf:resource="#Reagent"/>
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <owl:Class rdf:about="#Treatment"/>
+          <owl:Class rdf:about="#Post_Treatment"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasParticipant">
+    <rdfs:range rdf:resource="#Person"/>
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <owl:Class rdf:about="#Assay"/>
+          <owl:Class rdf:about="#Investigation"/>
+          <owl:Class rdf:about="#Study"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasCellType">
+    <rdfs:range rdf:resource="#Cell_Type"/>
+    <rdfs:domain rdf:resource="#Assay"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasAuthor">
+    <rdfs:domain rdf:resource="#Model"/>
+    <rdfs:range rdf:resource="#Person"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasSourceData">
+    <rdfs:range rdf:resource="#Raw_Data"/>
+    <rdfs:domain rdf:resource="#Data_Compendium"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasInstrument">
+    <rdfs:domain rdf:resource="#Data_Acquisition"/>
+    <rdfs:range rdf:resource="#Instrument"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasSourceAssay">
+    <rdfs:domain rdf:resource="#Raw_Data"/>
+    <rdfs:range rdf:resource="#Assay"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasTargetProtein">
+    <rdfs:domain rdf:resource="#Antibody"/>
+    <rdfs:range rdf:resource="#Protein"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasStudy">
+    <rdfs:range rdf:resource="#Study"/>
+    <rdfs:domain rdf:resource="#Investigation"/>
+  </owl:ObjectProperty>
+  <owl:InverseFunctionalProperty rdf:ID="hasSpecies">
+    <rdfs:range rdf:resource="#Model_Species"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="#Model"/>
+  </owl:InverseFunctionalProperty>
+  <owl:InverseFunctionalProperty rdf:ID="hasInteraction">
+    <rdfs:domain rdf:resource="#Model"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:range rdf:resource="#Model_Interaction"/>
+  </owl:InverseFunctionalProperty>
+</rdf:RDF>
+
+<!-- Created with Protege (with OWL Plugin 3.3.1, Build 430)  http://protege.stanford.edu -->
