@@ -1,4 +1,4 @@
-; Tue Feb 19 17:29:23 EST 2008
+; Tue Feb 19 20:07:18 EST 2008
 ; 
 ;+ (version "3.3.1")
 ;+ (build "Build 430")
@@ -6,11 +6,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[sbwiki_ProjectKB_Instance_58]
-		[sbwiki_ProjectKB_Instance_59]
-		[sbwiki_ProjectKB_Instance_60]
-		[sbwiki_ProjectKB_Instance_61]
-		[sbwiki_ProjectKB_Instance_62]))
+		[sbwiki_ProjectKB_Instance_10000]
+		[sbwiki_ProjectKB_Instance_10001]
+		[sbwiki_ProjectKB_Instance_10002]
+		[sbwiki_ProjectKB_Instance_10003]
+		[sbwiki_ProjectKB_Instance_10004]))
 
 ([CLSES_TAB] of  Widget
 
@@ -816,7 +816,7 @@
 ([KB_444675_Instance_0] of  String
 
 	(name "SwitchableClassDefinitionType")
-	(string_value "edu.stanford.smi.protegex.owl.ui.cls.LogicClassDefinitionWidgetType"))
+	(string_value "edu.stanford.smi.protegex.owl.ui.cls.LogicClassDefinitionWidget"))
 
 ([KB_465546_Instance_567] of  Widget
 
@@ -7113,6 +7113,193 @@
 	(property_list [sbwiki_ProjectKB_Instance_11])
 	(widget_class_name "edu.stanford.smi.protegex.changes.ChangesTab"))
 
+([sbwiki_ProjectKB_Instance_10000] of  String
+
+	(name "owl:Class")
+	(string_value "%3ANAME"))
+
+([sbwiki_ProjectKB_Instance_10001] of  String
+
+	(name ":INSTANCE-ANNOTATION")
+	(string_value "%3AANNOTATION-TEXT"))
+
+([sbwiki_ProjectKB_Instance_10002] of  String
+
+	(name ":PAL-CONSTRAINT")
+	(string_value "%3APAL-NAME"))
+
+([sbwiki_ProjectKB_Instance_10003] of  String
+
+	(name "owl:Thing")
+	(string_value "%3ANAME"))
+
+([sbwiki_ProjectKB_Instance_10004] of  String
+
+	(name ":META-CLASS")
+	(string_value "%3ANAME"))
+
+([sbwiki_ProjectKB_Instance_10005] of  Map_Entry
+
+	(key "change_tracking_active")
+	(key_class "java.lang.String")
+	(value "false")
+	(value_class "java.lang.String"))
+
+([sbwiki_ProjectKB_Instance_10006] of  Map_Entry
+
+	(key "add_name_on_instance_form")
+	(key_class "java.lang.String")
+	(value "false")
+	(value_class "java.lang.String"))
+
+([sbwiki_ProjectKB_Instance_10007] of  Property_List
+)
+
+([sbwiki_ProjectKB_Instance_10008] of  Property_List
+)
+
+([sbwiki_ProjectKB_Instance_10009] of  Property_List
+)
+
+([sbwiki_ProjectKB_Instance_10010] of  Property_List
+)
+
+([sbwiki_ProjectKB_Instance_10011] of  Boolean
+
+	(boolean_value FALSE)
+	(name "ButtonDisplayed-View References to Value"))
+
+([sbwiki_ProjectKB_Instance_10012] of  Boolean
+
+	(boolean_value FALSE)
+	(name "ButtonDisplayed-Delete Instance"))
+
+([sbwiki_ProjectKB_Instance_10013] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name ":SLOT-MINIMUM-CARDINALITY")
+	(property_list [sbwiki_ProjectKB_Instance_10014])
+	(widget_class_name "edu.stanford.smi.protege.widget.MinimumCardinalityWidget")
+	(width 158)
+	(x 0)
+	(y 425))
+
+([sbwiki_ProjectKB_Instance_10014] of  Property_List
+)
+
+([sbwiki_ProjectKB_Instance_10015] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "rdfs:comment")
+	(property_list [sbwiki_ProjectKB_Instance_10016])
+	(widget_class_name "edu.stanford.smi.protege.widget.StringListWidget")
+	(width 200)
+	(x 0)
+	(y 605))
+
+([sbwiki_ProjectKB_Instance_10016] of  Property_List
+)
+
+([sbwiki_ProjectKB_Instance_10021] of  Widget
+
+	(height 35)
+	(is_hidden FALSE)
+	(name ":SLOT-MAXIMUM-CARDINALITY")
+	(property_list [sbwiki_ProjectKB_Instance_10022])
+	(widget_class_name "edu.stanford.smi.protege.widget.MaximumCardinalityWidget")
+	(width 162)
+	(x 0)
+	(y 390))
+
+([sbwiki_ProjectKB_Instance_10022] of  Property_List
+)
+
+([sbwiki_ProjectKB_Instance_10023] of  Widget
+
+	(height 215)
+	(is_hidden FALSE)
+	(name "protege:inferredType")
+	(property_list [sbwiki_ProjectKB_Instance_10024])
+	(widget_class_name "edu.stanford.smi.protege.widget.InstanceListWidget")
+	(width 200)
+	(x 200)
+	(y 510))
+
+([sbwiki_ProjectKB_Instance_10024] of  Property_List
+
+	(properties
+		[sbwiki_ProjectKB_Instance_10025]
+		[sbwiki_ProjectKB_Instance_10026]))
+
+([sbwiki_ProjectKB_Instance_10025] of  Boolean
+
+	(boolean_value FALSE)
+	(name "ButtonDisplayed-View References to Value"))
+
+([sbwiki_ProjectKB_Instance_10026] of  Boolean
+
+	(boolean_value FALSE)
+	(name "ButtonDisplayed-Delete Instance"))
+
+([sbwiki_ProjectKB_Instance_10031] of  Widget
+
+	(height 335)
+	(is_hidden FALSE)
+	(name "rdfs:subPropertyOf")
+	(property_list [sbwiki_ProjectKB_Instance_10032])
+	(widget_class_name "edu.stanford.smi.protege.widget.InstanceListWidget")
+	(width 200)
+	(x 400)
+	(y 390))
+
+([sbwiki_ProjectKB_Instance_10032] of  Property_List
+
+	(properties
+		[sbwiki_ProjectKB_Instance_10033]
+		[sbwiki_ProjectKB_Instance_10034]))
+
+([sbwiki_ProjectKB_Instance_10033] of  Boolean
+
+	(boolean_value FALSE)
+	(name "ButtonDisplayed-View References to Value"))
+
+([sbwiki_ProjectKB_Instance_10034] of  Boolean
+
+	(boolean_value FALSE)
+	(name "ButtonDisplayed-Delete Instance"))
+
+([sbwiki_ProjectKB_Instance_10035] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "owl:inverseOf")
+	(property_list [sbwiki_ProjectKB_Instance_10036])
+	(widget_class_name "edu.stanford.smi.protege.widget.InstanceFieldWidget")
+	(width 200)
+	(x 0)
+	(y 545))
+
+([sbwiki_ProjectKB_Instance_10036] of  Property_List
+
+	(properties
+		[sbwiki_ProjectKB_Instance_10037]
+		[sbwiki_ProjectKB_Instance_10038]))
+
+([sbwiki_ProjectKB_Instance_10037] of  Boolean
+
+	(boolean_value FALSE)
+	(name "ButtonDisplayed-View References to Value"))
+
+([sbwiki_ProjectKB_Instance_10038] of  Boolean
+
+	(boolean_value FALSE)
+	(name "ButtonDisplayed-Delete Instance"))
+
+([sbwiki_ProjectKB_Instance_10039] of  Property_List
+)
+
 ([sbwiki_ProjectKB_Instance_11] of  Property_List
 )
 
@@ -7308,53 +7495,14 @@
 ([sbwiki_ProjectKB_Instance_55] of  Map
 
 	(entries
-		[sbwiki_ProjectKB_Instance_63]
-		[sbwiki_ProjectKB_Instance_64]))
-
-([sbwiki_ProjectKB_Instance_58] of  String
-
-	(name "owl:Class")
-	(string_value "%3ANAME"))
-
-([sbwiki_ProjectKB_Instance_59] of  String
-
-	(name ":INSTANCE-ANNOTATION")
-	(string_value "%3AANNOTATION-TEXT"))
+		[sbwiki_ProjectKB_Instance_10005]
+		[sbwiki_ProjectKB_Instance_10006]))
 
 ([sbwiki_ProjectKB_Instance_6] of  Widget
 
 	(is_hidden TRUE)
 	(property_list [sbwiki_ProjectKB_Instance_7])
 	(widget_class_name "edu.stanford.smi.protege.keywordsearch.StringSearch"))
-
-([sbwiki_ProjectKB_Instance_60] of  String
-
-	(name ":PAL-CONSTRAINT")
-	(string_value "%3APAL-NAME"))
-
-([sbwiki_ProjectKB_Instance_61] of  String
-
-	(name "owl:Thing")
-	(string_value "%3ANAME"))
-
-([sbwiki_ProjectKB_Instance_62] of  String
-
-	(name ":META-CLASS")
-	(string_value "%3ANAME"))
-
-([sbwiki_ProjectKB_Instance_63] of  Map_Entry
-
-	(key "change_tracking_active")
-	(key_class "java.lang.String")
-	(value "false")
-	(value_class "java.lang.String"))
-
-([sbwiki_ProjectKB_Instance_64] of  Map_Entry
-
-	(key "add_name_on_instance_form")
-	(key_class "java.lang.String")
-	(value "false")
-	(value_class "java.lang.String"))
 
 ([sbwiki_ProjectKB_Instance_7] of  Property_List
 )
@@ -8584,7 +8732,6 @@
 	(properties
 		[XY_Instance_728]
 		[XY_Instance_729]
-		[XY_Instance_730]
 		[XY_Instance_731]
 		[XY_Instance_732]
 		[XY_Instance_738]
@@ -8592,19 +8739,20 @@
 		[XY_Instance_740]
 		[XY_Instance_741]
 		[XY_Instance_742]
-		[XY_Instance_743]
 		[XY_Instance_744]
 		[XY_Instance_745]
 		[XY_Instance_746]
-		[XY_Instance_754]
-		[XY_Instance_762]
 		[XY_Instance_770]
 		[XY_Instance_772]
-		[XY_Instance_774]
 		[XY_Instance_776]
 		[XY_Instance_778]
-		[XY_Instance_780]
-		[XY_Instance_782]))
+		[XY_Instance_782]
+		[sbwiki_ProjectKB_Instance_10013]
+		[sbwiki_ProjectKB_Instance_10015]
+		[sbwiki_ProjectKB_Instance_10021]
+		[sbwiki_ProjectKB_Instance_10023]
+		[sbwiki_ProjectKB_Instance_10031]
+		[sbwiki_ProjectKB_Instance_10035]))
 
 ([XY_Instance_728] of  Widget
 
@@ -8613,10 +8761,6 @@
 ([XY_Instance_729] of  Widget
 
 	(name ":DIRECT-TYPE"))
-
-([XY_Instance_730] of  Widget
-
-	(name ":DIRECT-SUPERSLOTS"))
 
 ([XY_Instance_731] of  Widget
 
@@ -8666,6 +8810,7 @@
 	(height 120)
 	(label "Documentation")
 	(name ":DOCUMENTATION")
+	(property_list [sbwiki_ProjectKB_Instance_10007])
 	(widget_class_name "edu.stanford.smi.protege.widget.DocumentationWidget")
 	(width 200)
 	(x 200)
@@ -8676,6 +8821,7 @@
 	(height 60)
 	(label "Maximum")
 	(name ":SLOT-NUMERIC-MAXIMUM")
+	(property_list [sbwiki_ProjectKB_Instance_10008])
 	(widget_class_name "edu.stanford.smi.protege.widget.NumericMaximumWidget")
 	(width 100)
 	(x 100)
@@ -8686,6 +8832,7 @@
 	(height 60)
 	(label "Minimum")
 	(name ":SLOT-NUMERIC-MINIMUM")
+	(property_list [sbwiki_ProjectKB_Instance_10009])
 	(widget_class_name "edu.stanford.smi.protege.widget.NumericMinimumWidget")
 	(width 100)
 	(x 0)
@@ -8700,26 +8847,18 @@
 	(height 60)
 	(label "Name")
 	(name ":NAME")
+	(property_list [sbwiki_ProjectKB_Instance_10010])
 	(widget_class_name "edu.stanford.smi.protege.widget.InstanceNameWidget")
 	(width 200)
 	(x 0)
 	(y 0))
-
-([XY_Instance_743] of  Widget
-
-	(height 60)
-	(label "Inverse")
-	(name ":SLOT-INVERSE")
-	(widget_class_name "edu.stanford.smi.protege.widget.InverseSlotWidget")
-	(width 200)
-	(x 200)
-	(y 210))
 
 ([XY_Instance_744] of  Widget
 
 	(height 150)
 	(label "Value Type")
 	(name ":SLOT-VALUE-TYPE")
+	(property_list [sbwiki_ProjectKB_Instance_10039])
 	(widget_class_name "edu.stanford.smi.protege.widget.ValueTypeWidget")
 	(width 200)
 	(x 0)
@@ -8748,7 +8887,9 @@
 		[XY_Instance_750]
 		[XY_Instance_751]
 		[XY_Instance_752]
-		[XY_Instance_753]))
+		[XY_Instance_753]
+		[sbwiki_ProjectKB_Instance_10011]
+		[sbwiki_ProjectKB_Instance_10012]))
 
 ([XY_Instance_748] of  Boolean
 
@@ -8780,108 +8921,6 @@
 	(boolean_value FALSE)
 	(name "ButtonDisplayed-Delete Selected Instances"))
 
-([XY_Instance_754] of  Widget
-
-	(height 120)
-	(is_hidden FALSE)
-	(name ":OWL-DIFFERENT-FROM")
-	(property_list [XY_Instance_755])
-	(widget_class_name "edu.stanford.smi.protege.widget.InstanceListWidget")
-	(width 250)
-	(x 0)
-	(y 630))
-
-([XY_Instance_755] of  Property_List
-
-	(properties
-		[XY_Instance_756]
-		[XY_Instance_757]
-		[XY_Instance_758]
-		[XY_Instance_759]
-		[XY_Instance_760]
-		[XY_Instance_761]))
-
-([XY_Instance_756] of  Boolean
-
-	(boolean_value TRUE)
-	(name "ButtonDisplayed-View Selected Instances"))
-
-([XY_Instance_757] of  Boolean
-
-	(boolean_value TRUE)
-	(name "ButtonDisplayed-Create Instance"))
-
-([XY_Instance_758] of  Boolean
-
-	(boolean_value FALSE)
-	(name "ButtonDisplayed-References"))
-
-([XY_Instance_759] of  Boolean
-
-	(boolean_value TRUE)
-	(name "ButtonDisplayed-Add"))
-
-([XY_Instance_760] of  Boolean
-
-	(boolean_value TRUE)
-	(name "ButtonDisplayed-Remove"))
-
-([XY_Instance_761] of  Boolean
-
-	(boolean_value FALSE)
-	(name "ButtonDisplayed-Delete Selected Instances"))
-
-([XY_Instance_762] of  Widget
-
-	(height 240)
-	(is_hidden FALSE)
-	(name ":OWL-SAME-AS")
-	(property_list [XY_Instance_763])
-	(widget_class_name "edu.stanford.smi.protege.widget.InstanceListWidget")
-	(width 250)
-	(x 250)
-	(y 510))
-
-([XY_Instance_763] of  Property_List
-
-	(properties
-		[XY_Instance_764]
-		[XY_Instance_765]
-		[XY_Instance_766]
-		[XY_Instance_767]
-		[XY_Instance_768]
-		[XY_Instance_769]))
-
-([XY_Instance_764] of  Boolean
-
-	(boolean_value TRUE)
-	(name "ButtonDisplayed-View Selected Instances"))
-
-([XY_Instance_765] of  Boolean
-
-	(boolean_value TRUE)
-	(name "ButtonDisplayed-Create Instance"))
-
-([XY_Instance_766] of  Boolean
-
-	(boolean_value FALSE)
-	(name "ButtonDisplayed-References"))
-
-([XY_Instance_767] of  Boolean
-
-	(boolean_value TRUE)
-	(name "ButtonDisplayed-Add"))
-
-([XY_Instance_768] of  Boolean
-
-	(boolean_value TRUE)
-	(name "ButtonDisplayed-Remove"))
-
-([XY_Instance_769] of  Boolean
-
-	(boolean_value FALSE)
-	(name "ButtonDisplayed-Delete Selected Instances"))
-
 ([XY_Instance_770] of  Widget
 
 	(is_hidden FALSE)
@@ -8900,15 +8939,6 @@
 ([XY_Instance_773] of  Property_List
 )
 
-([XY_Instance_774] of  Widget
-
-	(is_hidden FALSE)
-	(name ":TO")
-	(property_list [XY_Instance_775]))
-
-([XY_Instance_775] of  Property_List
-)
-
 ([XY_Instance_776] of  Widget
 
 	(is_hidden FALSE)
@@ -8925,15 +8955,6 @@
 	(property_list [XY_Instance_779]))
 
 ([XY_Instance_779] of  Property_List
-)
-
-([XY_Instance_780] of  Widget
-
-	(is_hidden FALSE)
-	(name ":FROM")
-	(property_list [XY_Instance_781]))
-
-([XY_Instance_781] of  Property_List
 )
 
 ([XY_Instance_782] of  Widget
