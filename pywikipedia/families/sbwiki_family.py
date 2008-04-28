@@ -24,8 +24,8 @@ class Family(family.Family):
     def version(self, code):
         return "1.12alpha"  #The MediaWiki version used. Not very important in most cases.
 
-    def path(self, code):
-        return '/wiki/index.php' #The path of index.php
+    def scriptpath(self, code):
+        return '/wiki' # the path to the php scripts
 
     def protocol(self, code):
         return 'https' # force https urls
