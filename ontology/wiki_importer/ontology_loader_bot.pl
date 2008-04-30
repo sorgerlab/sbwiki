@@ -83,7 +83,7 @@ foreach my $uri ( map($_->subject->as_string,
   my $page_text = "This category represents [[imported from::$qname_prefix:$id]].";
 
   # create category
-#  $wiki->edit("Category:$label", $page_text, $edit_summary);
+  $wiki->edit("Category:$label", $page_text, $edit_summary);
 
   $import_text .= " $id|Category\n";
 }
@@ -120,7 +120,7 @@ foreach my $uri ( @object_property_uris )
   my $page_text = "This property represents [[imported from::$qname_prefix:$id]].";
   if (@domain_labels)
   {
-    print "  domain: ", @domain_labels, "\n";
+    print "  domain: @domain_labels\n";
     $page_text .= " Its domain is ";
     if (@domain_labels > 1)
     {
@@ -128,6 +128,7 @@ foreach my $uri ( @object_property_uris )
       {
         $page_text .= "[[has_domain_hint::Category:$label|$label]], ";
       }
+      $page_text =~ s/, $/ /; # strip final comma (looks better when N=2, also ok when N>2)
       $page_text .= "and ";
     }
     my $last_label = $domain_labels[$#domain_labels];
@@ -140,7 +141,7 @@ foreach my $uri ( @object_property_uris )
   }
 
   # create property
-#  $wiki->edit("Property:$label", $page_text, $edit_summary);
+  $wiki->edit("Property:$label", $page_text, $edit_summary);
 
   $import_text .= " $id|Type:Page\n";
 }
@@ -181,7 +182,7 @@ foreach my $uri ( @datatype_property_uris )
   my $page_text = "This property represents [[imported from::$qname_prefix:$id]].";
   if (@domain_labels)
   {
-    print "  domain: ", @domain_labels, "\n";
+    print "  domain: @domain_labels\n";
     $page_text .= " Its domain is ";
     if (@domain_labels > 1)
     {
@@ -189,6 +190,7 @@ foreach my $uri ( @datatype_property_uris )
       {
         $page_text .= "[[has_domain_hint::Category:$label|$label]], ";
       }
+      $page_text =~ s/, $/ /; # strip final comma (looks better when N=2, also ok when N>2)
       $page_text .= "and ";
     }
     my $last_label = $domain_labels[$#domain_labels];
@@ -209,7 +211,7 @@ print "\n";
 
 # create "magic" import page
 print "final SMW import\n";
-#$wiki->edit($import_title, $import_text, $edit_summary);
+$wiki->edit($import_title, $import_text, $edit_summary);
 
 
 
