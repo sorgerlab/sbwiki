@@ -1,4 +1,4 @@
-; Wed Apr 30 16:48:18 EDT 2008
+; Wed Apr 30 19:04:17 EDT 2008
 ; 
 ;+ (version "3.3.1")
 ;+ (build "Build 430")
@@ -6,11 +6,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[sbwiki_ProjectKB_Instance_30056]
-		[sbwiki_ProjectKB_Instance_30057]
-		[sbwiki_ProjectKB_Instance_30058]
-		[sbwiki_ProjectKB_Instance_30059]
-		[sbwiki_ProjectKB_Instance_30060]))
+		[sbwiki_ProjectKB_Instance_30084]
+		[sbwiki_ProjectKB_Instance_30085]
+		[sbwiki_ProjectKB_Instance_30086]
+		[sbwiki_ProjectKB_Instance_30087]
+		[sbwiki_ProjectKB_Instance_30088]))
 
 ([CLSES_TAB] of  Widget
 
@@ -7360,39 +7360,39 @@
 	(property_list [sbwiki_ProjectKB_Instance_31])
 	(widget_class_name "edu.stanford.smi.protegex.changes.stats.ChangeStatisticsTab"))
 
-([sbwiki_ProjectKB_Instance_30056] of  String
+([sbwiki_ProjectKB_Instance_30084] of  String
 
 	(name "owl:Thing")
 	(string_value "rdfs%3Alabel"))
 
-([sbwiki_ProjectKB_Instance_30057] of  String
+([sbwiki_ProjectKB_Instance_30085] of  String
 
 	(name ":PAL-CONSTRAINT")
 	(string_value "%3APAL-NAME"))
 
-([sbwiki_ProjectKB_Instance_30058] of  String
+([sbwiki_ProjectKB_Instance_30086] of  String
 
 	(name ":INSTANCE-ANNOTATION")
 	(string_value "%3AANNOTATION-TEXT"))
 
-([sbwiki_ProjectKB_Instance_30059] of  String
+([sbwiki_ProjectKB_Instance_30087] of  String
 
 	(name ":META-CLASS")
 	(string_value "%3ANAME"))
 
-([sbwiki_ProjectKB_Instance_30060] of  String
+([sbwiki_ProjectKB_Instance_30088] of  String
 
 	(name "owl:Class")
 	(string_value "%3ANAME"))
 
-([sbwiki_ProjectKB_Instance_30061] of  Map_Entry
+([sbwiki_ProjectKB_Instance_30089] of  Map_Entry
 
 	(key "add_name_on_instance_form")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([sbwiki_ProjectKB_Instance_30062] of  Map_Entry
+([sbwiki_ProjectKB_Instance_30090] of  Map_Entry
 
 	(key "change_tracking_active")
 	(key_class "java.lang.String")
@@ -7495,8 +7495,8 @@
 ([sbwiki_ProjectKB_Instance_55] of  Map
 
 	(entries
-		[sbwiki_ProjectKB_Instance_30061]
-		[sbwiki_ProjectKB_Instance_30062]))
+		[sbwiki_ProjectKB_Instance_30089]
+		[sbwiki_ProjectKB_Instance_30090]))
 
 ([sbwiki_ProjectKB_Instance_6] of  Widget
 

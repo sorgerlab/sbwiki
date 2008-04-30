@@ -57,6 +57,13 @@
       <owl:Class rdf:ID="Biomolecule"/>
     </rdfs:subClassOf>
   </owl:Class>
+  <owl:Class rdf:ID="Littleb_Monomer">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="#Model_Species"/>
+    </rdfs:subClassOf>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >littleb monomer</rdfs:label>
+  </owl:Class>
   <owl:Class rdf:about="#Molecule">
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >molecule</rdfs:label>
@@ -97,13 +104,6 @@
     <owl:disjointWith>
       <owl:Class rdf:about="#Model"/>
     </owl:disjointWith>
-  </owl:Class>
-  <owl:Class rdf:ID="Littleb_Monomer">
-    <rdfs:subClassOf>
-      <owl:Class rdf:about="#Model_Species"/>
-    </rdfs:subClassOf>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >littleb monomer</rdfs:label>
   </owl:Class>
   <owl:Class rdf:ID="Metabolite">
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -293,6 +293,10 @@
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >model compartment</rdfs:label>
   </owl:Class>
+  <owl:Class rdf:about="#Experimental_Module">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >experimental module</rdfs:label>
+  </owl:Class>
   <owl:Class rdf:about="#Cell_Type">
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >cell type</rdfs:label>
@@ -323,10 +327,6 @@
     <owl:disjointWith>
       <owl:Class rdf:about="#Investigation"/>
     </owl:disjointWith>
-  </owl:Class>
-  <owl:Class rdf:about="#Experimental_Module">
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >experimental module</rdfs:label>
   </owl:Class>
   <owl:Class rdf:ID="Drug">
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -623,6 +623,34 @@
     <rdfs:range rdf:resource="#Protein"/>
     <rdfs:domain rdf:resource="#Antibody"/>
   </owl:ObjectProperty>
+  <owl:DatatypeProperty rdf:ID="validationDetails">
+    <rdfs:domain rdf:resource="#Antibody"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >validation details</rdfs:label>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="catalogNumber">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#Antibody"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >catalog number</rdfs:label>
+  </owl:DatatypeProperty>
+  <owl:FunctionalProperty rdf:ID="hostOrganism">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <owl:versionInfo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >TODO: restrict to NCBI Taxon? (or something similar)</owl:versionInfo>
+    <rdfs:domain rdf:resource="#Antibody"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >host organism</rdfs:label>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:ID="monoclonal">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >monoclonal</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#Antibody"/>
+  </owl:FunctionalProperty>
   <owl:FunctionalProperty rdf:ID="modelName">
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
     <rdfs:domain rdf:resource="#Instrument"/>
@@ -632,7 +660,14 @@
   </owl:FunctionalProperty>
   <owl:FunctionalProperty rdf:ID="manufacturer">
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:domain rdf:resource="#Instrument"/>
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <owl:Class rdf:about="#Instrument"/>
+          <owl:Class rdf:about="#Antibody"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >manufacturer</rdfs:label>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
