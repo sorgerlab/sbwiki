@@ -1,4 +1,4 @@
-; Wed Apr 30 19:04:17 EDT 2008
+; Fri May 02 17:46:03 EDT 2008
 ; 
 ;+ (version "3.3.1")
 ;+ (build "Build 430")
@@ -6,11 +6,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[sbwiki_ProjectKB_Instance_30084]
-		[sbwiki_ProjectKB_Instance_30085]
-		[sbwiki_ProjectKB_Instance_30086]
-		[sbwiki_ProjectKB_Instance_30087]
-		[sbwiki_ProjectKB_Instance_30088]))
+		[sbwiki_ProjectKB_Instance_10000]
+		[sbwiki_ProjectKB_Instance_10001]
+		[sbwiki_ProjectKB_Instance_10002]
+		[sbwiki_ProjectKB_Instance_10003]
+		[sbwiki_ProjectKB_Instance_10004]))
 
 ([CLSES_TAB] of  Widget
 
@@ -6932,12 +6932,12 @@
 	(customized_instance_widgets
 		[PAL_FORM_WIDGET]
 		[KB_713803_Instance_477]
-		[INSTANCE_ANNOTATION_FORM_WIDGET]
 		[KB_713803_Instance_780]
-		[KB_713803_Instance_693]
+		[INSTANCE_ANNOTATION_FORM_WIDGET]
 		[KB_301165_Instance_856]
-		[KB_713803_Instance_648]
+		[KB_713803_Instance_693]
 		[KB_691299_Instance_537]
+		[KB_713803_Instance_648]
 		[KB_691299_Instance_398]
 		[KB_303942_Instance_68]
 		[KB_938545_Instance_166]
@@ -7024,17 +7024,17 @@
 		":SYSTEM-CLASS"
 		"owl:oneOf"
 		"owl:DataRange"
-		"rdf:Property"
 		"owl:DeprecatedProperty"
-		"owl:Class"
+		"rdf:Property"
 		"owl:DeprecatedClass"
+		"owl:Class"
 		"rdf:Statement"
 		"rdf:type"
-		"rdf:subject"
 		"rdfs:Class"
+		"rdf:subject"
 		"rdf:predicate"
-		"rdf:object"
 		":OWL-ANONYMOUS-ROOT"
+		"rdf:object"
 		"rdfs:Container"
 		"owl:AllDifferent"
 		"owl:distinctMembers"
@@ -7112,6 +7112,45 @@
 	(is_hidden TRUE)
 	(property_list [sbwiki_ProjectKB_Instance_11])
 	(widget_class_name "edu.stanford.smi.protegex.changes.ChangesTab"))
+
+([sbwiki_ProjectKB_Instance_10000] of  String
+
+	(name "owl:Thing")
+	(string_value "rdfs%3Alabel"))
+
+([sbwiki_ProjectKB_Instance_10001] of  String
+
+	(name ":PAL-CONSTRAINT")
+	(string_value "%3APAL-NAME"))
+
+([sbwiki_ProjectKB_Instance_10002] of  String
+
+	(name ":INSTANCE-ANNOTATION")
+	(string_value "%3AANNOTATION-TEXT"))
+
+([sbwiki_ProjectKB_Instance_10003] of  String
+
+	(name ":META-CLASS")
+	(string_value "%3ANAME"))
+
+([sbwiki_ProjectKB_Instance_10004] of  String
+
+	(name "owl:Class")
+	(string_value "%3ANAME"))
+
+([sbwiki_ProjectKB_Instance_10005] of  Map_Entry
+
+	(key "add_name_on_instance_form")
+	(key_class "java.lang.String")
+	(value "false")
+	(value_class "java.lang.String"))
+
+([sbwiki_ProjectKB_Instance_10006] of  Map_Entry
+
+	(key "change_tracking_active")
+	(key_class "java.lang.String")
+	(value "false")
+	(value_class "java.lang.String"))
 
 ([sbwiki_ProjectKB_Instance_10007] of  Property_List
 )
@@ -7360,45 +7399,6 @@
 	(property_list [sbwiki_ProjectKB_Instance_31])
 	(widget_class_name "edu.stanford.smi.protegex.changes.stats.ChangeStatisticsTab"))
 
-([sbwiki_ProjectKB_Instance_30084] of  String
-
-	(name "owl:Thing")
-	(string_value "rdfs%3Alabel"))
-
-([sbwiki_ProjectKB_Instance_30085] of  String
-
-	(name ":PAL-CONSTRAINT")
-	(string_value "%3APAL-NAME"))
-
-([sbwiki_ProjectKB_Instance_30086] of  String
-
-	(name ":INSTANCE-ANNOTATION")
-	(string_value "%3AANNOTATION-TEXT"))
-
-([sbwiki_ProjectKB_Instance_30087] of  String
-
-	(name ":META-CLASS")
-	(string_value "%3ANAME"))
-
-([sbwiki_ProjectKB_Instance_30088] of  String
-
-	(name "owl:Class")
-	(string_value "%3ANAME"))
-
-([sbwiki_ProjectKB_Instance_30089] of  Map_Entry
-
-	(key "add_name_on_instance_form")
-	(key_class "java.lang.String")
-	(value "false")
-	(value_class "java.lang.String"))
-
-([sbwiki_ProjectKB_Instance_30090] of  Map_Entry
-
-	(key "change_tracking_active")
-	(key_class "java.lang.String")
-	(value "false")
-	(value_class "java.lang.String"))
-
 ([sbwiki_ProjectKB_Instance_31] of  Property_List
 )
 
@@ -7495,8 +7495,8 @@
 ([sbwiki_ProjectKB_Instance_55] of  Map
 
 	(entries
-		[sbwiki_ProjectKB_Instance_30089]
-		[sbwiki_ProjectKB_Instance_30090]))
+		[sbwiki_ProjectKB_Instance_10005]
+		[sbwiki_ProjectKB_Instance_10006]))
 
 ([sbwiki_ProjectKB_Instance_6] of  Widget
 
