@@ -1,21 +1,32 @@
 #!/usr/bin/perl
 
+# FIXME: need to create stuff in the right order, or force SMW refresh
+#   (e.g. Property:Abbreviation before Categories, since they use Abbrevs)
 
 use strict;
+use Getopt::Long;
 use RDF::Helper;
 use RDF::Helper::Constants qw(:rdf);
 use Perlwikipedia;
 
 
-my $owl_filename   = $ARGV[0];
-my $qname_prefix   = $ARGV[1];
-my @wiki_opts      = @ARGV[2..3];
-my @wiki_login     = @ARGV[4..5];
+my $owl_filename   = splice(@ARGV, 0, 1);
+my @wiki_opts      = splice(@ARGV, 0, 2);
+my @wiki_login     = splice(@ARGV, 0, 2);
 
 defined $owl_filename  or die "error: no .owl file given";
-defined $qname_prefix  or die "error: no qname prefix given";
 defined $wiki_opts[1]  or die "error: must provide wiki url and script path";
-defined $wiki_login[0] or die "error: must provide wiki username and password";
+defined $wiki_login[1] or die "error: must provide wiki username and password";
+
+my ($skip_import, $skip_category, $skip_object, $skip_datatype);
+
+GetOptions(
+  "skip-import|si"   => \$skip_import,
+  "skip-category|sc" => \$skip_category,
+  "skip-object|so"   => \$skip_object,
+  "skip-datatype|sd" => \$skip_datatype,
+  "dry-run|n"        => sub {$skip_import=$skip_category=$skip_object=$skip_datatype=1},
+) or die "";
 
 
 $wiki_login[0] = ucfirst($wiki_login[0]); # force this to make bot module happy
@@ -45,23 +56,23 @@ my %xsd_smw_types = (
   date    => 'Date',
 );
 
+my $prefix = 'sbwiki';
+
 
 # query the rdf itself for the base uri of the ontology
 my $ontology_stmt = ($rdf->get_statements(undef, RDF_TYPE, 'owl:Ontology'))[0];
 $ontology_stmt or die "error: no owl:Ontology declared in input file";
 # XXX: Is the following safe?  Might also be "/"... Does Protege always use "#"?
 my $ontology_ns = $ontology_stmt->subject->as_string . "#";
-# stick the ontology's namespace under a fixed name for convenience
-# XXX: we need the uri for later, but to we need to stick it in $rdf?
-$rdf->ns('_onto', $ontology_ns);
+# store the ontology's namespace so the convenience object functions work
+$rdf->ns($prefix, $ontology_ns);
+$rdf->{_NS}{$ontology_ns} = $prefix; # FIXME: patch RDF::Helper subclasses to do this
 
 
 my $edit_summary = "OWL import from '$owl_filename'";
 
-my $import_text  = "$ontology_ns|[$ontology_ns $qname_prefix]\n";
-my $import_title = 'MediaWiki:Smw_import_' . $qname_prefix;
-
-my %category_labels;
+my $import_text  = "$ontology_ns|[$ontology_ns $prefix]\n";
+my $import_title = 'MediaWiki:Smw_import_' . $prefix;
 
 
 # translate owl:Class to SMW Category
@@ -74,16 +85,33 @@ foreach my $uri ( map($_->subject->as_string,
   my $label = $obj->rdfs_label;
   if (!$label)
   {
-    warn "warning: no rdfs:label given for '$uri', assuming '$id'";
-    $label = $id;
+    die "error: no rdfs:label given for '$uri'\n";
   }
-  $category_labels{$uri} = $label;
 
   print "category: $label\n";
-  my $page_text = "This category represents [[imported from::$qname_prefix:$id]].";
+  my $page_text = "This category represents [[imported from::$prefix:$id]].";
+
+  if ($obj->rdfs_subClassOf)
+  {
+    my $superclass = $obj->rdfs_subClassOf->rdfs_label;
+    print "  superclass: $superclass\n";
+    $page_text .= " It is a subclass of [[:Category:$superclass|$superclass]].";
+    $page_text .= "\n[[Category:$superclass]]\n";
+  }
+
+  if (my $abbrev = $obj->sbwiki_abbreviation)
+  {
+    print "  abbreviation: $abbrev\n";
+    $page_text .= "[[abbreviation::$abbrev| ]]\n";
+  }
+
+  $page_text .= "[[has default form::Form:$label]]\n";
 
   # create category
-  $wiki->edit("Category:$label", $page_text, $edit_summary);
+  unless ($skip_category)
+  {
+    $wiki->edit("Category:$label", $page_text, $edit_summary);
+  }
 
   $import_text .= " $id|Category\n";
 }
@@ -107,17 +135,21 @@ foreach my $uri ( @object_property_uris )
     $label = $id;
   }
 
+  my @domain_labels;
   my @domains = ($obj->rdfs_domain);
-  if (my $union = $domains[0]->owl_unionOf)
+  if ( $domains[0] )
   {
-    @domains = parse_list($rdf, $union);
+    if ( my $union = $domains[0]->owl_unionOf )
+    {
+      @domains = parse_list($rdf, $union);
+    }
+    @domain_labels = map($_->rdfs_label, @domains);
   }
-  my @domain_labels = map($category_labels{$_}, @domains);
 
-  my $range_label  = $category_labels{$obj->rdfs_range};
+  my $range_label  = $obj->rdfs_range->rdfs_label;
 
   print "object property: $label\n";
-  my $page_text = "This property represents [[imported from::$qname_prefix:$id]].";
+  my $page_text = "This property represents [[imported from::$prefix:$id]].";
   if (@domain_labels)
   {
     print "  domain: @domain_labels\n";
@@ -141,7 +173,10 @@ foreach my $uri ( @object_property_uris )
   }
 
   # create property
-  $wiki->edit("Property:$label", $page_text, $edit_summary);
+  unless ($skip_object)
+  {
+    $wiki->edit("Property:$label", $page_text, $edit_summary);
+  }
 
   $import_text .= " $id|Type:Page\n";
 }
@@ -171,15 +206,19 @@ foreach my $uri ( @datatype_property_uris )
     $label = $id;
   }
 
+  my @domain_labels;
   my @domains = ($obj->rdfs_domain);
-  if (my $union = $domains[0]->owl_unionOf)
+  if ( $domains[0] )
   {
-    @domains = parse_list($rdf, $union);
+    if ( my $union = $domains[0]->owl_unionOf )
+    {
+      @domains = parse_list($rdf, $union);
+    }
+    @domain_labels = map($_->rdfs_label, @domains);
   }
-  my @domain_labels = map($category_labels{$_}, @domains);
 
   print "datatype property: $label\n";
-  my $page_text = "This property represents [[imported from::$qname_prefix:$id]].";
+  my $page_text = "This property represents [[imported from::$prefix:$id]].";
   if (@domain_labels)
   {
     print "  domain: @domain_labels\n";
@@ -201,7 +240,10 @@ foreach my $uri ( @datatype_property_uris )
   $page_text .= " Its range is literal [[Type:$smw_type|$smw_type]] values.";
 
   # create property
-  $wiki->edit("Property:$label", $page_text, $edit_summary);
+  unless ($skip_datatype)
+  {
+    $wiki->edit("Property:$label", $page_text, $edit_summary);
+  }
 
   $import_text .= " $id|Type:$smw_type\n";
 }
@@ -209,9 +251,12 @@ foreach my $uri ( @datatype_property_uris )
 print "\n";
 
 
-# create "magic" import page
 print "final SMW import\n";
-$wiki->edit($import_title, $import_text, $edit_summary);
+# create "magic" import page
+unless ($skip_import)
+{
+  $wiki->edit($import_title, $import_text, $edit_summary);
+}
 
 
 
