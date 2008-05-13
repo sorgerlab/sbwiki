@@ -1,4 +1,4 @@
-; Sun May 04 18:34:36 PDT 2008
+; Tue May 13 18:52:59 EDT 2008
 ; 
 ;+ (version "3.3.1")
 ;+ (build "Build 430")
@@ -3158,7 +3158,9 @@
 		[KB_938545_Instance_18]
 		[KB_938545_Instance_23]
 		[KB_221055_Instance_2]
-		[KB_221055_Instance_6]))
+		[KB_221055_Instance_6]
+		[sbwiki_ProjectKB_Instance_20070]
+		[sbwiki_ProjectKB_Instance_20072]))
 
 ([KB_886778_Instance_145] of  Widget
 
@@ -5606,7 +5608,9 @@
 		[KB_938545_Instance_132]
 		[KB_938545_Instance_134]
 		[KB_221055_Instance_10]
-		[KB_221055_Instance_14]))
+		[KB_221055_Instance_14]
+		[sbwiki_ProjectKB_Instance_20062]
+		[sbwiki_ProjectKB_Instance_20064]))
 
 ([KB_938545_Instance_560] of  Widget
 
@@ -6930,127 +6934,124 @@
 
 	(browser_slot_names [BROWSER_SLOT_NAMES])
 	(customized_instance_widgets
-		[STANDARD_SLOT_FORM_WIDGET]
-		[KB_713803_Instance_693]
-		[KB_313796_Instance_943]
-		[KB_938545_Instance_495]
-		[STANDARD_CLASS_FORM_WIDGET]
-		[KB_713803_Instance_303]
-		[KB_313796_Instance_852]
-		[Instance_1005]
-		[Instance_581]
-		[KB_301165_Instance_1013]
-		[KB_938545_Instance_412]
-		[KB_764103_Instance_545]
-		[KB_713803_Instance_390]
-		[KB_938545_Instance_329]
-		[Instance_443]
 		[PAL_FORM_WIDGET]
-		[KB_465546_Instance_567]
-		[KB_303942_Instance_68]
-		[KB_713803_Instance_780]
 		[KB_713803_Instance_477]
-		[KB_691299_Instance_398]
-		[STANDARD_FACET_FORM_WIDGET]
-		[KB_938545_Instance_578]
-		[KB_301165_Instance_856]
-		[KB_938545_Instance_661]
-		[KB_691299_Instance_537]
 		[INSTANCE_ANNOTATION_FORM_WIDGET]
+		[KB_713803_Instance_780]
+		[KB_713803_Instance_693]
+		[KB_301165_Instance_856]
+		[KB_713803_Instance_648]
+		[KB_691299_Instance_537]
+		[KB_691299_Instance_398]
+		[KB_303942_Instance_68]
 		[KB_938545_Instance_166]
+		[STANDARD_CLASS_FORM_WIDGET]
+		[STANDARD_SLOT_FORM_WIDGET]
+		[STANDARD_FACET_FORM_WIDGET]
+		[Instance_581]
+		[KB_938545_Instance_661]
+		[Instance_1005]
+		[Instance_443]
+		[KB_713803_Instance_390]
 		[KB_868747_Instance_76]
-		[KB_713803_Instance_648])
+		[KB_713803_Instance_303]
+		[KB_313796_Instance_943]
+		[KB_313796_Instance_852]
+		[KB_301165_Instance_1013]
+		[KB_938545_Instance_495]
+		[KB_938545_Instance_578]
+		[KB_465546_Instance_567]
+		[KB_938545_Instance_412]
+		[KB_938545_Instance_329]
+		[KB_764103_Instance_545])
 	(default_cls_metaclass "owl:Class")
 	(default_facet_metaclass ":STANDARD-FACET")
 	(default_instance_widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.OWLFormWidget")
 	(default_slot_metaclass "owl:ObjectProperty")
 	(hidden_classes
-		"rdf:XMLLiteral"
-		"xsd:anyURI"
-		"xsd:gYear"
-		"xsd:negativeInteger"
-		"xsd:hexBinary"
-		"xsd:NOTATION"
-		":OWL-ANONYMOUS-ROOT"
-		"protege:classificationStatus"
-		"xsd:integer"
-		"xsd:unsignedShort"
-		"owl:allValuesFrom"
-		"rdfs:member"
-		"protege:inferredSuperclassOf"
-		"xsd:base64Binary"
-		"owl:Class"
-		"rdfs:Container"
-		"owl:Ontology"
-		"owl:DataRange"
-		":TO"
-		"xsd:gMonthDay"
-		"xsd:NMTOKEN"
-		"xsd:unsignedInt"
-		"xsd:QName"
-		"owl:FunctionalProperty"
-		"xsd:long"
-		"owl:onProperty"
-		"protege:ExternalResource"
-		":SYSTEM-CLASS"
-		"xsd:language"
 		"owl:someValuesFrom"
-		"xsd:positiveInteger"
-		"owl:DeprecatedClass"
-		"owl:DatatypeProperty"
-		"xsd:duration"
-		"owl:DeprecatedProperty"
-		"owl:ObjectProperty"
-		"owl:AnnotationProperty"
-		"xsd:unsignedLong"
-		"xsd:unsignedByte"
-		"rdfs:Class"
-		"protege:inferredSubclassOf"
-		"rdf:first"
-		"xsd:short"
-		"rdf:List"
-		"rdf:predicate"
-		"owl:hasValue"
-		"rdf:rest"
-		"xsd:double"
-		"xsd:decimal"
-		"rdf:subject"
-		"rdf:value"
-		"owl:SymmetricProperty"
-		"xsd:Name"
-		"owl:sameAs"
-		"xsd:byte"
-		"owl:AllDifferent"
-		"owl:differentFrom"
-		"owl:Nothing"
-		"rdf:Property"
-		"owl:InverseFunctionalProperty"
-		"owl:cardinality"
-		"xsd:nonNegativeInteger"
-		"rdf:Statement"
-		"rdfs:Literal"
-		":FROM"
 		"owl:disjointWith"
-		"xsd:anySimpleType"
-		"owl:minCardinality"
-		"xsd:ID"
-		"xsd:gDay"
-		"xsd:gYearMonth"
-		"owl:distinctMembers"
-		"xsd:NCName"
-		"xsd:nonPositiveInteger"
-		"rdfs:Datatype"
-		"owl:TransitiveProperty"
-		":DIRECTED-BINARY-RELATION"
-		"xsd:token"
-		"xsd:IDREF"
-		"xsd:ENTITY"
-		"xsd:normalizedString"
-		"xsd:gMonth"
-		"rdf:type"
-		"owl:oneOf"
+		":FROM"
+		"owl:sameAs"
+		":TO"
+		"owl:differentFrom"
+		"protege:inferredSuperclassOf"
+		"protege:inferredSubclassOf"
+		"owl:AnnotationProperty"
+		"protege:classificationStatus"
+		"owl:allValuesFrom"
+		"owl:onProperty"
 		"owl:maxCardinality"
-		"rdf:object")
+		"owl:hasValue"
+		"owl:cardinality"
+		"owl:minCardinality"
+		"xsd:Name"
+		"xsd:hexBinary"
+		"xsd:negativeInteger"
+		"xsd:decimal"
+		"xsd:nonPositiveInteger"
+		"xsd:language"
+		"xsd:NOTATION"
+		"xsd:IDREF"
+		"xsd:positiveInteger"
+		"xsd:gDay"
+		"xsd:ENTITY"
+		"xsd:long"
+		"xsd:gMonth"
+		"rdf:XMLLiteral"
+		"xsd:gYearMonth"
+		"xsd:unsignedLong"
+		"xsd:byte"
+		"xsd:anyURI"
+		"xsd:duration"
+		"xsd:token"
+		"xsd:NCName"
+		"xsd:ID"
+		"xsd:anySimpleType"
+		"xsd:gYear"
+		"xsd:gMonthDay"
+		"xsd:unsignedByte"
+		"xsd:nonNegativeInteger"
+		"xsd:QName"
+		"xsd:short"
+		"xsd:integer"
+		"xsd:normalizedString"
+		"rdfs:Datatype"
+		":DIRECTED-BINARY-RELATION"
+		"xsd:unsignedShort"
+		"xsd:double"
+		"xsd:unsignedInt"
+		"xsd:base64Binary"
+		"xsd:NMTOKEN"
+		":SYSTEM-CLASS"
+		"owl:oneOf"
+		"owl:DataRange"
+		"owl:DeprecatedProperty"
+		"owl:Class"
+		"owl:DeprecatedClass"
+		"rdf:Statement"
+		"rdf:type"
+		"rdf:subject"
+		"rdfs:Class"
+		"rdf:predicate"
+		"rdf:object"
+		":OWL-ANONYMOUS-ROOT"
+		"rdfs:Container"
+		"owl:AllDifferent"
+		"owl:distinctMembers"
+		"rdfs:Literal"
+		"owl:Nothing"
+		"rdf:List"
+		"rdf:first"
+		"rdf:rest"
+		"owl:SymmetricProperty"
+		"owl:TransitiveProperty"
+		"protege:ExternalResource"
+		"owl:InverseFunctionalProperty"
+		"owl:FunctionalProperty"
+		"owl:Ontology"
+		"rdfs:member"
+		"rdf:value")
 	(journaling_enabled FALSE)
 	(next_frame_number 0)
 	(options [Instance_48])
@@ -7115,39 +7116,39 @@
 
 ([sbwiki_ProjectKB_Instance_10000] of  String
 
-	(name "owl:Class")
-	(string_value "%3ANAME"))
+	(name "owl:Thing")
+	(string_value "rdfs%3Alabel"))
 
 ([sbwiki_ProjectKB_Instance_10001] of  String
-
-	(name ":INSTANCE-ANNOTATION")
-	(string_value "%3AANNOTATION-TEXT"))
-
-([sbwiki_ProjectKB_Instance_10002] of  String
 
 	(name ":PAL-CONSTRAINT")
 	(string_value "%3APAL-NAME"))
 
+([sbwiki_ProjectKB_Instance_10002] of  String
+
+	(name ":INSTANCE-ANNOTATION")
+	(string_value "%3AANNOTATION-TEXT"))
+
 ([sbwiki_ProjectKB_Instance_10003] of  String
-
-	(name "owl:Thing")
-	(string_value "rdfs%3Alabel"))
-
-([sbwiki_ProjectKB_Instance_10004] of  String
 
 	(name ":META-CLASS")
 	(string_value "%3ANAME"))
 
+([sbwiki_ProjectKB_Instance_10004] of  String
+
+	(name "owl:Class")
+	(string_value "%3ANAME"))
+
 ([sbwiki_ProjectKB_Instance_10005] of  Map_Entry
 
-	(key "change_tracking_active")
+	(key "add_name_on_instance_form")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
 ([sbwiki_ProjectKB_Instance_10006] of  Map_Entry
 
-	(key "add_name_on_instance_form")
+	(key "change_tracking_active")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
@@ -7351,6 +7352,47 @@
 	(property_list [sbwiki_ProjectKB_Instance_21])
 	(widget_class_name "edu.stanford.smi.protegex.prompt.PromptTab"))
 
+([sbwiki_ProjectKB_Instance_20062] of  Widget
+
+	(is_hidden FALSE)
+	(name "protege:readOnly")
+	(property_list [sbwiki_ProjectKB_Instance_20063]))
+
+([sbwiki_ProjectKB_Instance_20063] of  Property_List
+)
+
+([sbwiki_ProjectKB_Instance_20064] of  Widget
+
+	(is_hidden FALSE)
+	(name "protege:allowedParent")
+	(property_list [sbwiki_ProjectKB_Instance_20065]))
+
+([sbwiki_ProjectKB_Instance_20065] of  Property_List
+)
+
+([sbwiki_ProjectKB_Instance_20070] of  Widget
+
+	(is_hidden FALSE)
+	(name "protege:readOnly")
+	(property_list [sbwiki_ProjectKB_Instance_20071]))
+
+([sbwiki_ProjectKB_Instance_20071] of  Property_List
+)
+
+([sbwiki_ProjectKB_Instance_20072] of  Widget
+
+	(is_hidden FALSE)
+	(name "protege:allowedParent")
+	(property_list [sbwiki_ProjectKB_Instance_20073]))
+
+([sbwiki_ProjectKB_Instance_20073] of  Property_List
+)
+
+([sbwiki_ProjectKB_Instance_20074] of  Boolean
+
+	(boolean_value FALSE)
+	(name "edu.stanford.smi.protegex.owl.userDefinedDatatypes"))
+
 ([sbwiki_ProjectKB_Instance_21] of  Property_List
 )
 
@@ -7534,7 +7576,8 @@
 		[OWL_ProjectKB_Instance_3]
 		[KB_444675_Instance_0]
 		[KB_632156_Instance_0]
-		[KB_964297_Instance_50]))
+		[KB_964297_Instance_50]
+		[sbwiki_ProjectKB_Instance_20074]))
 
 ([STANDARD_CLASS_FORM_WIDGET] of  Widget
 
