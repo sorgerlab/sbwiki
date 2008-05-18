@@ -602,6 +602,8 @@
     <owl:disjointWith>
       <owl:Class rdf:about="#Cell_Line"/>
     </owl:disjointWith>
+    <abbreviation rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >OR</abbreviation>
     <owl:disjointWith rdf:resource="#Model_Interaction"/>
   </owl:Class>
   <owl:Class rdf:about="#Protein">
@@ -931,6 +933,8 @@
     >drug</rdfs:label>
     <owl:disjointWith rdf:resource="#Biomolecule"/>
     <rdfs:subClassOf rdf:resource="#Molecule"/>
+    <abbreviation rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >DR</abbreviation>
   </owl:Class>
   <owl:Class rdf:about="#Nucleic_Acid">
     <owl:disjointWith rdf:resource="#Lipid"/>
@@ -990,8 +994,10 @@
     <owl:disjointWith rdf:resource="#Assay"/>
     <owl:disjointWith rdf:resource="#Study"/>
     <owl:disjointWith rdf:resource="#Person"/>
-    <owl:disjointWith rdf:resource="#Model"/>
+    <abbreviation rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >MC</abbreviation>
     <owl:disjointWith rdf:resource="#Investigation"/>
+    <owl:disjointWith rdf:resource="#Model"/>
     <owl:disjointWith rdf:resource="#Raw_Data"/>
     <owl:disjointWith rdf:resource="#Cell_Type"/>
     <owl:disjointWith rdf:resource="#Organism"/>
