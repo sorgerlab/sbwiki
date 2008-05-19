@@ -1,4 +1,4 @@
-; Sun May 18 21:18:18 EDT 2008
+; Mon May 19 00:26:51 EDT 2008
 ; 
 ;+ (version "3.4")
 ;+ (build "Build 130")
@@ -6,11 +6,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[sbwiki_ProjectKB_Instance_71]
-		[sbwiki_ProjectKB_Instance_72]
-		[sbwiki_ProjectKB_Instance_73]
-		[sbwiki_ProjectKB_Instance_74]
-		[sbwiki_ProjectKB_Instance_75]))
+		[sbwiki_ProjectKB_Instance_146]
+		[sbwiki_ProjectKB_Instance_147]
+		[sbwiki_ProjectKB_Instance_148]
+		[sbwiki_ProjectKB_Instance_149]
+		[sbwiki_ProjectKB_Instance_150]))
 
 ([CLSES_TAB] of  Widget
 
@@ -656,22 +656,12 @@
 
 ([KB_307200_Instance_22] of  Property_List
 
-	(name "DisabledTestGroups")
-	(properties [KB_307200_Instance_24]))
+	(name "DisabledTestGroups"))
 
 ([KB_307200_Instance_23] of  Property_List
 
 	(name "DisabledTest")
-	(properties
-		[KB_307200_Instance_25]
-		[KB_307200_Instance_26]
-		[KB_307200_Instance_27]
-		[KB_307200_Instance_28]
-		[KB_307200_Instance_29]
-		[KB_307200_Instance_30]
-		[KB_307200_Instance_31]
-		[KB_307200_Instance_32]
-		[KB_307200_Instance_33]))
+	(properties [KB_307200_Instance_25]))
 
 ([KB_307200_Instance_24] of  Boolean
 
@@ -740,7 +730,7 @@
 ([KB_444675_Instance_0] of  String
 
 	(name "SwitchableClassDefinitionType")
-	(string_value "edu.stanford.smi.protegex.owl.ui.cls.LogicClassDefinitionWidgetType"))
+	(string_value "edu.stanford.smi.protegex.owl.ui.cls.PropertiesClassDefinitionWidget"))
 
 ([KB_465546_Instance_567] of  Widget
 
@@ -5506,11 +5496,36 @@
 ([sbwiki_ProjectKB_Instance_14] of  Property_List
 )
 
+([sbwiki_ProjectKB_Instance_146] of  String
+
+	(name "owl:Thing")
+	(string_value "%3ANAME"))
+
+([sbwiki_ProjectKB_Instance_147] of  String
+
+	(name ":PAL-CONSTRAINT")
+	(string_value "%3APAL-NAME"))
+
+([sbwiki_ProjectKB_Instance_148] of  String
+
+	(name ":INSTANCE-ANNOTATION")
+	(string_value "%3AANNOTATION-TEXT"))
+
+([sbwiki_ProjectKB_Instance_149] of  String
+
+	(name ":META-CLASS")
+	(string_value "%3ANAME"))
+
 ([sbwiki_ProjectKB_Instance_15] of  Widget
 
 	(is_hidden TRUE)
 	(property_list [sbwiki_ProjectKB_Instance_16])
 	(widget_class_name "edu.stanford.smi.RemoteKBTab.WordNetTab"))
+
+([sbwiki_ProjectKB_Instance_150] of  String
+
+	(name "owl:Class")
+	(string_value "%3ANAME"))
 
 ([sbwiki_ProjectKB_Instance_16] of  Property_List
 )
@@ -5694,31 +5709,6 @@
 	(is_hidden TRUE)
 	(property_list [sbwiki_ProjectKB_Instance_8])
 	(widget_class_name "edu.stanford.smi.protegex.server_changes.prompt.UsersTab"))
-
-([sbwiki_ProjectKB_Instance_71] of  String
-
-	(name "owl:Thing")
-	(string_value "%3ANAME"))
-
-([sbwiki_ProjectKB_Instance_72] of  String
-
-	(name ":PAL-CONSTRAINT")
-	(string_value "%3APAL-NAME"))
-
-([sbwiki_ProjectKB_Instance_73] of  String
-
-	(name ":INSTANCE-ANNOTATION")
-	(string_value "%3AANNOTATION-TEXT"))
-
-([sbwiki_ProjectKB_Instance_74] of  String
-
-	(name ":META-CLASS")
-	(string_value "%3ANAME"))
-
-([sbwiki_ProjectKB_Instance_75] of  String
-
-	(name "owl:Class")
-	(string_value "%3ANAME"))
 
 ([sbwiki_ProjectKB_Instance_8] of  Property_List
 )
