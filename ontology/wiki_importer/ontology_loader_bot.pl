@@ -52,7 +52,7 @@ my %xsd_smw_types = (
   string  => 'String',
   int     => 'Number',
   float   => 'Number',
-  boolean => 'Boolean',
+  boolean => 'String', #'Boolean', # FIXME Boolean is documented to work in SMW, but doesn't
   date    => 'Date',
 );
 
@@ -87,7 +87,14 @@ foreach my $uri ( map($_->subject->as_string,
     die "error: no rdfs:label given for '$uri'\n";
 
   print "category: $label\n";
-  my $page_text = "This category represents [[imported from::$prefix:$id]].";
+  my $page_text = '';
+
+  if ( defined (my $comment = $obj->rdfs_comment) )
+  {
+    $page_text .= $comment . "\n\n";
+  }
+
+  $page_text .= "This category represents [[imported from::$prefix:$id]].";
 
   if ( $obj->rdfs_subClassOf )
   {
@@ -125,7 +132,7 @@ foreach my $uri ( map($_->subject->as_string,
   if ( $obj->sbwiki_virtual eq 'true' )
   {
     print "  virtual\n";
-    $page_text .= "[[Image:Warning.png]] '''" . ucfirst($label) . "''' is \"virtual\", meaning that there are no instances of it, only of its subcategories.\n\n";
+    $page_text .= "[[Image:Warning.png]] '''" . ucfirst($label) . "''' is [[virtual::true|virtual]], meaning that there are no instances of it, only of its subcategories.\n\n";
   }
   else
   {
@@ -174,7 +181,14 @@ foreach my $uri ( @object_property_uris )
   my $range_label  = $obj->rdfs_range->rdfs_label;
 
   print "object property: $label\n";
-  my $page_text = "This property represents [[imported from::$prefix:$id]].";
+  my $page_text = '';
+
+  if ( defined (my $comment = $obj->rdfs_comment) )
+  {
+    $page_text .= $comment . "\n\n";
+  }
+
+  $page_text .= "This property represents [[imported from::$prefix:$id]].";
   if (@domain_labels)
   {
     print "  domain: @domain_labels\n";
@@ -240,7 +254,14 @@ foreach my $uri ( @datatype_property_uris )
   }
 
   print "datatype property: $label\n";
-  my $page_text = "This property represents [[imported from::$prefix:$id]].";
+  my $page_text = '';
+
+  if ( defined(my $comment = $obj->rdfs_comment) )
+  {
+    $page_text .= $comment . "\n\n";
+  }
+
+  $page_text .= "This property represents [[imported from::$prefix:$id]].";
   if (@domain_labels)
   {
     print "  domain: @domain_labels\n";
