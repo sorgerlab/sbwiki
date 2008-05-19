@@ -96,16 +96,19 @@ foreach my $uri ( map($_->subject->as_string,
     my $superclass = $obj->rdfs_subClassOf->rdfs_label;
     print "  superclass: $superclass\n";
     $page_text .= " It is a subclass of [[:Category:$superclass|$superclass]].";
-    $page_text .= "\n[[Category:$superclass]]\n";
+    $page_text .= " [[Category:$superclass]] ";
   }
 
-  if (my $abbrev = $obj->sbwiki_abbreviation)
+  my $abbrev = $obj->sbwiki_abbreviation;
+  if ($abbrev)
   {
     print "  abbreviation: $abbrev\n";
-    $page_text .= "[[abbreviation::$abbrev| ]]\n";
+    $page_text .= " Its abbreviation is [[abbreviation::$abbrev|$abbrev]].";
   }
 
-  $page_text .= "[[has default form::Form:$label]]\n";
+  $page_text .= " [[has default form::Form:$label| ]]\n\n";
+  $page_text .= "[[Image:Ontobrowser.gif]] [{{fullurl:Special:OntologyBrowser|entitytitle={{PAGENAMEE}}&ns={{NAMESPACEE}}}} Open '''$label''' in the OntologyBrowser]\n\n";
+  $page_text .= "[[Image:Add.png]] [{{fullurl:Special:AddDataUID|type_code={{urlencode:$abbrev}}&form={{urlencode:$label}}&lock_core_fields=1}} Create a new '''$label''']\n\n";
 
   # create category
   unless ($skip_category)
