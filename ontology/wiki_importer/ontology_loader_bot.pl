@@ -26,7 +26,7 @@ GetOptions(
   "skip-object|so"   => \$skip_object,
   "skip-datatype|sd" => \$skip_datatype,
   "dry-run|n"        => sub {$skip_import=$skip_category=$skip_object=$skip_datatype=1},
-) or die "";
+) or die "GetOptions error";
 
 
 $wiki_login[0] = ucfirst($wiki_login[0]); # force this to make bot module happy
@@ -75,6 +75,7 @@ my $import_text  = "$ontology_ns|[$ontology_ns $prefix]\n";
 my $import_title = 'MediaWiki:Smw_import_' . $prefix;
 
 
+# ----------------------------------------
 # translate owl:Class to SMW Category
 foreach my $uri ( map($_->subject->as_string,
                       $rdf->get_statements(undef, RDF_TYPE, 'owl:Class')) )
@@ -82,16 +83,13 @@ foreach my $uri ( map($_->subject->as_string,
   my $obj = $rdf->get_object($uri);
   my $id = uri_split($uri, $ontology_ns) or next;
 
-  my $label = $obj->rdfs_label;
-  if (!$label)
-  {
+  my $label = $obj->rdfs_label or
     die "error: no rdfs:label given for '$uri'\n";
-  }
 
   print "category: $label\n";
   my $page_text = "This category represents [[imported from::$prefix:$id]].";
 
-  if ($obj->rdfs_subClassOf)
+  if ( $obj->rdfs_subClassOf )
   {
     my $superclass = $obj->rdfs_subClassOf->rdfs_label;
     print "  superclass: $superclass\n";
@@ -100,18 +98,45 @@ foreach my $uri ( map($_->subject->as_string,
   }
 
   my $abbrev = $obj->sbwiki_abbreviation;
-  if ($abbrev)
+  if ( $abbrev )
   {
     print "  abbreviation: $abbrev\n";
     $page_text .= " Its abbreviation is [[abbreviation::$abbrev|$abbrev]].";
   }
+  else
+  {
+    my $ancestor = $obj->rdfs_subClassOf;
+    my $ancestor_label = '!!ERROR!!';
+    while ( $ancestor and !$abbrev )
+    {
+      $abbrev = $ancestor->sbwiki_abbreviation;
+      $ancestor_label = $ancestor->rdfs_label;
+      $ancestor = $ancestor->rdfs_subClassOf;
+    }
+    if ( $abbrev )
+    {
+      print "  abbreviation: $abbrev (from $ancestor_label)\n";
+      $page_text .= " Its abbreviation is [[abbreviation::$abbrev|$abbrev]] (inherited from [[:Category:$ancestor_label|$ancestor_label]]).";
+    }
+  }
 
-  $page_text .= " [[has default form::Form:$label| ]]\n\n";
+  $page_text .= "\n\n";
+
+  if ( $obj->sbwiki_virtual eq 'true' )
+  {
+    print "  virtual\n";
+    $page_text .= "[[Image:Warning.png]] '''" . ucfirst($label) . "''' is \"virtual\", meaning that there are no instances of it, only of its subcategories.\n\n";
+  }
+  else
+  {
+    $page_text .= "[[has default form::Form:$label| ]] ";
+    $page_text .= "[[Image:Add.png]] [{{fullurl:Special:AddDataUID|type_code={{urlencode:$abbrev}}&form={{urlencode:$label}}&lock_core_fields=1}} Create a new '''$label''']\n\n";
+  }
+
   $page_text .= "[[Image:Ontobrowser.gif]] [{{fullurl:Special:OntologyBrowser|entitytitle={{PAGENAMEE}}&ns={{NAMESPACEE}}}} Open '''$label''' in the OntologyBrowser]\n\n";
-  $page_text .= "[[Image:Add.png]] [{{fullurl:Special:AddDataUID|type_code={{urlencode:$abbrev}}&form={{urlencode:$label}}&lock_core_fields=1}} Create a new '''$label''']\n\n";
 
   # create category
-  unless ($skip_category)
+  unless ( $skip_category )
   {
     $wiki->edit("Category:$label", $page_text, $edit_summary);
   }
@@ -122,6 +147,7 @@ foreach my $uri ( map($_->subject->as_string,
 print "\n";
 
 
+# ----------------------------------------
 # translate owl:ObjectProperty to SMW Property, with Type:Page
 my @object_property_uris =
   map($_->subject->as_string,
@@ -131,12 +157,8 @@ foreach my $uri ( @object_property_uris )
   my $obj = $rdf->get_object($uri);
   my $id = uri_split($uri, $ontology_ns) or next;
 
-  my $label = $obj->rdfs_label;
-  if (!$label)
-  {
-    warn "warning: no rdfs:label given for '$uri', assuming '$id'";
-    $label = $id;
-  }
+  my $label = $obj->rdfs_label or
+    die "error: no rdfs:label given for '$uri'\n";
 
   my @domain_labels;
   my @domains = ($obj->rdfs_domain);
@@ -187,6 +209,7 @@ foreach my $uri ( @object_property_uris )
 print "\n";
 
 
+# ----------------------------------------
 # translate owl:DatatypeProperty to SMW Property, with Type based on the XSD type
 my @datatype_property_uris =
   map($_->subject->as_string,
@@ -202,12 +225,8 @@ foreach my $uri ( @datatype_property_uris )
   my $smw_type = $xsd_smw_types{$xsd_type} or
     die "error: unknown XML Schema data type '$xsd_type' on datatype property '$uri'\n";
 
-  my $label = $obj->rdfs_label;
-  if (!$label)
-  {
-    warn "warning: no rdfs:label given for '$uri', assuming '$id'";
-    $label = $id;
-  }
+  my $label = $obj->rdfs_label or
+    die "error: no rdfs:label given for '$uri'\n";
 
   my @domain_labels;
   my @domains = ($obj->rdfs_domain);
@@ -254,6 +273,7 @@ foreach my $uri ( @datatype_property_uris )
 print "\n";
 
 
+# ----------------------------------------
 print "final SMW import\n";
 # create "magic" import page
 unless ($skip_import)
