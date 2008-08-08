@@ -18,14 +18,17 @@ defined $owl_filename  or die "error: no .owl file given";
 defined $wiki_opts[1]  or die "error: must provide wiki url and script path";
 defined $wiki_login[1] or die "error: must provide wiki username and password";
 
-my ($skip_import, $skip_category, $skip_object, $skip_datatype);
+my ($skip_import, $skip_category, $skip_object, $skip_datatype, $skip_template);
 
+# NB: add new skip_* parameters to the dry-run line at the bottom
+#   (could probably do this programatically if I read up on Getopt)
 GetOptions(
   "skip-import|si"   => \$skip_import,
   "skip-category|sc" => \$skip_category,
   "skip-object|so"   => \$skip_object,
   "skip-datatype|sd" => \$skip_datatype,
-  "dry-run|n"        => sub {$skip_import=$skip_category=$skip_object=$skip_datatype=1},
+  "skip-template|st" => \$skip_template,
+  "dry-run|n"        => sub {$skip_import=$skip_category=$skip_object=$skip_datatype=$skip_template=1},
 ) or die "GetOptions error";
 
 
@@ -59,6 +62,12 @@ my %xsd_smw_types = (
 my $prefix = 'sbwiki';
 
 
+# boilerplate text to wrap around templates
+my $template_preamble = "<noinclude>\nEdit the page to see the template text.\n</noinclude><includeonly>";
+my $template_postamble = "</includeonly>";
+
+
+
 # query the rdf itself for the base uri of the ontology
 my $ontology_stmt = ($rdf->get_statements(undef, RDF_TYPE, 'owl:Ontology'))[0];
 $ontology_stmt or die "error: no owl:Ontology declared in input file";
@@ -76,7 +85,7 @@ my $import_title = 'MediaWiki:Smw_import_' . $prefix;
 
 
 # ----------------------------------------
-# translate owl:Class to SMW Category
+# translate owl:Class to SMW Category.
 foreach my $uri ( map($_->subject->as_string,
                       $rdf->get_statements(undef, RDF_TYPE, 'owl:Class')) )
 {
@@ -155,7 +164,8 @@ print "\n";
 
 
 # ----------------------------------------
-# translate owl:ObjectProperty to SMW Property, with Type:Page
+# translate owl:ObjectProperty to SMW Property, with Type:Page.
+# also create a fragmentary template for use with Semantic Forms.
 my @object_property_uris =
   map($_->subject->as_string,
       $rdf->get_statements(undef, RDF_TYPE, 'owl:ObjectProperty'));
@@ -211,11 +221,24 @@ foreach my $uri ( @object_property_uris )
     $page_text .= " Its range is [[has_range_hint::Category:$range_label|$range_label]].";
   }
 
+  # if the name adheres to the hasNoun/isNounOf convention, strip the prefix to get the noun part
+  (my $nice_label = $label) =~ s/^(has|is)\s+//i;
+  # the parameter name will be the label, in lower case and with underscores for spaces
+  (my $param_name = lc($nice_label)) =~ tr/ /_/;
+  my $template_text = "! $nice_label\n| [[${label}::{{{$param_name|}}}]]";
+  $template_text = $template_preamble . $template_text . $template_postamble;
+
   # create property
   unless ($skip_object)
   {
     $wiki->edit("Property:$label", $page_text, $edit_summary);
+    # create template
+    unless ($skip_template)
+    {
+      $wiki->edit("Template:Property:$label", $template_text, $edit_summary);
+    }
   }
+
 
   $import_text .= " $id|Type:Page\n";
 }
@@ -224,7 +247,7 @@ print "\n";
 
 
 # ----------------------------------------
-# translate owl:DatatypeProperty to SMW Property, with Type based on the XSD type
+# translate owl:DatatypeProperty to SMW Property, with Type based on the XSD type.
 my @datatype_property_uris =
   map($_->subject->as_string,
       $rdf->get_statements(undef, RDF_TYPE, 'owl:DatatypeProperty'));
@@ -282,10 +305,20 @@ foreach my $uri ( @datatype_property_uris )
   print "  range: $smw_type\n";
   $page_text .= " Its range is literal [[Type:$smw_type|$smw_type]] values.";
 
+  # the parameter name will be the label, in lower case and with underscores for spaces
+  (my $param_name = lc($label)) =~ tr/ /_/;
+  my $template_text = "! $label\n| [[${label}::{{{$param_name|}}}]]";
+  $template_text = $template_preamble . $template_text . $template_postamble;
+
   # create property
   unless ($skip_datatype)
   {
     $wiki->edit("Property:$label", $page_text, $edit_summary);
+    # create template
+    unless ($skip_template)
+    {
+      $wiki->edit("Template:Property:$label", $template_text, $edit_summary);
+    }
   }
 
   $import_text .= " $id|Type:$smw_type\n";

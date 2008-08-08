@@ -1,4 +1,4 @@
-; Tue Jul 22 17:19:58 EDT 2008
+; Fri Aug 01 16:56:35 EDT 2008
 ; 
 ;+ (version "3.3.1")
 ;+ (build "Build 430")
@@ -6,11 +6,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[sbwiki_ProjectKB_Instance_10036]
-		[sbwiki_ProjectKB_Instance_10037]
-		[sbwiki_ProjectKB_Instance_10038]
-		[sbwiki_ProjectKB_Instance_10039]
-		[sbwiki_ProjectKB_Instance_10040]))
+		[sbwiki_ProjectKB_Instance_20028]
+		[sbwiki_ProjectKB_Instance_20029]
+		[sbwiki_ProjectKB_Instance_20030]
+		[sbwiki_ProjectKB_Instance_20031]
+		[sbwiki_ProjectKB_Instance_20032]))
 
 ([CLSES_TAB] of  Widget
 
@@ -3262,8 +3262,8 @@
 ([KB_901669_Instance_0] of  Map
 
 	(entries
-		[sbwiki_ProjectKB_Instance_10041]
-		[sbwiki_ProjectKB_Instance_10042]))
+		[sbwiki_ProjectKB_Instance_20033]
+		[sbwiki_ProjectKB_Instance_20034]))
 
 ([KB_901669_Instance_2] of  String
 
@@ -5284,12 +5284,12 @@
 	(customized_instance_widgets
 		[PAL_FORM_WIDGET]
 		[KB_713803_Instance_477]
-		[KB_713803_Instance_780]
 		[INSTANCE_ANNOTATION_FORM_WIDGET]
-		[KB_713803_Instance_693]
+		[KB_713803_Instance_780]
 		[KB_301165_Instance_856]
-		[KB_713803_Instance_648]
+		[KB_713803_Instance_693]
 		[KB_691299_Instance_537]
+		[KB_713803_Instance_648]
 		[KB_691299_Instance_398]
 		[KB_303942_Instance_68]
 		[KB_938545_Instance_166]
@@ -5373,17 +5373,17 @@
 		":SYSTEM-CLASS"
 		"owl:oneOf"
 		"owl:DataRange"
-		"owl:DeprecatedProperty"
 		"rdf:Property"
-		"owl:Class"
+		"owl:DeprecatedProperty"
 		"owl:DeprecatedClass"
+		"owl:Class"
 		"rdf:Statement"
 		"rdf:type"
-		"rdfs:Class"
 		"rdf:subject"
+		"rdfs:Class"
 		"rdf:predicate"
-		":OWL-ANONYMOUS-ROOT"
 		"rdf:object"
+		":OWL-ANONYMOUS-ROOT"
 		"rdfs:Container"
 		"rdf:Alt"
 		"rdf:Bag"
@@ -5641,45 +5641,6 @@
 ([sbwiki_ProjectKB_Instance_10028] of  Property_List
 )
 
-([sbwiki_ProjectKB_Instance_10036] of  String
-
-	(name "owl:Thing")
-	(string_value "%3ANAME"))
-
-([sbwiki_ProjectKB_Instance_10037] of  String
-
-	(name ":PAL-CONSTRAINT")
-	(string_value "%3APAL-NAME"))
-
-([sbwiki_ProjectKB_Instance_10038] of  String
-
-	(name ":INSTANCE-ANNOTATION")
-	(string_value "%3AANNOTATION-TEXT"))
-
-([sbwiki_ProjectKB_Instance_10039] of  String
-
-	(name ":META-CLASS")
-	(string_value "%3ANAME"))
-
-([sbwiki_ProjectKB_Instance_10040] of  String
-
-	(name "owl:Class")
-	(string_value "%3ANAME"))
-
-([sbwiki_ProjectKB_Instance_10041] of  Map_Entry
-
-	(key "add_name_on_instance_form")
-	(key_class "java.lang.String")
-	(value "false")
-	(value_class "java.lang.String"))
-
-([sbwiki_ProjectKB_Instance_10042] of  Map_Entry
-
-	(key "change_tracking_active")
-	(key_class "java.lang.String")
-	(value "false")
-	(value_class "java.lang.String"))
-
 ([sbwiki_ProjectKB_Instance_11] of  Property_List
 )
 
@@ -5730,6 +5691,45 @@
 	(is_hidden TRUE)
 	(property_list [sbwiki_ProjectKB_Instance_21])
 	(widget_class_name "TGViztab.TGVizTab"))
+
+([sbwiki_ProjectKB_Instance_20028] of  String
+
+	(name "owl:Thing")
+	(string_value "%3ANAME"))
+
+([sbwiki_ProjectKB_Instance_20029] of  String
+
+	(name ":PAL-CONSTRAINT")
+	(string_value "%3APAL-NAME"))
+
+([sbwiki_ProjectKB_Instance_20030] of  String
+
+	(name ":INSTANCE-ANNOTATION")
+	(string_value "%3AANNOTATION-TEXT"))
+
+([sbwiki_ProjectKB_Instance_20031] of  String
+
+	(name ":META-CLASS")
+	(string_value "%3ANAME"))
+
+([sbwiki_ProjectKB_Instance_20032] of  String
+
+	(name "owl:Class")
+	(string_value "%3ANAME"))
+
+([sbwiki_ProjectKB_Instance_20033] of  Map_Entry
+
+	(key "add_name_on_instance_form")
+	(key_class "java.lang.String")
+	(value "false")
+	(value_class "java.lang.String"))
+
+([sbwiki_ProjectKB_Instance_20034] of  Map_Entry
+
+	(key "change_tracking_active")
+	(key_class "java.lang.String")
+	(value "false")
+	(value_class "java.lang.String"))
 
 ([sbwiki_ProjectKB_Instance_21] of  Property_List
 )
@@ -7138,10 +7138,6 @@
 
 	(name ":DIRECT-TYPE"))
 
-([XY_Instance_730] of  Widget
-
-	(name ":DIRECT-SUPERSLOTS"))
-
 ([XY_Instance_731] of  Widget
 
 	(name ":DIRECT-SUBSLOTS"))
@@ -7233,16 +7229,6 @@
 	(x 0)
 	(y 0))
 
-([XY_Instance_743] of  Widget
-
-	(height 60)
-	(label "Inverse")
-	(name ":SLOT-INVERSE")
-	(widget_class_name "edu.stanford.smi.protege.widget.InverseSlotWidget")
-	(width 200)
-	(x 200)
-	(y 210))
-
 ([XY_Instance_744] of  Widget
 
 	(height 150)
@@ -7311,108 +7297,6 @@
 	(boolean_value FALSE)
 	(name "ButtonDisplayed-Delete Selected Instances"))
 
-([XY_Instance_754] of  Widget
-
-	(height 120)
-	(is_hidden FALSE)
-	(name ":OWL-DIFFERENT-FROM")
-	(property_list [XY_Instance_755])
-	(widget_class_name "edu.stanford.smi.protege.widget.InstanceListWidget")
-	(width 250)
-	(x 0)
-	(y 630))
-
-([XY_Instance_755] of  Property_List
-
-	(properties
-		[XY_Instance_756]
-		[XY_Instance_757]
-		[XY_Instance_758]
-		[XY_Instance_759]
-		[XY_Instance_760]
-		[XY_Instance_761]))
-
-([XY_Instance_756] of  Boolean
-
-	(boolean_value TRUE)
-	(name "ButtonDisplayed-View Selected Instances"))
-
-([XY_Instance_757] of  Boolean
-
-	(boolean_value TRUE)
-	(name "ButtonDisplayed-Create Instance"))
-
-([XY_Instance_758] of  Boolean
-
-	(boolean_value FALSE)
-	(name "ButtonDisplayed-References"))
-
-([XY_Instance_759] of  Boolean
-
-	(boolean_value TRUE)
-	(name "ButtonDisplayed-Add"))
-
-([XY_Instance_760] of  Boolean
-
-	(boolean_value TRUE)
-	(name "ButtonDisplayed-Remove"))
-
-([XY_Instance_761] of  Boolean
-
-	(boolean_value FALSE)
-	(name "ButtonDisplayed-Delete Selected Instances"))
-
-([XY_Instance_762] of  Widget
-
-	(height 240)
-	(is_hidden FALSE)
-	(name ":OWL-SAME-AS")
-	(property_list [XY_Instance_763])
-	(widget_class_name "edu.stanford.smi.protege.widget.InstanceListWidget")
-	(width 250)
-	(x 250)
-	(y 510))
-
-([XY_Instance_763] of  Property_List
-
-	(properties
-		[XY_Instance_764]
-		[XY_Instance_765]
-		[XY_Instance_766]
-		[XY_Instance_767]
-		[XY_Instance_768]
-		[XY_Instance_769]))
-
-([XY_Instance_764] of  Boolean
-
-	(boolean_value TRUE)
-	(name "ButtonDisplayed-View Selected Instances"))
-
-([XY_Instance_765] of  Boolean
-
-	(boolean_value TRUE)
-	(name "ButtonDisplayed-Create Instance"))
-
-([XY_Instance_766] of  Boolean
-
-	(boolean_value FALSE)
-	(name "ButtonDisplayed-References"))
-
-([XY_Instance_767] of  Boolean
-
-	(boolean_value TRUE)
-	(name "ButtonDisplayed-Add"))
-
-([XY_Instance_768] of  Boolean
-
-	(boolean_value TRUE)
-	(name "ButtonDisplayed-Remove"))
-
-([XY_Instance_769] of  Boolean
-
-	(boolean_value FALSE)
-	(name "ButtonDisplayed-Delete Selected Instances"))
-
 ([XY_Instance_770] of  Widget
 
 	(is_hidden FALSE)
@@ -7431,15 +7315,6 @@
 ([XY_Instance_773] of  Property_List
 )
 
-([XY_Instance_774] of  Widget
-
-	(is_hidden FALSE)
-	(name ":TO")
-	(property_list [XY_Instance_775]))
-
-([XY_Instance_775] of  Property_List
-)
-
 ([XY_Instance_776] of  Widget
 
 	(is_hidden FALSE)
@@ -7456,15 +7331,6 @@
 	(property_list [XY_Instance_779]))
 
 ([XY_Instance_779] of  Property_List
-)
-
-([XY_Instance_780] of  Widget
-
-	(is_hidden FALSE)
-	(name ":FROM")
-	(property_list [XY_Instance_781]))
-
-([XY_Instance_781] of  Property_List
 )
 
 ([XY_Instance_782] of  Widget
