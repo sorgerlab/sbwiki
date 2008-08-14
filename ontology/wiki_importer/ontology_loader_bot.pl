@@ -6,7 +6,7 @@
 use strict;
 use Getopt::Long;
 use RDF::Helper;
-use RDF::Helper::Constants qw(:rdf);
+use RDF::Helper::Constants qw(:rdf :rdfs);
 use Perlwikipedia;
 
 
@@ -18,7 +18,7 @@ defined $owl_filename  or die "error: no .owl file given";
 defined $wiki_opts[1]  or die "error: must provide wiki url and script path";
 defined $wiki_login[1] or die "error: must provide wiki username and password";
 
-my ($skip_import, $skip_category, $skip_object, $skip_datatype, $skip_template);
+my ($skip_import, $skip_category, $skip_object, $skip_datatype, $skip_template, $skip_form);
 
 # NB: add new skip_* parameters to the dry-run line at the bottom
 #   (could probably do this programatically if I read up on Getopt)
@@ -28,7 +28,8 @@ GetOptions(
   "skip-object|so"   => \$skip_object,
   "skip-datatype|sd" => \$skip_datatype,
   "skip-template|st" => \$skip_template,
-  "dry-run|n"        => sub {$skip_import=$skip_category=$skip_object=$skip_datatype=$skip_template=1},
+  "skip-form|sf" => \$skip_form,
+  "dry-run|n"        => sub {$skip_import=$skip_category=$skip_object=$skip_datatype=$skip_template=$skip_form=1},
 ) or die "GetOptions error";
 
 
@@ -65,6 +66,14 @@ my $prefix = 'sbwiki';
 # boilerplate text to wrap around templates
 my $template_preamble = "<noinclude>\nEdit the page to see the template text.\n</noinclude><includeonly>";
 my $template_postamble = "</includeonly>";
+my $form_preamble = "<noinclude>\nEdit the page to see the form text.\n</noinclude><includeonly>";
+my $form_postamble = <<FORM_POSTAMBLE;
+<fieldset><legend>Free text</legend>{{{field|free text}}}</fieldset>
+<p>{{{standard input|summary}}}</p>
+<p>{{{standard input|minor edit}}} {{{standard input|watch}}}</p>
+<p>{{{standard input|save}}} {{{standard input|preview}}} {{{standard input|changes}}} {{{standard input|cancel}}}</p>
+</includeonly>
+FORM_POSTAMBLE
 
 
 
@@ -94,6 +103,7 @@ foreach my $uri ( map($_->subject->as_string,
 
   my $label = $obj->rdfs_label or
     die "error: no rdfs:label given for '$uri'\n";
+  my $uc_label = ucfirst($label);
 
   print "category: $label\n";
   my $page_text = '';
@@ -141,7 +151,7 @@ foreach my $uri ( map($_->subject->as_string,
   if ( $obj->sbwiki_virtual eq 'true' )
   {
     print "  virtual\n";
-    $page_text .= "[[Image:Warning.png]] '''" . ucfirst($label) . "''' is [[virtual::true|virtual]], meaning that there are no instances of it, only of its subcategories.\n\n";
+    $page_text .= "[[Image:Warning.png]] '''$uc_label''' is [[virtual::true|virtual]], meaning that there are no instances of it, only of its subcategories.\n\n";
   }
   else
   {
@@ -151,10 +161,41 @@ foreach my $uri ( map($_->subject->as_string,
 
   $page_text .= "[[Image:Ontobrowser.gif]] [{{fullurl:Special:OntologyBrowser|entitytitle={{PAGENAMEE}}&ns={{NAMESPACEE}}}} Open '''$label''' in the OntologyBrowser]\n\n";
 
+  my $template_text = "[[Category:$label]]\n{| {{Categoryhelper_table_options}}\n! colspan=\"2\" {{Categoryhelper_table_title_options}} | [[:Category:$label|$uc_label]]\n";
+  $template_text = $template_preamble . $template_text . $template_postamble;
+
+  # leading newline is important -- the Semantic Forms <noinclude> parser is a bit too strict
+  my $form_text = "\n{{{for template|Category $label}}}{{{end template}}}\n";
+  $DB::single=1;
+  # FIXME walk up the inheritance tree, processing ancestors' properties as well
+  # FIXME this doesn't see properties with multi-class domains (the whole rdf:List thing again)
+  # FIXME should really go under the Property loops, since that code handles Lists and $nice_label for ObjectProperties
+  # find all properties with a domain of this class
+  $form_text .= "<table>\n";
+  foreach my $property ( map($rdf->get_object($_->subject),
+                             $rdf->get_statements(undef, RDFS_DOMAIN, $uri)) )
+  {
+    next if $rdf->exists($property->object_uri, RDF_TYPE, 'owl:ObjectProperty'); # FIXME skip ObjectProperties for now since we don't have the $nice_label
+    my $property_label = $property->rdfs_label; # FIXME no harm no foul if it no label, just means the form won't work right. going to die below anyway.
+    (my $param_name = lc($property_label)) =~ tr/ /_/;
+    $form_text .= "{{{for template|Property $property_label}}}";
+    $form_text .= "<tr><th>$property_label:</th><td>{{{field|$param_name}}}</td></tr>";
+    $form_text .= "{{{end template}}}\n";
+  }
+  $form_text .= "</table>\n";
+  $form_text .= "{{{for template|Categoryhelper table end}}}{{{end template}}}\n";
+  $form_text = $form_preamble . $form_text . $form_postamble;
+
   # create category
   unless ( $skip_category )
   {
     $wiki->edit("Category:$label", $page_text, $edit_summary);
+    # for virtual classes, skip template/form since their sole purpose is instance editing
+    unless ( $obj->sbwiki_virtual eq 'true' )
+    {
+      $wiki->edit("Template:Category_$label", $template_text, $edit_summary) unless $skip_template;
+      $wiki->edit("Form:$label", $form_text, $edit_summary) unless $skip_form;
+    }
   }
 
   $import_text .= " $id|Category\n";
@@ -225,17 +266,17 @@ foreach my $uri ( @object_property_uris )
   (my $nice_label = $label) =~ s/^(has|is)\s+//i;
   # the parameter name will be the label, in lower case and with underscores for spaces
   (my $param_name = lc($nice_label)) =~ tr/ /_/;
-  my $template_text = "! $nice_label\n| [[${label}::{{{$param_name|}}}]]";
+  my $template_text = "|-\n! $nice_label\n| [[${label}::{{{$param_name|}}}]]";
   $template_text = $template_preamble . $template_text . $template_postamble;
 
   # create property
-  unless ($skip_object)
+  unless ( $skip_object )
   {
     $wiki->edit("Property:$label", $page_text, $edit_summary);
     # create template
-    unless ($skip_template)
+    unless ( $skip_template )
     {
-      $wiki->edit("Template:Property:$label", $template_text, $edit_summary);
+      $wiki->edit("Template:Property_$label", $template_text, $edit_summary);
     }
   }
 
@@ -248,6 +289,7 @@ print "\n";
 
 # ----------------------------------------
 # translate owl:DatatypeProperty to SMW Property, with Type based on the XSD type.
+# also create a fragmentary template for use with Semantic Forms.
 my @datatype_property_uris =
   map($_->subject->as_string,
       $rdf->get_statements(undef, RDF_TYPE, 'owl:DatatypeProperty'));
@@ -307,17 +349,26 @@ foreach my $uri ( @datatype_property_uris )
 
   # the parameter name will be the label, in lower case and with underscores for spaces
   (my $param_name = lc($label)) =~ tr/ /_/;
-  my $template_text = "! $label\n| [[${label}::{{{$param_name|}}}]]";
+  my $template_text = "|-\n! $label\n| ";
+  # functional properties get a single value entry field, non-functionals support comma-separated lists
+  if ( $rdf->exists($uri, RDF_TYPE, 'owl:FunctionalProperty') )
+  {
+    $template_text .= "[[${label}::{{{$param_name|}}}]]";
+  }
+  else
+  {
+    $template_text .= "{{#arraymap:{{{$param_name|}}}|,|XXXXXXXXXX|[[${label}::XXXXXXXXXX]]}}";
+  }
   $template_text = $template_preamble . $template_text . $template_postamble;
 
   # create property
-  unless ($skip_datatype)
+  unless ( $skip_datatype )
   {
     $wiki->edit("Property:$label", $page_text, $edit_summary);
-    # create template
-    unless ($skip_template)
+    # create template, unless this is an AnnotationProperty
+    unless ( $skip_template or $rdf->exists($uri, RDF_TYPE, 'owl:AnnotationProperty') )
     {
-      $wiki->edit("Template:Property:$label", $template_text, $edit_summary);
+      $wiki->edit("Template:Property_$label", $template_text, $edit_summary);
     }
   }
 
@@ -330,7 +381,7 @@ print "\n";
 # ----------------------------------------
 print "final SMW import\n";
 # create "magic" import page
-unless ($skip_import)
+unless ( $skip_import )
 {
   $wiki->edit($import_title, $import_text, $edit_summary);
 }
