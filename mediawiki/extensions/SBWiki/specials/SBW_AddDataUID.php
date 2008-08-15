@@ -39,7 +39,10 @@ function doSpecialAddDataUID() {
     $formArticle = new Article($form_title);
     $special_adddata_title = Title::makeTitle(NS_SPECIAL, 'AddData');
     $target = sbwfAllocateUID($type_code, $creator_initials, $annotation);
-    $wgOut->redirect($special_adddata_title->getFullURL("form=$form&target=$target"));
+    $url_params = "form=$form&target=$target";
+    // TODO decide whether we want to provide the annotation as a semantic relation
+    // &Property_label[label]=" . urlencode($annotation);
+    $wgOut->redirect($special_adddata_title->getFullURL($url_params));
     return; // success!
   }
 
