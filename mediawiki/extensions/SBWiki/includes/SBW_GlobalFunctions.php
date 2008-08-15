@@ -41,7 +41,7 @@ function sbwgSetupExtension() {
   /**********************************************/
 
   require_once($sbwgIP . '/includes/SBW_ParserFunctions.php');
-  require_once($sbwgIP . '/includes/SBW_CreateObjectTab.php');
+  //require_once($sbwgIP . '/includes/SBW_CreateObjectTab.php');
   require_once($sbwgIP . '/includes/SBW_RewriteUIDLinks.php');
   
   /**********************************************/
@@ -153,10 +153,10 @@ function sbwfGetUserInitials() {
   if ( User::isValidUserName($wgUser->getName()) ) {
 
     $db =& wfGetDB(DB_SLAVE);
-    // FIXME: this just retrieves the first attribute, not specifically the Initials!  and it should maybe use the Query API instead.
-    $result = $db->select($db->tableName('smw_attributes'),
+    // FIXME: this just retrieves the first attribute, not specifically the Initials!  and it should definitely use the Query API instead.
+    $result = $db->select(array($db->tableName('smw_atts2'),$db->tableName('smw_ids')),
                           'value_xsd',
-                          'subject_id='. $wgUser->getUserPage()->getArticleID(),
+                          array('s_id=smw_id', 'smw_namespace='.NS_USER, 'smw_title='.$db->addQuotes($wgUser->getUserPage()->getText())),
                           $fname);
     $row = $db->fetchRow($result);
     $initials = $row[0];
