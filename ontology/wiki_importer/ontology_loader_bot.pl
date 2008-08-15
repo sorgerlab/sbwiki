@@ -60,21 +60,25 @@ my %xsd_smw_types = (
   date    => 'Date',
 );
 
-my $prefix = 'sbwiki';
 
-
-# boilerplate text to wrap around templates
+# boilerplate text to wrap around templates and forms
 my $template_preamble = "<noinclude>\nEdit the page to see the template text.\n</noinclude><includeonly>";
 my $template_postamble = "</includeonly>";
-my $form_preamble = "<noinclude>\nEdit the page to see the form text.\n</noinclude><includeonly>";
+# trailing newline is important -- the Semantic Forms <noinclude> parser is a bit too strict
+my $form_preamble = "<noinclude>\nEdit the page to see the form text.\n</noinclude><includeonly>\n";
 my $form_postamble = <<FORM_POSTAMBLE;
-<fieldset><legend>Free text</legend>{{{field|free text}}}</fieldset>
+'''Free text:'''
+
+{{{field|free text}}}
+
 <p>{{{standard input|summary}}}</p>
 <p>{{{standard input|minor edit}}} {{{standard input|watch}}}</p>
 <p>{{{standard input|save}}} {{{standard input|preview}}} {{{standard input|changes}}} {{{standard input|cancel}}}</p>
 </includeonly>
 FORM_POSTAMBLE
 
+
+my $prefix = 'sbwiki';
 
 
 # query the rdf itself for the base uri of the ontology
@@ -151,11 +155,11 @@ foreach my $uri ( map($_->subject->as_string,
   if ( $obj->sbwiki_virtual eq 'true' )
   {
     print "  virtual\n";
-    $page_text .= "[[Image:Warning.png]] '''$uc_label''' is [[virtual::true|virtual]], meaning that there are no instances of it, only of its subcategories.\n\n";
+    $page_text .= "[[Image:Warning.png]] '''$uc_label''' is [[virtual::true|virtual]], meaning that there are no instances of it, only of its subcategories.\n";
   }
   else
   {
-    $page_text .= "[[has default form::Form:$label| ]] ";
+    $page_text .= "[[has default form::Form:$label| ]]\n";
     $page_text .= "[[Image:Add.png]] [{{fullurl:Special:AddDataUID|type_code={{urlencode:$abbrev}}&form={{urlencode:$label}}&lock_core_fields=1}} Create a new '''$label''']\n\n";
   }
 
@@ -164,25 +168,14 @@ foreach my $uri ( map($_->subject->as_string,
   my $template_text = "[[Category:$label]]\n{| {{Categoryhelper_table_options}}\n! colspan=\"2\" {{Categoryhelper_table_title_options}} | [[:Category:$label|$uc_label]]\n";
   $template_text = $template_preamble . $template_text . $template_postamble;
 
-  # leading newline is important -- the Semantic Forms <noinclude> parser is a bit too strict
-  my $form_text = "\n{{{for template|Category $label}}}{{{end template}}}\n";
-  $DB::single=1;
-  # FIXME walk up the inheritance tree, processing ancestors' properties as well
-  # FIXME this doesn't see properties with multi-class domains (the whole rdf:List thing again)
-  # FIXME should really go under the Property loops, since that code handles Lists and $nice_label for ObjectProperties
-  # find all properties with a domain of this class
+  my $form_text = "{{{for template|Category $label}}}{{{end template}}}\n";
   $form_text .= "<table>\n";
-  foreach my $property ( map($rdf->get_object($_->subject),
-                             $rdf->get_statements(undef, RDFS_DOMAIN, $uri)) )
-  {
-    next if $rdf->exists($property->object_uri, RDF_TYPE, 'owl:ObjectProperty'); # FIXME skip ObjectProperties for now since we don't have the $nice_label
-    my $property_label = $property->rdfs_label; # FIXME no harm no foul if it no label, just means the form won't work right. going to die below anyway.
-    (my $param_name = lc($property_label)) =~ tr/ /_/;
-    $form_text .= "{{{for template|Property $property_label}}}";
-    $form_text .= "<tr><th>$property_label:</th><td>{{{field|$param_name}}}</td></tr>";
-    $form_text .= "{{{end template}}}\n";
-  }
+  my @properties = map(domain_to_properties($rdf, $_), ancestors($rdf, $obj));
+  my %seen;
+  @properties = grep { !$seen{$_->object_uri->as_string}++ } @properties;
+  $form_text .= properties_to_formtext($rdf, grep(!is_object_nonfunctional_prop($rdf, $_), @properties));
   $form_text .= "</table>\n";
+  $form_text .= properties_to_formtext($rdf, grep(is_object_nonfunctional_prop($rdf, $_), @properties));
   $form_text .= "{{{for template|Categoryhelper table end}}}{{{end template}}}\n";
   $form_text = $form_preamble . $form_text . $form_postamble;
 
@@ -262,10 +255,8 @@ foreach my $uri ( @object_property_uris )
     $page_text .= " Its range is [[has_range_hint::Category:$range_label|$range_label]].";
   }
 
-  # if the name adheres to the hasNoun/isNounOf convention, strip the prefix to get the noun part
-  (my $nice_label = $label) =~ s/^(has|is)\s+//i;
-  # the parameter name will be the label, in lower case and with underscores for spaces
-  (my $param_name = lc($nice_label)) =~ tr/ /_/;
+  my $nice_label = nice_property_label($label);
+  my $param_name = label_to_param($nice_label);
   my $template_text = "|-\n! $nice_label\n| [[${label}::{{{$param_name|}}}]]";
   $template_text = $template_preamble . $template_text . $template_postamble;
 
@@ -347,13 +338,12 @@ foreach my $uri ( @datatype_property_uris )
   print "  range: $smw_type\n";
   $page_text .= " Its range is literal [[Type:$smw_type|$smw_type]] values.";
 
-  # the parameter name will be the label, in lower case and with underscores for spaces
-  (my $param_name = lc($label)) =~ tr/ /_/;
+  my $param_name = label_to_param($label);
   my $template_text = "|-\n! $label\n| ";
   # functional properties get a single value entry field, non-functionals support comma-separated lists
   if ( $rdf->exists($uri, RDF_TYPE, 'owl:FunctionalProperty') )
   {
-    $template_text .= "[[${label}::{{{$param_name|}}}]]";
+    $template_text .= "{{#if:{{{$param_name|}}}|[[${label}::{{{$param_name|}}}]]}}";
   }
   else
   {
@@ -405,7 +395,7 @@ sub uri_split
 
 # rdf : RDF::Helper
 # obj : RDF::Helper::Object
-# returns a list of ::Object
+# returns a list of ::Objects
 sub parse_list
 {
   my ($rdf, $obj) = @_;
@@ -415,7 +405,167 @@ sub parse_list
   {
     push @values, $obj->rdf_first;
     $obj = $obj->rdf_rest;
-  } until ($obj eq RDF_NIL); # RDF::Helper::Object only overloads 'eq'
+  } until ( $obj eq RDF_NIL ); # RDF::Helper::Object only overloads 'eq'
 
   return @values;
 }
+
+
+
+# Find all properties with $class or its ancestors in their domain
+# rdf   : RDF::Helper
+# class : RDF::Helper::Object
+# returns a list of ::Object
+sub domain_to_properties
+{
+  my ($rdf, $class) = @_;
+
+  my @properties;
+
+  push @properties, map($_->subject, $rdf->get_statements(undef, RDFS_DOMAIN, $class->object_uri));
+
+  # find all rdf:list nodes which contain $class
+  my @list_nodes = map($_->subject,
+                       $rdf->get_statements(undef, RDF_FIRST, $class->object_uri));
+  foreach my $node ( @list_nodes )
+  {
+    # walk back up past the head of the list, to determine whether the
+    # list is the object of a unionOf relation, or not
+    until ( $rdf->exists(undef, 'owl:unionOf', $node) or !$rdf->exists($node, RDF_TYPE, RDF_LIST) )
+    {
+      $node = ($rdf->get_statements(undef, RDF_REST, $node))[0]->subject;
+    }
+    # if it's a union, grab all properties whose domain is the union
+    if ( my @statements = $rdf->get_statements(undef, 'owl:unionOf', $node) )
+    {
+      my $union = $statements[0]->subject;
+      push @properties, map($_->subject, $rdf->get_statements(undef, RDFS_DOMAIN, $union));
+    }
+  }
+
+  # turn uris into RDF::Helper::Objects
+  @properties = map ($rdf->get_object($_), @properties);
+
+  ###print "+++ PROPERTIES WHOSE DOMAIN IS $class\n", map("  ".$_->object_uri->as_string."\n", @properties), "---\n";
+
+  return @properties;
+}
+
+
+
+# Returns all ancestors of the specified classes (and the classes
+# themselves).
+# classes : list of RDF::Helper::Objects
+# returns a list of ::Objects
+sub ancestors
+{
+  my ($rdf, @classes) = @_;
+
+  # NB: we append to the array as we iterate!
+  foreach my $class ( @classes )
+  {
+    push @classes, $class->rdfs_subClassOf unless !defined $class;
+  }
+
+  # remove undefs and duplicates, and flip the order to put parents before children
+  # (not necessarily correct in the face of multiple inheritance or multiple inputs)
+  my %seen;
+  @classes = reverse grep { defined $_ and !$seen{$_}++ } @classes;
+
+  return @classes;
+}
+
+
+
+# Create a more friendly-to-read version of an ObjectProperty label.
+# If the name adheres to the hasNoun/isNounOf convention, strip the
+# prefix to leave just the noun(of) part.  Shouldn't change a
+# DatatypeProperty label at all since they shouldn't use the has/is
+# convention.
+sub nice_property_label
+{
+  my ($label) = @_;
+
+  $label =~ s/^(has|is)\s+//i;
+
+  return $label;
+}
+
+
+
+# Turn a label into a good template parameter name, by converting to
+# lower case and converting spaces into underscores.
+sub label_to_param
+{
+  my ($label) = @_;
+
+  $label = lc($label);
+  $label =~ tr/ /_/;
+
+  return $label;
+}
+
+
+
+sub properties_to_formtext
+{
+  my ($rdf, @properties) = @_;
+
+  my $form_text;
+
+  foreach my $property ( @properties )
+  {
+    my $property_label = $property->rdfs_label or
+      die "error: no rdfs:label given for '".$property->object_uri."'\n";
+    $DB::single=1 if $property_label eq 'has target protein';
+    my $nice_label = nice_property_label($property_label);
+    my $param_name = label_to_param($nice_label);
+    my $multiple = "";
+    my $autocomplete = "";
+    if ( is_object_nonfunctional_prop($rdf, $property) )
+    {
+      $multiple = "multiple|label=$nice_label";
+    }
+    if ( is_object_prop($rdf, $property) )
+    {
+      # ucfirst required, otherwise categories wouldn't match (the
+      # SemanticForms autocompletion logic should do this itself!)
+      my $range_category = ucfirst($property->rdfs_range->rdfs_label);
+      $autocomplete = "autocomplete on category=$range_category|remote autocompletion";
+    }
+    $form_text .= "{{{for template|Property $property_label|$multiple}}}";
+    my $field_text = "{{{field|$param_name|$autocomplete}}}";
+    $form_text .= $multiple ? "<p>$field_text</p>" : "<tr><th>$nice_label:</th><td>$field_text</td></tr>";
+    $form_text .= "{{{end template}}}\n";
+  }
+
+  return $form_text;
+}
+
+
+
+# Tests to see if a property is an ObjectProperty but not Functional.
+# (i.e., needs to use the Semantic Forms "multiple" capability)
+sub is_object_nonfunctional_prop
+{
+  my ($rdf, $property) = @_;
+
+  return $rdf->exists($property->object_uri, RDF_TYPE, 'owl:ObjectProperty') and
+    !$rdf->exists($property->object_uri, RDF_TYPE, 'owl:FunctionalProperty');
+}
+
+
+
+sub is_object_prop
+{
+  my ($rdf, $property) = @_;
+
+  return $rdf->exists($property->object_uri, RDF_TYPE, 'owl:ObjectProperty');
+}
+
+
+
+# FIXME info card should display object_nonfunctional props as a list
+# in one cell instead of in multiple cells with duplicate labels
+#
+# {{#ask: [[{{FULLPAGENAME}}]] | ?has source organism = }}
