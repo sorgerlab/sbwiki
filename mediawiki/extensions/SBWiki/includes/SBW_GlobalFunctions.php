@@ -6,13 +6,17 @@
 define('SBW_VERSION','0.0.1');
 
 $wgExtensionFunctions[] = 'sbwgSetupExtension';
-#TEMP $wgHooks['LanguageGetMagic'][] = 'sbwParserFunctionsLGM';
+$wgHooks['LanguageGetMagic'][] = 'sbwLanguageGetMagic';
 
-function sbwParserFunctionsLGM( &$magicWords, $langCode ) {
-  $magicWords['sbwuidcategorize'] = array( 0, 'sbwuidcategorize' );
-  //error_log(print_r($magicWords,true),3,'/tmp/sbwiki_debug');
+
+function sbwLanguageGetMagic( &$magicWords, $langCode ) {
+  // FIXME: this ignores $langCode since we only offer English anyway
+
+  $magicWords['filesize'] = array( 0, 'filesize' );
+
   return true;
 }
+
 
 /**
  *  Do the actual intialisation of the extension. This is just a delayed init that makes sure
@@ -36,7 +40,7 @@ function sbwgSetupExtension() {
   /***** register hooks                     *****/
   /**********************************************/
 
-#TEMP  require_once($sbwgIP . '/includes/SBW_ParserFunctions.php');
+  require_once($sbwgIP . '/includes/SBW_ParserFunctions.php');
   require_once($sbwgIP . '/includes/SBW_CreateObjectTab.php');
   require_once($sbwgIP . '/includes/SBW_RewriteUIDLinks.php');
   
