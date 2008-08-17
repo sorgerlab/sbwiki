@@ -30,9 +30,11 @@ function sbwRewriteUIDLinks($obj, $text) {
     $uid_text  = $matches[1][0];
     $uid_start = $matches[1][1];
 
-    $uid_text = strtr($uid_text, ' ', '_');
+    // force underscores-for-spaces convention just in case the text has spaces
+    $uid_text = strtr($uid_text, ' ', '_'); 
     $uid_parts = explode('-', $uid_text, 4);
-    $annotation = $uid_parts[3];
+    // convert underscores back to spaces for display
+    $annotation = strtr($uid_parts[3], '_',' ');
 
     // check the db table to make sure this is a legitimate UID
     $select_conds = array_combine($condition_vars, $uid_parts);  // keys => values
@@ -41,7 +43,7 @@ function sbwRewriteUIDLinks($obj, $text) {
     // if the lookup succeeded and there is an annotation, replace the link
     // text with the annotation
     if ( $res and strlen($annotation) ) {
-      $text = substr_replace($text, "$annotation", $uid_start, strlen($uid_text));
+      $text = substr_replace($text, $annotation, $uid_start, strlen($uid_text));
     }
 
     // start the next match after this link (the true end of the link is a bit
