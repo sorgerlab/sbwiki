@@ -28,7 +28,6 @@ function sbwgSetupExtension() {
   /**********************************************/
   /***** register specials                  *****/
   /**********************************************/
-
   require_once($sbwgIP . '/specials/SBW_AddDataUID.php');
   require_once($sbwgIP . '/specials/SBW_GenerateUIDList.php');
   require_once($sbwgIP . '/specials/SBW_ImportModel.php');
@@ -39,11 +38,16 @@ function sbwgSetupExtension() {
   /**********************************************/
   /***** register hooks                     *****/
   /**********************************************/
-
   require_once($sbwgIP . '/includes/SBW_ParserFunctions.php');
   //require_once($sbwgIP . '/includes/SBW_CreateObjectTab.php');
   require_once($sbwgIP . '/includes/SBW_RewriteUIDLinks.php');
+  require_once($sbwgIP . '/includes/SBW_EditNonexistentObject.php');
   
+  /**********************************************/
+  /***** common classes                     *****/
+  /**********************************************/
+  require_once($sbwgIP . '/includes/classes/SBW_DebugException.php');
+
   /**********************************************/
   /***** credits (see "Special:Version")    *****/
   /**********************************************/
@@ -99,7 +103,12 @@ function sbwfFormatUID($type_code, $creator_initials, $id, $annotation = NULL) {
  */
 function sbwfParseUID($uid) {
   $uid_parts = explode('-', $uid, 4);
-  count($uid_parts) == 4 or $uid_parts[3] = null;
+  for ( $i=0; $i<4; $i++) {
+    if ( !strlen($uid_parts[$i]) ) {
+      $uid_parts[$i] = '';
+    }
+  }
+  $uid_parts[3] = strtr($uid_parts[3], ' ', '_'); // normalize space to underscore
 
   return $uid_parts;
 }
@@ -136,8 +145,29 @@ function sbwfAllocateUID($type_code, $creator_initials, $annotation) {
 
   $page_title = sbwfRowToUID($row);
 
-  // FIXME should this return a Title object?  Does that work if the page doesn't exist?
+  // FIXME should this return a Title object?  Does that work if the
+  // page doesn't exist? (Yes, call Title::newFromText())
   return $page_title;
+}
+
+
+/**
+ * Checks whether a given string is registered as a UID
+ */
+function sbwfVerifyUID($uid) {
+  $fname = 'SBW::sbwfVerifyUID';
+
+  $uid_parts = sbwfParseUID($uid);
+  $db =& wfGetDB(DB_MASTER);
+  $columns = array('type_code', 'creator_initials', 'id', 'annotation');
+  $result = $db->select($db->tableName('sbw_uid'),
+                        'id',
+                        array_combine($columns, $uid_parts),
+                        $fname);
+  $row = $db->fetchRow($result);
+
+  // force return to be a boolean value (i.e. not the result row on success)
+  return $row ? true : false; 
 }
 
 

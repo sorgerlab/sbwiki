@@ -37,8 +37,9 @@ function sbwParserFunctionFileSize(&$parser, $filename, $include_pretty=null) {
 function sbwParserFunctionUIDAnnot(&$parser) {
   $title = $parser->mTitle->getText();
   $uid_parts = sbwfParseUID($title);
+  $annotation = strtr($uid_parts[3], '_', ' ');
 
-  return $uid_parts[3];
+  return $annotation;
 }
 
 
