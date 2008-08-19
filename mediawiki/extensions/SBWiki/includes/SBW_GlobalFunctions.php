@@ -222,13 +222,12 @@ function sbwfListUIDs() {
 /**
  * Gets the information needed by AddDataUID to create a UID in a
  * given category: the name of its default form and its abbreviation.
- * On error, returns an error message as the third value.
- * FIXME: error behavior is kind of dumb. maybe throw an exception?
+ * On error, returns an error message as the third value.  FIXME:
+ * error behavior is kind of dumb. maybe throw an exception?  The
+ * $category input parameter and the first return parameter are Title
+ * objects.
  */
-function sbwfGetCategoryCreateInfo($category_string_base) {
-  $category = Title::makeTitle(NS_CATEGORY, ucfirst($category_string_base));
-  if ( !$category->exists() ) return array(null, null, 'does not exist');
-
+function sbwfGetCategoryCreateInfo($category) {
   $query = "[[:$category]]";
   $printouts = array('?Has default form', '?Abbreviation');
   $result = sbwfSemanticQuery($query, $printouts);
@@ -238,13 +237,29 @@ function sbwfGetCategoryCreateInfo($category_string_base) {
   // extract value for 'has default form' (column 0)
   $form_content = $row[0]->getContent();
   // take value 0 (can be multiple values per column!)
-  $form = count($form_content) ? $form_content[0]->getTitle()->getText() : null;
+  $form = count($form_content) ? $form_content[0]->getTitle() : null;
 
   // extract value for 'abbreviation' (column 1)
   $abbreviation_content = $row[1]->getContent();
   $abbreviation = count($abbreviation_content) ? $abbreviation_content[0]->getXSDValue() : null;
 
-  return array($form, $abbreviation, null);
+  return array($form, $abbreviation);
+}
+
+
+/**
+ * Just like it says on the tin.  Returns an array of Title objects.
+ */
+function sbwfGetSubcategories($category) {
+  $query = "[[$category]] [[:Category:+]]";
+  $result = sbwfSemanticQuery($query);
+  $subcategories = array();
+  while ( $row = $result->getNext() ) {
+    $value = $row[0]->getContent();
+    array_push($subcategories, $value[0]->getTitle());
+  }
+
+  return $subcategories;
 }
 
 /**
@@ -261,7 +276,7 @@ function sbwfGetCategoryCreateInfo($category_string_base) {
  * TODO: wrap the result in some nicer structure (with less power but
  * far simpler usage)
  */
-function sbwfSemanticQuery($query_in, $printouts_in) {
+function sbwfSemanticQuery($query_in, $printouts_in = array()) {
   $rawparams = array_merge((array)$query_in, $printouts_in);
   $querystring = $params = $printouts = null;
   SMWQueryProcessor::processFunctionParams($rawparams, $querystring, $params, $printouts);
@@ -277,5 +292,3 @@ function debug($object) {
 
   $wgOut->addHTML('<pre style="color:#f00;">'.htmlspecialchars(print_r($object,true)).'</pre>');
 }
-
-?>

@@ -23,10 +23,10 @@ function sbwEditNonexistentObject(&$editpage) {
   $fname = 'sbwEditNonexistentObject';
 
   // does page exist? if so, abort
-  if ($editpage->mTitle->exists()) return true;
+  $title = $editpage->mTitle;
+  if ($title->exists()) return true;
 
   // is the title already a UID? if so, abort
-  $title = $editpage->mTitle;
   if (sbwfVerifyUID($title)) return true;
 
   // is the page some relation's object? if not, abort
@@ -41,16 +41,19 @@ function sbwEditNonexistentObject(&$editpage) {
   //   a special page?
   // FIXME: we just check the first property for now and hope for the best
   $property = $properties[0];
-  $query_string = "[[$property]] [[Has range hint:: <q>[[:Category:+]] [[Category:SBWiki thing]]</q> ]]";
-  $query = SMWQueryProcessor::createQuery($query_string, array());
-  $result = smwfGetStore()->getQueryResult($query);
+  $query = "[[$property]] [[Has range hint:: <q>[[:Category:+]] [[Category:SBWiki thing]]</q> ]]";
+  $printouts = array('?Has range hint');
+  $result = sbwfSemanticQuery($query, $printouts);
   if (!$result->getCount()) return true;
 
+  $row = $result->getNext();
+  $value = $row[0]->getContent();
+  $range_category = $value[0]->getTitle();
+
   $redirect_title = Title::makeTitle(NS_SPECIAL, 'AddDataUID');
-  //throw new SBWDebugException($redirect_title);
-  $url_params = array();
-  $wgOut->redirect($redirect_title->getFullURL());
+  $url_params = "root_category=$range_category&annotation=$title";
+  //throw new SBWDebugException($url_params);
+  $wgOut->redirect($redirect_title->getFullURL($url_params));
 
   return false; // stop processing, since we already redirected
 }
-?>
