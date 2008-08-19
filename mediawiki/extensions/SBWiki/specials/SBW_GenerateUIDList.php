@@ -54,7 +54,6 @@ function doSpecialGenerateUIDList() {
 <tr><td></td><td><input name="create" type="submit" value="Create UIDs"></td></tr>
 </table>
 
-<input name="lock_core_fields" type="hidden" value="$lock_core_fields">
 </form>
 
 </div>

@@ -15,6 +15,8 @@ function doSpecialAddDataUID() {
   $lock_core_fields = $wgRequest->getVal('lock_core_fields');
   $form             = $wgRequest->getVal('form');
   $type_code        = $wgRequest->getVal('type_code');
+  $category         = $wgRequest->getVal('category');
+  $allowable_types  = $wgRequest->getVal('allowable_types');
   $creator_initials = $wgRequest->getVal('creator_initials');
   $annotation       = $wgRequest->getVal('annotation');
 
@@ -22,6 +24,15 @@ function doSpecialAddDataUID() {
 
   if ( !$submitted and $user_initials = sbwfGetUserInitials() ) {
     $creator_initials = $user_initials;
+  }
+  if ( $category ) {
+    list($form, $type_code, $category_error) = sbwfGetCategoryCreateInfo($category);
+    if ( $category_error ) {
+      $errors[] = "<em>Category:$category</em>: $category_error";
+    } else {
+      if ( !$form )      $errors[] = "<em>Category:$category</em> does not have a <em>Has default form</em> property (form)";
+      if ( !$type_code ) $errors[] = "<em>Category:$category</em> does not have an <em>Abbreviation</em> property (type_code)";
+    }
   }
   if ( $form ) {
     $form_title = Title::newFromText($form, SF_NS_FORM);

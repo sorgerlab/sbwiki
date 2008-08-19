@@ -219,6 +219,59 @@ function sbwfListUIDs() {
 }
 
 
+/**
+ * Gets the information needed by AddDataUID to create a UID in a
+ * given category: the name of its default form and its abbreviation.
+ * On error, returns an error message as the third value.
+ * FIXME: error behavior is kind of dumb. maybe throw an exception?
+ */
+function sbwfGetCategoryCreateInfo($category_string_base) {
+  $category = Title::makeTitle(NS_CATEGORY, ucfirst($category_string_base));
+  if ( !$category->exists() ) return array(null, null, 'does not exist');
+
+  $query = "[[:$category]]";
+  $printouts = array('?Has default form', '?Abbreviation');
+  $result = sbwfSemanticQuery($query, $printouts);
+  // expect just one row since the query is for one explicit category itself
+  $row = $result->getNext();
+
+  // extract value for 'has default form' (column 0)
+  $form_content = $row[0]->getContent();
+  // take value 0 (can be multiple values per column!)
+  $form = count($form_content) ? $form_content[0]->getTitle()->getText() : null;
+
+  // extract value for 'abbreviation' (column 1)
+  $abbreviation_content = $row[1]->getContent();
+  $abbreviation = count($abbreviation_content) ? $abbreviation_content[0]->getXSDValue() : null;
+
+  return array($form, $abbreviation, null);
+}
+
+/**
+ * There is no nice API to the SMW query engine that supports
+ * "printouts" (the equivalent of the projection component of a SQL
+ * statement) so I wrote one.  Input params are 1) a query (i.e. the
+ * contents of the left textarea in Special:Ask) and 2) an array of
+ * printouts/args (the contents of the right textarea, with each line
+ * in its own array element).  In fact, this function emulates the
+ * same code path as Special:Ask, with as much code reuse as possible.
+ * The return is an SMWQueryResult which is a pretty hairy structure.
+ * See sbwfGetCategoryCreateInfo for sample usage and result parsing.
+ *
+ * TODO: wrap the result in some nicer structure (with less power but
+ * far simpler usage)
+ */
+function sbwfSemanticQuery($query_in, $printouts_in) {
+  $rawparams = array_merge((array)$query_in, $printouts_in);
+  $querystring = $params = $printouts = null;
+  SMWQueryProcessor::processFunctionParams($rawparams, $querystring, $params, $printouts);
+  $query  = SMWQueryProcessor::createQuery($querystring, $params, null, null, $printouts);
+  $result = smwfGetStore()->getQueryResult($query);
+
+  return $result;
+}
+
+
 function debug($object) {
   global $wgOut;
 

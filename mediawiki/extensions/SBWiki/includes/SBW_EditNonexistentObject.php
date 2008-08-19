@@ -19,7 +19,7 @@ $wgHooks['AlternateEdit'][] = 'sbwEditNonexistentObject';
  * allocated so condition #2 will be false.
  */
 function sbwEditNonexistentObject(&$editpage) {
-  global $wgRequest;
+  global $wgRequest, $wgOut;
   $fname = 'sbwEditNonexistentObject';
 
   // does page exist? if so, abort
@@ -47,7 +47,9 @@ function sbwEditNonexistentObject(&$editpage) {
   if (!$result->getCount()) return true;
 
   $redirect_title = Title::makeTitle(NS_SPECIAL, 'AddDataUID');
-  $wgOut->redirect($redirect_title);
+  //throw new SBWDebugException($redirect_title);
+  $url_params = array();
+  $wgOut->redirect($redirect_title->getFullURL());
 
   return false; // stop processing, since we already redirected
 }
