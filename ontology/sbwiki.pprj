@@ -1,4 +1,4 @@
-; Fri Aug 01 16:56:35 EDT 2008
+; Tue Aug 19 18:30:41 EDT 2008
 ; 
 ;+ (version "3.3.1")
 ;+ (build "Build 430")
@@ -6,11 +6,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[sbwiki_ProjectKB_Instance_20028]
-		[sbwiki_ProjectKB_Instance_20029]
-		[sbwiki_ProjectKB_Instance_20030]
-		[sbwiki_ProjectKB_Instance_20031]
-		[sbwiki_ProjectKB_Instance_20032]))
+		[sbwiki_ProjectKB_Instance_20008]
+		[sbwiki_ProjectKB_Instance_20009]
+		[sbwiki_ProjectKB_Instance_20010]
+		[sbwiki_ProjectKB_Instance_20011]
+		[sbwiki_ProjectKB_Instance_20012]))
 
 ([CLSES_TAB] of  Widget
 
@@ -285,7 +285,9 @@
 
 ([KB_100699_Instance_11] of  Property_List
 
-	(properties [KB_100699_Instance_12]))
+	(properties
+		[KB_100699_Instance_12]
+		[sbwiki_ProjectKB_Instance_20000]))
 
 ([KB_100699_Instance_12] of  Boolean
 
@@ -3262,8 +3264,8 @@
 ([KB_901669_Instance_0] of  Map
 
 	(entries
-		[sbwiki_ProjectKB_Instance_20033]
-		[sbwiki_ProjectKB_Instance_20034]))
+		[sbwiki_ProjectKB_Instance_20013]
+		[sbwiki_ProjectKB_Instance_20014]))
 
 ([KB_901669_Instance_2] of  String
 
@@ -5284,12 +5286,12 @@
 	(customized_instance_widgets
 		[PAL_FORM_WIDGET]
 		[KB_713803_Instance_477]
-		[INSTANCE_ANNOTATION_FORM_WIDGET]
 		[KB_713803_Instance_780]
-		[KB_301165_Instance_856]
+		[INSTANCE_ANNOTATION_FORM_WIDGET]
 		[KB_713803_Instance_693]
-		[KB_691299_Instance_537]
+		[KB_301165_Instance_856]
 		[KB_713803_Instance_648]
+		[KB_691299_Instance_537]
 		[KB_691299_Instance_398]
 		[KB_303942_Instance_68]
 		[KB_938545_Instance_166]
@@ -5315,10 +5317,10 @@
 	(default_slot_metaclass "owl:ObjectProperty")
 	(hidden_classes
 		"owl:someValuesFrom"
-		":FROM"
 		"owl:disjointWith"
-		":TO"
+		":FROM"
 		"owl:sameAs"
+		":TO"
 		"owl:differentFrom"
 		"protege:inferredSuperclassOf"
 		"protege:inferredSubclassOf"
@@ -5373,17 +5375,17 @@
 		":SYSTEM-CLASS"
 		"owl:oneOf"
 		"owl:DataRange"
-		"rdf:Property"
 		"owl:DeprecatedProperty"
-		"owl:DeprecatedClass"
+		"rdf:Property"
 		"owl:Class"
+		"owl:DeprecatedClass"
 		"rdf:Statement"
 		"rdf:type"
-		"rdf:subject"
 		"rdfs:Class"
+		"rdf:subject"
 		"rdf:predicate"
-		"rdf:object"
 		":OWL-ANONYMOUS-ROOT"
+		"rdf:object"
 		"rdfs:Container"
 		"rdf:Alt"
 		"rdf:Bag"
@@ -5692,39 +5694,44 @@
 	(property_list [sbwiki_ProjectKB_Instance_21])
 	(widget_class_name "TGViztab.TGVizTab"))
 
-([sbwiki_ProjectKB_Instance_20028] of  String
+([sbwiki_ProjectKB_Instance_20000] of  Boolean
+
+	(boolean_value TRUE)
+	(name "HideGlobalCharacteristics"))
+
+([sbwiki_ProjectKB_Instance_20008] of  String
 
 	(name "owl:Thing")
 	(string_value "%3ANAME"))
 
-([sbwiki_ProjectKB_Instance_20029] of  String
+([sbwiki_ProjectKB_Instance_20009] of  String
 
 	(name ":PAL-CONSTRAINT")
 	(string_value "%3APAL-NAME"))
 
-([sbwiki_ProjectKB_Instance_20030] of  String
+([sbwiki_ProjectKB_Instance_20010] of  String
 
 	(name ":INSTANCE-ANNOTATION")
 	(string_value "%3AANNOTATION-TEXT"))
 
-([sbwiki_ProjectKB_Instance_20031] of  String
+([sbwiki_ProjectKB_Instance_20011] of  String
 
 	(name ":META-CLASS")
 	(string_value "%3ANAME"))
 
-([sbwiki_ProjectKB_Instance_20032] of  String
+([sbwiki_ProjectKB_Instance_20012] of  String
 
 	(name "owl:Class")
 	(string_value "%3ANAME"))
 
-([sbwiki_ProjectKB_Instance_20033] of  Map_Entry
+([sbwiki_ProjectKB_Instance_20013] of  Map_Entry
 
 	(key "add_name_on_instance_form")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([sbwiki_ProjectKB_Instance_20034] of  Map_Entry
+([sbwiki_ProjectKB_Instance_20014] of  Map_Entry
 
 	(key "change_tracking_active")
 	(key_class "java.lang.String")
