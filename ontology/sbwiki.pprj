@@ -1,4 +1,4 @@
-; Tue Aug 19 18:30:41 EDT 2008
+; Fri Sep 19 18:50:37 EDT 2008
 ; 
 ;+ (version "3.3.1")
 ;+ (build "Build 430")
@@ -6,11 +6,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[sbwiki_ProjectKB_Instance_20008]
-		[sbwiki_ProjectKB_Instance_20009]
-		[sbwiki_ProjectKB_Instance_20010]
-		[sbwiki_ProjectKB_Instance_20011]
-		[sbwiki_ProjectKB_Instance_20012]))
+		[sbwiki_ProjectKB_Instance_30112]
+		[sbwiki_ProjectKB_Instance_30113]
+		[sbwiki_ProjectKB_Instance_30114]
+		[sbwiki_ProjectKB_Instance_30115]
+		[sbwiki_ProjectKB_Instance_30116]))
 
 ([CLSES_TAB] of  Widget
 
@@ -3264,8 +3264,8 @@
 ([KB_901669_Instance_0] of  Map
 
 	(entries
-		[sbwiki_ProjectKB_Instance_20013]
-		[sbwiki_ProjectKB_Instance_20014]))
+		[sbwiki_ProjectKB_Instance_30117]
+		[sbwiki_ProjectKB_Instance_30118]))
 
 ([KB_901669_Instance_2] of  String
 
@@ -5286,12 +5286,12 @@
 	(customized_instance_widgets
 		[PAL_FORM_WIDGET]
 		[KB_713803_Instance_477]
-		[KB_713803_Instance_780]
 		[INSTANCE_ANNOTATION_FORM_WIDGET]
-		[KB_713803_Instance_693]
+		[KB_713803_Instance_780]
 		[KB_301165_Instance_856]
-		[KB_713803_Instance_648]
+		[KB_713803_Instance_693]
 		[KB_691299_Instance_537]
+		[KB_713803_Instance_648]
 		[KB_691299_Instance_398]
 		[KB_303942_Instance_68]
 		[KB_938545_Instance_166]
@@ -5375,17 +5375,17 @@
 		":SYSTEM-CLASS"
 		"owl:oneOf"
 		"owl:DataRange"
-		"owl:DeprecatedProperty"
 		"rdf:Property"
-		"owl:Class"
+		"owl:DeprecatedProperty"
 		"owl:DeprecatedClass"
+		"owl:Class"
 		"rdf:Statement"
 		"rdf:type"
-		"rdfs:Class"
 		"rdf:subject"
+		"rdfs:Class"
 		"rdf:predicate"
-		":OWL-ANONYMOUS-ROOT"
 		"rdf:object"
+		":OWL-ANONYMOUS-ROOT"
 		"rdfs:Container"
 		"rdf:Alt"
 		"rdf:Bag"
@@ -5699,45 +5699,6 @@
 	(boolean_value TRUE)
 	(name "HideGlobalCharacteristics"))
 
-([sbwiki_ProjectKB_Instance_20008] of  String
-
-	(name "owl:Thing")
-	(string_value "%3ANAME"))
-
-([sbwiki_ProjectKB_Instance_20009] of  String
-
-	(name ":PAL-CONSTRAINT")
-	(string_value "%3APAL-NAME"))
-
-([sbwiki_ProjectKB_Instance_20010] of  String
-
-	(name ":INSTANCE-ANNOTATION")
-	(string_value "%3AANNOTATION-TEXT"))
-
-([sbwiki_ProjectKB_Instance_20011] of  String
-
-	(name ":META-CLASS")
-	(string_value "%3ANAME"))
-
-([sbwiki_ProjectKB_Instance_20012] of  String
-
-	(name "owl:Class")
-	(string_value "%3ANAME"))
-
-([sbwiki_ProjectKB_Instance_20013] of  Map_Entry
-
-	(key "add_name_on_instance_form")
-	(key_class "java.lang.String")
-	(value "false")
-	(value_class "java.lang.String"))
-
-([sbwiki_ProjectKB_Instance_20014] of  Map_Entry
-
-	(key "change_tracking_active")
-	(key_class "java.lang.String")
-	(value "false")
-	(value_class "java.lang.String"))
-
 ([sbwiki_ProjectKB_Instance_21] of  Property_List
 )
 
@@ -5785,6 +5746,45 @@
 	(is_hidden TRUE)
 	(property_list [sbwiki_ProjectKB_Instance_31])
 	(widget_class_name "edu.stanford.smi.protegex.chatPlugin.ChatTab"))
+
+([sbwiki_ProjectKB_Instance_30112] of  String
+
+	(name "owl:Thing")
+	(string_value "%3ANAME"))
+
+([sbwiki_ProjectKB_Instance_30113] of  String
+
+	(name ":PAL-CONSTRAINT")
+	(string_value "%3APAL-NAME"))
+
+([sbwiki_ProjectKB_Instance_30114] of  String
+
+	(name ":INSTANCE-ANNOTATION")
+	(string_value "%3AANNOTATION-TEXT"))
+
+([sbwiki_ProjectKB_Instance_30115] of  String
+
+	(name ":META-CLASS")
+	(string_value "%3ANAME"))
+
+([sbwiki_ProjectKB_Instance_30116] of  String
+
+	(name "owl:Class")
+	(string_value "%3ANAME"))
+
+([sbwiki_ProjectKB_Instance_30117] of  Map_Entry
+
+	(key "add_name_on_instance_form")
+	(key_class "java.lang.String")
+	(value "false")
+	(value_class "java.lang.String"))
+
+([sbwiki_ProjectKB_Instance_30118] of  Map_Entry
+
+	(key "change_tracking_active")
+	(key_class "java.lang.String")
+	(value "false")
+	(value_class "java.lang.String"))
 
 ([sbwiki_ProjectKB_Instance_31] of  Property_List
 )
