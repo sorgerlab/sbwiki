@@ -1,0 +1,39 @@
+Properties (relations) created by Brian to support his Albeck/Burke
+Trail Model import script.
+
+
+
+Asymmetric
+==========
+
+Original:
+
+domain		property		range		inverse
+------		--------		-----		-------
+species		has component		species		part of complex
+species		makes product		species		product of
+species		has substrate		species		substrate of
+species		converted from		species		converts to
+species		translocated from	species		translocates to
+reaction	has participant		species		participates in reaction
+
+Revised naming:
+
+domain		property		range		inverse
+------		--------		-----		-------
+species		has component species	species		is component species of
+species		catalyzes production of	species		has production catalyzed by
+species		has catalytic substrate	species		is catalytic substrate of
+species		converted from		species		converted to
+species		translocated from	species		translocated to
+reaction	has involved species	species		is involved in reaction
+
+
+
+Symmetric
+=========
+
+domain		property
+------		--------
+species		binds to
+species		equivalent to
