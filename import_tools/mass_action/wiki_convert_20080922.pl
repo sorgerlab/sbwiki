@@ -69,7 +69,7 @@ PARAM_END
   $content =~ s/$ix_re/$new_content/;
 
   my $context_re = qr/{{Category physicochemical reaction}}\n{{Property label\n\|label=\Q$ix_fields{name}\E\n/;
-  my $parent_link_dynamic = "This reaction is part of the model '[[part of model::{{#ask: [[has model interaction::{{PAGENAMEE}}]]|link=none}}]]'";
+  my $parent_link_dynamic = "This reaction is part of the model '[[part of model::{{#ask: [[has model interaction::{{PAGENAME}}]]|link=none}}]]'";
   $content =~ s/(?<=$context_re)(.*?)\[\[part of model::.*?\| \]\]/$1$parent_link_dynamic/s;
 }
 
@@ -93,20 +93,20 @@ while ( @sp_fields{qw(name synonyms full_name uniprot molecule_type localization
 {{Property full name
 |full_name=$sp_fields{full_name}
 }}
-{{Property synonyms
-|synonyms=$sp_fields{synonyms}
+{{Property synonym
+|synonym=$sp_fields{synonyms}
 }}
 {{Property is version of
-|version of=$sp_fields{full_name}
+|version_of=$sp_fields{full_name}
 }}
 {{Property is contained in
-|contained in=$sp_fields{localization}
+|contained_in=$sp_fields{localization}
 }}
 {{Property literature reference
 |literature_reference=$sp_fields{references}
 }}
-{{Property has kinetic parameter
-|kinetic_parameter=initial_condition = $sp_fields{initial_value}
+{{Property has initial condition
+|initial_condition=$sp_fields{initial_value}
 }}
 {{Categoryhelper table end}}
 CONTENT_END
@@ -122,7 +122,7 @@ CONTENT_END
   $content =~ s/$sp_re/$new_content/;
 
   my $context_re = qr/{{Category physicochemical species}}\n{{Property label\n\|label=\Q$sp_fields{name}\E\n/;
-  my $parent_link_dynamic = "This species is part of the model '[[part of model::{{#ask: [[has model species::{{PAGENAMEE}}]]|link=none}}]]'";
+  my $parent_link_dynamic = "This species is part of the model '[[part of model::{{#ask: [[has model species::{{PAGENAME}}]]|link=none}}]]'";
   $content =~ s/(?<=$context_re)(.*?)\[\[part of model::.*?\| \]\]/$1$parent_link_dynamic/s;
 }
 
