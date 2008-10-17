@@ -22,25 +22,38 @@ function doSpecialAddDataUID() {
     $creator_initials = $user_initials;
   }
 
+  # either category or root_category must be specified
   $form = $type_code = $category_list = null;
-  if ( $root_category ) {
-    $root_category = Title::newFromText($root_category);
-    if ( $root_category->exists() ) {
-      list($form, $type_code) = sbwfGetCategoryCreateInfo($root_category);
-      $category_list = sbwfGetSubcategories($root_category);
-      array_unshift($category_list, $root_category);
-      if ( !$form )           $errors[] = "<em>$root_category</em> does not have a <em>Has default form</em> property";
-      if ( !$form->exists() ) $errors[] = "<em>$form</em> (the default form for <em>$root_category</em>) does not exist";
-      if ( !$type_code      ) $errors[] = "<em>$category</em> does not have an <em>Abbreviation</em> property";
+  if ( $category ) {
+    $category_title = Title::newFromText($category, NS_CATEGORY);
+    if ( $category_title->exists() ) {
+      $category_list = array($category_title);
     } else {
-      $errors[] = "<em>$root_category</em> does not exist";
+      $errors[] = "category <em>category</em> does not exist";
     }
   } else {
-    $errors[] = '<em>root_category</em> not specified';
+    if ( $root_category ) {
+      $root_category = Title::newFromText($root_category, NS_CATEGORY);
+      if ( $root_category->exists() ) {
+	$category_list = sbwfGetSubcategories($root_category);
+	array_unshift($category_list, $root_category);
+      } else {
+	$errors[] = "category <em>$root_category</em> does not exist";
+      }
+    } else {
+      $errors[] = '<em>root_category</em> not specified';
+    }
   }
 
   if ( $submitted ) {
-    if ( !$category )         $errors[] = 'Please choose a <em>Category</em>';
+    if ( !$category ) {
+      $errors[] = 'Please choose a <em>Category</em>';
+    } else {
+      list($form, $type_code) = sbwfGetCategoryCreateInfo($category);
+      if ( !$form )           $errors[] = "category <em>$category</em> does not have a <em>Has default form</em> property";
+      if ( !$form->exists() ) $errors[] = "<em>$form</em> (the default form for <em>$root_category</em>) does not exist";
+      if ( !$type_code      ) $errors[] = "category <em>$category</em> does not have an <em>Abbreviation</em> property";
+    }
     if ( !$creator_initials ) $errors[] = 'Please enter the <em>Creator Initials</em>';
   }
 
