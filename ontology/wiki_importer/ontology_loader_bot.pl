@@ -517,11 +517,12 @@ sub properties_to_formtext
   {
     my $property_label = $property->rdfs_label or
       die "error: no rdfs:label given for '".$property->object_uri."'\n";
-    $DB::single=1 if $property_label eq 'has target protein';
+    #$DB::single=1 if $property_label eq 'has target protein';
     my $nice_label = nice_property_label($property_label);
     my $param_name = label_to_param($nice_label);
     my $multiple = "";
     my $autocomplete = "";
+
     if ( is_object_nonfunctional_prop($rdf, $property) )
     {
       $multiple = "multiple|label=$nice_label";
@@ -533,9 +534,13 @@ sub properties_to_formtext
       my $range_category = ucfirst($property->rdfs_range->rdfs_label);
       $autocomplete = "autocomplete on category=$range_category|remote autocompletion";
     }
-    $form_text .= "{{{for template|Property $property_label|$multiple}}}";
+
     my $field_text = "{{{field|$param_name|$autocomplete}}}";
-    $form_text .= $multiple ? "<p>$field_text</p>" : "<tr><th>$nice_label:</th><td>$field_text</td></tr>";
+    $field_text = "<p>$field_text</p>" if $multiple;
+
+    $form_text .= "<tr><th>$nice_label:</th><td>$field_text</td></tr>";
+    $form_text .= "{{{for template|Property $property_label|$multiple}}}";
+    $form_text .= $field_text;
     $form_text .= "{{{end template}}}\n";
   }
 
