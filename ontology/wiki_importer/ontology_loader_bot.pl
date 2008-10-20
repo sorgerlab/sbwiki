@@ -62,11 +62,11 @@ my %xsd_smw_types = (
 
 
 # boilerplate text to wrap around templates and forms
-my $template_preamble = "<noinclude>\nEdit the page to see the template text.\n</noinclude><includeonly>";
-my $template_postamble = "</includeonly>";
+my $template_pre  = "<noinclude>\nEdit the page to see the template text.\n</noinclude><includeonly>";
+my $template_post = "</includeonly>";
 # trailing newline is important -- the Semantic Forms <noinclude> parser is a bit too strict
-my $form_preamble = "<noinclude>\nEdit the page to see the form text.\n</noinclude><includeonly>\n";
-my $form_postamble = <<FORM_POSTAMBLE;
+my $form_pre  = "<noinclude>\nEdit the page to see the form text.\n</noinclude><includeonly>\n";
+my $form_post = <<FORM_POST;
 '''Free text:'''
 
 {{{field|free text}}}
@@ -75,7 +75,7 @@ my $form_postamble = <<FORM_POSTAMBLE;
 <p>{{{standard input|minor edit}}} {{{standard input|watch}}}</p>
 <p>{{{standard input|save}}} {{{standard input|preview}}} {{{standard input|changes}}} {{{standard input|cancel}}}</p>
 </includeonly>
-FORM_POSTAMBLE
+FORM_POST
 
 
 my $prefix = 'sbwiki';
@@ -160,24 +160,26 @@ foreach my $uri ( map($_->subject->as_string,
   else
   {
     $page_text .= "[[has default form::Form:$label| ]]\n";
-    $page_text .= "[[Image:Add.png]] [{{fullurl:Special:AddDataUID|type_code={{urlencode:$abbrev}}&form={{urlencode:$label}}&lock_core_fields=1}} Create a new '''$label''']\n\n";
+    $page_text .= "[[Image:Add.png]] [{{fullurl:Special:AddDataUID|category={{urlencode:$label}}}} Create a new '''$label''']\n\n";
   }
 
-  $page_text .= "[[Image:Ontobrowser.gif]] [{{fullurl:Special:OntologyBrowser|entitytitle={{PAGENAMEE}}&ns={{NAMESPACEE}}}} Open '''$label''' in the OntologyBrowser]\n\n";
+  # FIXME re-enable ontology browser in the wiki then uncomment this next line
+  #$page_text .= "[[Image:Ontobrowser.gif]] [{{fullurl:Special:OntologyBrowser|entitytitle={{PAGENAMEE}}&ns={{NAMESPACEE}}}} Open '''$label''' in the OntologyBrowser]\n\n";
 
   my $template_text = "[[Category:$label]]\n{| {{Categoryhelper_table_options}}\n! colspan=\"2\" {{Categoryhelper_table_title_options}} | [[:Category:$label|$uc_label]]\n";
-  $template_text = $template_preamble . $template_text . $template_postamble;
+  $template_text = $template_pre . $template_text . $template_post;
 
   my $form_text = "{{{for template|Category $label}}}{{{end template}}}\n";
   $form_text .= "<table>\n";
   my @properties = map(domain_to_properties($rdf, $_), ancestors($rdf, $obj));
   my %seen;
+  #$DB::single=1 if $label eq 'physicochemical reaction'; # XXX
   @properties = grep { !$seen{$_->object_uri->as_string}++ } @properties;
   $form_text .= properties_to_formtext($rdf, grep(!is_object_nonfunctional_prop($rdf, $_), @properties));
-  $form_text .= "</table>\n";
   $form_text .= properties_to_formtext($rdf, grep(is_object_nonfunctional_prop($rdf, $_), @properties));
+  $form_text .= "</table>\n";
   $form_text .= "{{{for template|Categoryhelper table end}}}{{{end template}}}\n";
-  $form_text = $form_preamble . $form_text . $form_postamble;
+  $form_text = $form_pre . $form_text . $form_post;
 
   # create category
   unless ( $skip_category )
@@ -257,16 +259,18 @@ foreach my $uri ( @object_property_uris )
 
   my $nice_label = nice_property_label($label);
   my $param_name = label_to_param($nice_label);
-  my $template_text = "|-\n! $nice_label\n| [[${label}::{{{$param_name|}}}]]";
-  $template_text = $template_preamble . $template_text . $template_postamble;
+  # prefix will be inserted once by the form, main template gets one copy per instance of the property
+  my $template_prefix_text = $template_pre . "|-\n! $nice_label\n| " . $template_post;
+  my $template_text = $template_pre . "<p>[[${label}::{{{$param_name|}}}]]</p>" . $template_post;
 
   # create property
   unless ( $skip_object )
   {
     $wiki->edit("Property:$label", $page_text, $edit_summary);
     # create template
-    unless ( $skip_template )
+    unless ( $skip_template or $obj->sbwiki_noEdit )
     {
+      $wiki->edit("Template:PropertyPrefix_$label", $template_prefix_text, $edit_summary);
       $wiki->edit("Template:Property_$label", $template_text, $edit_summary);
     }
   }
@@ -340,23 +344,24 @@ foreach my $uri ( @datatype_property_uris )
 
   my $param_name = label_to_param($label);
   my $template_text = "|-\n! $label\n| ";
-  # functional properties get a single value entry field, non-functionals support comma-separated lists
+  # functional properties get a single value entry field, non-functionals support delimited lists
   if ( $rdf->exists($uri, RDF_TYPE, 'owl:FunctionalProperty') )
   {
     $template_text .= "{{#if:{{{$param_name|}}}|[[${label}::{{{$param_name|}}}]]}}";
   }
   else
   {
-    $template_text .= "{{#arraymap:{{{$param_name|}}}|,|XXXXXXXXXX|[[${label}::XXXXXXXXXX]]}}";
+    $template_text .= "{{#arraymap:{{{$param_name|}}}|;|XXXXXXXXXX|[[${label}::XXXXXXXXXX]]|&nbsp;;&nbsp;}}";
   }
-  $template_text = $template_preamble . $template_text . $template_postamble;
+  $template_text = $template_pre . $template_text . $template_post;
 
   # create property
   unless ( $skip_datatype )
   {
     $wiki->edit("Property:$label", $page_text, $edit_summary);
     # create template, unless this is an AnnotationProperty
-    unless ( $skip_template or $rdf->exists($uri, RDF_TYPE, 'owl:AnnotationProperty') )
+    unless ( $skip_template or $obj->sbwiki_noEdit or
+	     $rdf->exists($uri, RDF_TYPE, 'owl:AnnotationProperty') )
     {
       $wiki->edit("Template:Property_$label", $template_text, $edit_summary);
     }
@@ -424,6 +429,7 @@ sub domain_to_properties
 
   push @properties, map($_->subject, $rdf->get_statements(undef, RDFS_DOMAIN, $class->object_uri));
 
+  #$DB::single = 1 if $class eq 'http://pipeline.med.harvard.edu/sbwiki-20080408.owl#Model';
   # find all rdf:list nodes which contain $class
   my @list_nodes = map($_->subject,
                        $rdf->get_statements(undef, RDF_FIRST, $class->object_uri));
@@ -515,6 +521,8 @@ sub properties_to_formtext
 
   foreach my $property ( @properties )
   {
+    next if $property->sbwiki_noEdit;
+
     my $property_label = $property->rdfs_label or
       die "error: no rdfs:label given for '".$property->object_uri."'\n";
     #$DB::single=1 if $property_label eq 'has target protein';
@@ -522,26 +530,34 @@ sub properties_to_formtext
     my $param_name = label_to_param($nice_label);
     my $multiple = "";
     my $autocomplete = "";
+    my $info_text = "";
 
-    if ( is_object_nonfunctional_prop($rdf, $property) )
-    {
-      $multiple = "multiple|label=$nice_label";
-    }
     if ( is_object_prop($rdf, $property) )
     {
+      if ( !is_functional_prop($rdf, $property) )
+      {
+	$multiple = "multiple|label=$nice_label";
+      }
       # ucfirst required, otherwise categories wouldn't match (the
       # SemanticForms autocompletion logic should do this itself!)
       my $range_category = ucfirst($property->rdfs_range->rdfs_label);
       $autocomplete = "autocomplete on category=$range_category|remote autocompletion";
+      # insert prefix form
+      $form_text .= "{{{for template|PropertyPrefix $property_label}}}{{{end template}}}";
+    }
+    else # datatype
+    {
+      $info_text = "semicolon; delimited; list" if !is_functional_prop($rdf, $property);
     }
 
     my $field_text = "{{{field|$param_name|$autocomplete}}}";
     $field_text = "<p>$field_text</p>" if $multiple;
 
-    $form_text .= "<tr><th>$nice_label:</th><td>$field_text</td></tr>";
-    $form_text .= "{{{for template|Property $property_label|$multiple}}}";
-    $form_text .= $field_text;
-    $form_text .= "{{{end template}}}\n";
+    $form_text .= "<tr>";
+    $form_text .= "<th>$nice_label</th>";
+    $form_text .= "<td>{{{for template|Property $property_label|$multiple}}}${field_text}{{{end template}}}</td>";
+    $form_text .= "<td>$info_text</td>";
+    $form_text .= "</tr>\n";
   }
 
   return $form_text;
@@ -557,6 +573,15 @@ sub is_object_nonfunctional_prop
 
   return $rdf->exists($property->object_uri, RDF_TYPE, 'owl:ObjectProperty') and
     !$rdf->exists($property->object_uri, RDF_TYPE, 'owl:FunctionalProperty');
+}
+
+
+
+sub is_functional_prop
+{
+  my ($rdf, $property) = @_;
+
+  return $rdf->exists($property->object_uri, RDF_TYPE, 'owl:FunctionalProperty');
 }
 
 
