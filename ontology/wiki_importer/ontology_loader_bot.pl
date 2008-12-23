@@ -8,36 +8,71 @@ use Getopt::Long;
 use RDF::Helper;
 use RDF::Helper::Constants qw(:rdf :rdfs);
 use Perlwikipedia;
+use POSIX;
 
 
-my $owl_filename   = splice(@ARGV, 0, 1);
-my @wiki_opts      = splice(@ARGV, 0, 2);
-my @wiki_login     = splice(@ARGV, 0, 2);
-
-defined $owl_filename  or die "error: no .owl file given";
-defined $wiki_opts[1]  or die "error: must provide wiki url and script path";
-defined $wiki_login[1] or die "error: must provide wiki username and password";
+my $owl_filename = shift @ARGV;
+defined $owl_filename  or die "error: no .owl file given\n";
 
 my ($skip_import, $skip_category, $skip_object, $skip_datatype, $skip_template, $skip_form);
+my ($wiki_url, $wiki_scriptpath, $wiki_username, $wiki_password);
+my $xml = 1;
+my $minor = 1;
 
 # NB: add new skip_* parameters to the dry-run line at the bottom
 #   (could probably do this programatically if I read up on Getopt)
 GetOptions(
-  "skip-import|si"   => \$skip_import,
-  "skip-category|sc" => \$skip_category,
-  "skip-object|so"   => \$skip_object,
-  "skip-datatype|sd" => \$skip_datatype,
-  "skip-template|st" => \$skip_template,
-  "skip-form|sf" => \$skip_form,
-  "dry-run|n"        => sub {$skip_import=$skip_category=$skip_object=$skip_datatype=$skip_template=$skip_form=1},
+  "xml!"                 => \$xml,
+  "minor!"               => \$minor,
+  "wiki-url|wu=s"        => \$wiki_url,
+  "wiki-scriptpath|ws=s" => \$wiki_scriptpath,
+  "wiki-username|wn=s"   => \$wiki_username,
+  "wiki-password|wp=s"   => \$wiki_password,
+  "skip-import|si"       => \$skip_import,
+  "skip-category|sc"     => \$skip_category,
+  "skip-object|so"       => \$skip_object,
+  "skip-datatype|sd"     => \$skip_datatype,
+  "skip-template|st"     => \$skip_template,
+  "skip-form|sf"         => \$skip_form,
+  "dry-run|n"            => sub {$skip_import=$skip_category=$skip_object=$skip_datatype=$skip_template=$skip_form=1},
 ) or die "GetOptions error";
 
 
-$wiki_login[0] = ucfirst($wiki_login[0]); # force this to make bot module happy
-my $wiki = Perlwikipedia->new;
-$wiki->set_wiki(@wiki_opts);
-$wiki->login(@wiki_login) == 0
-  or die "error: could not log into wiki:\n", $wiki->{errstr};
+if ( $xml )
+{
+  defined $wiki_username   or die "error: no --wiki-username given (used as import contributor name)\n"
+}
+else
+{
+  my $err;
+  defined $wiki_url        or $err=1, warn "error: no --wiki-url given\n";
+  defined $wiki_scriptpath or $err=1, warn "error: no --wiki-scriptpath given\n";
+  defined $wiki_username   or $err=1, warn "error: no --wiki-username given\n";
+  defined $wiki_password   or $err=1, warn "error: no --wiki-password given\n";
+  exit 1 if $err;
+}
+
+# force this to make bot module happy and since mediawiki generally likes it this way
+$wiki_username = ucfirst($wiki_username);
+
+# end of option parsing
+
+
+my $wiki;
+if ( $xml )
+{
+  print qq{<mediawiki version="0.3" xml:lang="en" xmlns="http://www.mediawiki.org/xml/export-0.3/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mediawiki.org/xml/export-0.3/ http://www.mediawiki.org/xml/export-0.3.xsd">\n};
+}
+else
+{
+  $wiki = Perlwikipedia->new;
+  $wiki->set_wiki($wiki_url, $wiki_scriptpath);
+  $wiki->login($wiki_username, $wiki_password) == 0
+    or die "error: could not log into wiki:\n", $wiki->{errstr}, "\n";
+}
+
+
+my $timestamp = POSIX::strftime('%Y-%m-%dT%H:%M:%SZ', gmtime);
 
 
 my $rdf = RDF::Helper->new(
@@ -83,7 +118,7 @@ my $prefix = 'sbwiki';
 
 # query the rdf itself for the base uri of the ontology
 my $ontology_stmt = ($rdf->get_statements(undef, RDF_TYPE, 'owl:Ontology'))[0];
-$ontology_stmt or die "error: no owl:Ontology declared in input file";
+$ontology_stmt or die "error: no owl:Ontology declared in input file\n";
 # XXX: Is the following safe?  Might also be "/"... Does Protege always use "#"?
 my $ontology_ns = $ontology_stmt->subject->as_string . "#";
 # store the ontology's namespace so the convenience object functions work
@@ -109,7 +144,7 @@ foreach my $uri ( map($_->subject->as_string,
     die "error: no rdfs:label given for '$uri'\n";
   my $uc_label = ucfirst($label);
 
-  print "category: $label\n";
+  log_msg("category: $label");
   my $page_text = '';
 
   if ( defined (my $comment = $obj->rdfs_comment) )
@@ -122,7 +157,7 @@ foreach my $uri ( map($_->subject->as_string,
   if ( $obj->rdfs_subClassOf )
   {
     my $superclass = $obj->rdfs_subClassOf->rdfs_label;
-    print "  superclass: $superclass\n";
+    log_msg("  superclass: $superclass");
     $page_text .= " It is a subclass of [[:Category:$superclass|$superclass]].";
     $page_text .= " [[Category:$superclass]] ";
   }
@@ -130,7 +165,7 @@ foreach my $uri ( map($_->subject->as_string,
   my $abbrev = $obj->sbwiki_abbreviation;
   if ( $abbrev )
   {
-    print "  abbreviation: $abbrev\n";
+    log_msg("  abbreviation: $abbrev");
     $page_text .= " Its abbreviation is [[abbreviation::$abbrev|$abbrev]].";
   }
   else
@@ -145,16 +180,16 @@ foreach my $uri ( map($_->subject->as_string,
     }
     if ( $abbrev )
     {
-      print "  abbreviation: $abbrev (from $ancestor_label)\n";
+      log_msg("  abbreviation: $abbrev (from $ancestor_label)");
       $page_text .= " Its abbreviation is [[abbreviation::$abbrev|$abbrev]] (inherited from [[:Category:$ancestor_label|$ancestor_label]]).";
     }
   }
 
-  $page_text .= "\n\n";
+  $page_text .= "\n";
 
   if ( $obj->sbwiki_virtual eq 'true' )
   {
-    print "  virtual\n";
+    log_msg("  virtual");
     $page_text .= "[[Image:Warning.png]] '''$uc_label''' is [[virtual::true|virtual]], meaning that there are no instances of it, only of its subcategories.\n";
   }
   else
@@ -184,19 +219,18 @@ foreach my $uri ( map($_->subject->as_string,
   # create category
   unless ( $skip_category )
   {
-    $wiki->edit("Category:$label", $page_text, $edit_summary);
+    edit_page("Category:$label", $page_text);
     # for virtual classes, skip template/form since their sole purpose is instance editing
     unless ( $obj->sbwiki_virtual eq 'true' )
     {
-      $wiki->edit("Template:Category_$label", $template_text, $edit_summary) unless $skip_template;
-      $wiki->edit("Form:$label", $form_text, $edit_summary) unless $skip_form;
+      edit_page("Template:Category_$label", $template_text) unless $skip_template;
+      edit_page("Form:$label", $form_text) unless $skip_form;
     }
   }
 
   $import_text .= " $id|Category\n";
 }
-
-print "\n";
+log_msg();
 
 
 # ----------------------------------------
@@ -226,7 +260,7 @@ foreach my $uri ( @object_property_uris )
 
   my $range_label  = $obj->rdfs_range->rdfs_label;
 
-  print "object property: $label\n";
+  log_msg("object property: $label");
   my $page_text = '';
 
   if ( defined (my $comment = $obj->rdfs_comment) )
@@ -237,7 +271,7 @@ foreach my $uri ( @object_property_uris )
   $page_text .= "This property represents [[imported from::$prefix:$id]].";
   if (@domain_labels)
   {
-    print "  domain: @domain_labels\n";
+    log_msg("  domain: @domain_labels");
     $page_text .= " Its domain is ";
     if (@domain_labels > 1)
     {
@@ -253,7 +287,7 @@ foreach my $uri ( @object_property_uris )
   }
   if ($range_label)
   {
-    print "  range: $range_label\n";
+    log_msg("  range: $range_label");
     $page_text .= " Its range is [[has_range_hint::Category:$range_label|$range_label]].";
   }
 
@@ -261,17 +295,26 @@ foreach my $uri ( @object_property_uris )
   my $param_name = label_to_param($nice_label);
   # prefix will be inserted once by the form, main template gets one copy per instance of the property
   my $template_prefix_text = $template_pre . "|-\n! $nice_label\n| " . $template_post;
-  my $template_text = $template_pre . "<p>[[${label}::{{{$param_name|}}}]]</p>" . $template_post;
+  my $template_text =
+    "{{#if:{{{$param_name|}}}|" .
+    "<p>[[${label}::{{{$param_name}}}]]</p>" .
+    '}}';
+  # TODO: add queries for selected properties on object:
+  # {{#ifexist:{{{$param_name}}}
+  #   ({{#ask: [[{{{$param_name}}}]]|?$object_prop_name|format=list}};[etc])
+  # }}
+  $template_text = $template_pre . $template_text . $template_post;
+
 
   # create property
   unless ( $skip_object )
   {
-    $wiki->edit("Property:$label", $page_text, $edit_summary);
+    edit_page("Property:$label", $page_text);
     # create template
     unless ( $skip_template or $obj->sbwiki_noEdit )
     {
-      $wiki->edit("Template:PropertyPrefix_$label", $template_prefix_text, $edit_summary);
-      $wiki->edit("Template:Property_$label", $template_text, $edit_summary);
+      edit_page("Template:PropertyPrefix_$label", $template_prefix_text);
+      edit_page("Template:Property_$label", $template_text);
     }
   }
 
@@ -279,7 +322,8 @@ foreach my $uri ( @object_property_uris )
   $import_text .= " $id|Type:Page\n";
 }
 
-print "\n";
+log_msg();
+
 
 
 # ----------------------------------------
@@ -295,7 +339,7 @@ foreach my $uri ( @datatype_property_uris )
 
   my $xsd_type = uri_split($obj->rdfs_range, $rdf->ns('xsd')) or
     die("error: unknown namespace for rdfs:range '", $obj->rdfs_range,
-        "' on datatype property '$uri'");
+        "' on datatype property '$uri'\n");
   my $smw_type = $xsd_smw_types{$xsd_type} or
     die "error: unknown XML Schema data type '$xsd_type' on datatype property '$uri'\n";
 
@@ -313,7 +357,7 @@ foreach my $uri ( @datatype_property_uris )
     @domain_labels = map($_->rdfs_label, @domains);
   }
 
-  print "datatype property: $label\n";
+  log_msg("datatype property: $label");
   my $page_text = '';
 
   if ( defined(my $comment = $obj->rdfs_comment) )
@@ -324,7 +368,7 @@ foreach my $uri ( @datatype_property_uris )
   $page_text .= "This property represents [[imported from::$prefix:$id]].";
   if (@domain_labels)
   {
-    print "  domain: @domain_labels\n";
+    log_msg("  domain: @domain_labels");
     $page_text .= " Its domain is ";
     if (@domain_labels > 1)
     {
@@ -339,7 +383,7 @@ foreach my $uri ( @datatype_property_uris )
     $page_text .= "[[has_domain_hint::Category:$last_label|$last_label]].";
   }
 
-  print "  range: $smw_type\n";
+  log_msg("  range: $smw_type");
   $page_text .= " Its range is literal [[Type:$smw_type|$smw_type]] values.";
 
   my $param_name = label_to_param($label);
@@ -358,32 +402,77 @@ foreach my $uri ( @datatype_property_uris )
   # create property
   unless ( $skip_datatype )
   {
-    $wiki->edit("Property:$label", $page_text, $edit_summary);
+    edit_page("Property:$label", $page_text);
     # create template, unless this is an AnnotationProperty
     unless ( $skip_template or $obj->sbwiki_noEdit or
 	     $rdf->exists($uri, RDF_TYPE, 'owl:AnnotationProperty') )
     {
-      $wiki->edit("Template:Property_$label", $template_text, $edit_summary);
+      edit_page("Template:Property_$label", $template_text);
     }
   }
 
   $import_text .= " $id|Type:$smw_type\n";
 }
 
-print "\n";
+log_msg();
 
 
 # ----------------------------------------
-print "final SMW import\n";
+log_msg("final SMW import");
 # create "magic" import page
 unless ( $skip_import )
 {
-  $wiki->edit($import_title, $import_text, $edit_summary);
+  edit_page($import_title, $import_text);
 }
 
 
 
+if ( $xml )
+{
+  print qq{</mediawiki>\n};
+}
+log_msg();
+log_msg("Done");
+
+
+
 # ============================================================
+
+
+
+sub log_msg
+{
+  print STDERR @_, "\n";
+}
+
+
+sub edit_page
+{
+  my ($title, $text) = @_;
+
+  if ( $xml )
+  {
+    my $minor_text = "<minor/>";
+    print <<XML_PAGE;
+  <page>
+    <title>$title</title>
+    <revision>
+      <timestamp>$timestamp</timestamp>
+      <contributor>
+        <username>$wiki_username</username>
+      </contributor>
+      $minor_text
+      <comment><![CDATA[$edit_summary]]></comment>
+      <text xml:space="preserve"><![CDATA[$text]]></text>
+    </revision>
+  </page>
+XML_PAGE
+  }
+  else
+  {
+    $wiki->edit($title, $text, $edit_summary);
+  }
+}
 
 
 
