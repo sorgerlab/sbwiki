@@ -42,6 +42,7 @@ function sbwgSetupExtension() {
   //require_once($sbwgIP . '/includes/SBW_CreateObjectTab.php');
   require_once($sbwgIP . '/includes/SBW_RewriteUIDLinks.php');
   require_once($sbwgIP . '/includes/SBW_EditNonexistentObject.php');
+  require_once($sbwgIP . '/includes/SBW_FixNonexistentObjectLinks.php');
   
   /**********************************************/
   /***** common classes                     *****/
