@@ -42,11 +42,15 @@ function doSpecialImportModel() {
     $model->uid = sbwfFormatUID('MD', $creator_initials, $fake_counter++, $annotation);
     foreach ( $model->getSpeciesIds() as $id ) {
       $species = $model->getSpecies($id);
-      $species->uid = sbwfFormatUID('SP', $creator_initials, $fake_counter++, $species->name);
+      $species->uid = sbwfFormatUID('SP', $creator_initials, $fake_counter++, $species->getBestName());
     }
     foreach ( $model->getReactionIds() as $id ) {
       $reaction = $model->getReaction($id);
-      $reaction->uid = sbwfFormatUID('RX', $creator_initials, $fake_counter++, $reaction->name);
+      $reaction->uid = sbwfFormatUID('IX', $creator_initials, $fake_counter++, $reaction->getBestName());
+    }
+    foreach ( $model->getParameterIds() as $id ) {
+      $parameter = $model->getParameter($id);
+      $parameter->uid = sbwfFormatUID('PA', $creator_initials, $fake_counter++, $parameter->getBestName());
     }
 
     $formatter = new SBWModelFormatter($parser->getModel());

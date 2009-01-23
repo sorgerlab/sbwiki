@@ -104,7 +104,7 @@ function sbwfFormatUID($type_code, $creator_initials, $id, $annotation = NULL) {
 function sbwfParseUID($uid) {
   $uid_parts = explode('-', $uid, 4);
   for ( $i=0; $i<4; $i++) {
-    if ( !strlen($uid_parts[$i]) ) {
+    if ( !isset($uid_parts[$i]) ) {
       $uid_parts[$i] = '';
     }
   }
