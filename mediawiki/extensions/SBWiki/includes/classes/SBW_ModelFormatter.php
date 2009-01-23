@@ -147,7 +147,7 @@ WIKI;
     $wikitext = '';
 
     $uid = $this->model->uid;
-    $wikitext .= "<div style='border: 1px dashed #000000; background: #f0f0f0; padding: .5em;'>\n";
+    $wikitext .= "<div style='border: 1px dashed #000000; background: #f8f8f8; padding: .5em;'>\n";
     $wikitext .= "= $uid =\n";
     //$wikitext .= '<pre>';
     $wikitext .= $this->formatModel();
@@ -166,7 +166,7 @@ WIKI;
 
     foreach ( $this->model->getReactionIds() as $id ) {
       $uid = $this->model->getReaction($id)->uid;
-      $wikitext .= "<div style='border: 1px dashed #000000; background: #f0f0ff; padding: .5em;'>\n";
+      $wikitext .= "<div style='border: 1px dashed #000000; background: #fffff0; padding: .5em;'>\n";
       $wikitext .= "= $uid =\n";
       //$wikitext .= '<pre>';
       $wikitext .= $this->formatReaction($id);
@@ -176,7 +176,7 @@ WIKI;
 
     foreach ( $this->model->getParameterIds() as $id ) {
       $uid = $this->model->getParameter($id)->uid;
-      $wikitext .= "<div style='border: 1px dashed #000000; background: #fffff0; padding: .5em;'>\n";
+      $wikitext .= "<div style='border: 1px dashed #000000; background: #fff0ff; padding: .5em;'>\n";
       $wikitext .= "= $uid =\n";
       //$wikitext .= '<pre>';
       $wikitext .= $this->formatParameter($id);

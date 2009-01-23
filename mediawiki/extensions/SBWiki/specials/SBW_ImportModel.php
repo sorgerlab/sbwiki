@@ -12,7 +12,7 @@ SpecialPage::addPage( new SpecialPage('ImportModel','',true,'doSpecialImportMode
 
 
 function doSpecialImportModel() {
-  global $wgOut, $wgRequest, $wgScriptPath;
+  global $wgOut, $wgRequest, $wgScriptPath, $smwgScriptPath;
   $fname = 'SBW::doSpecialImportModel';
 
   $submitted        = $wgRequest->getVal('import');
@@ -54,6 +54,10 @@ function doSpecialImportModel() {
     }
 
     $formatter = new SBWModelFormatter($parser->getModel());
+    # FIXME: SMW could change this... probably better to copy it and make our own style
+    $wgOut->addHeadItem('smw_css',
+			"\t\t" . '<link rel="stylesheet" type="text/css" media="screen, projection" href="' .
+			$smwgScriptPath . '/skins/SMW_custom.css" />' . "\n");
     $wgOut->addWikiText(<<<INTRO
 Below is a preview of what your model will look like in the wiki.
 '''DO NOT CLICK''' on any of the links!
