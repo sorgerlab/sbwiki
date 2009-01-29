@@ -33,56 +33,29 @@ function doSpecialImportModel() {
 
   if ( $wgRequest->wasPosted() and $submitted and empty($errors) ) {
     // successful form submission (but the SBML might still be invalid)
-
-    $parser = new SBWSbmlReader($model_contents);
-    $model = $parser->getModel();
-
-    // assign fake UIDs for preview display purposes
-    $fake_counter = 100;
-    $model->uid = sbwfFormatUID('MD', $creator_initials, $fake_counter++, $annotation);
-    foreach ( $model->getSpeciesIds() as $id ) {
-      $species = $model->getSpecies($id);
-      $species->uid = sbwfFormatUID('SP', $creator_initials, $fake_counter++, $species->getBestName());
-    }
-    foreach ( $model->getReactionIds() as $id ) {
-      $reaction = $model->getReaction($id);
-      $reaction->uid = sbwfFormatUID('IX', $creator_initials, $fake_counter++, $reaction->getBestName());
-    }
-    foreach ( $model->getParameterIds() as $id ) {
-      $parameter = $model->getParameter($id);
-      $parameter->uid = sbwfFormatUID('PA', $creator_initials, $fake_counter++, $parameter->getBestName());
-    }
-
-    $formatter = new SBWModelFormatter($parser->getModel());
-    # FIXME: SMW could change this... probably better to copy it and make our own style
-    $wgOut->addHeadItem('smw_css',
-			"\t\t" . '<link rel="stylesheet" type="text/css" media="screen, projection" href="' .
-			$smwgScriptPath . '/skins/SMW_custom.css" />' . "\n");
-    $wgOut->addWikiText(<<<INTRO
-Below is a preview of what your model will look like in the wiki.
-'''DO NOT CLICK''' on any of the links!
-
-----
-
-
-INTRO
-                        );
-    $wgOut->addWikiText($formatter->formatAll());
-
+    renderPreview($model_contents, $creator_initials, $annotation);
   } else {
-
     // first visit or error on submission
+    renderUploadForm($errors, $creator_initials, $annotation);
+  }
 
-    $wgOut->addHTML('<p>This is the page for importing an SBML model.</p>');
-    if ( !empty($errors) ) {
-      $wgOut->addHTML("<div class=\"errorbox\"><strong>Errors:</strong><ul>");
-      foreach ( $errors as $error ) {
-        $wgOut->addHTML("<li>$error</li>");
-      }
-      $wgOut->addHTML("</ul></div><div class=\"visualClear\"></div>");
+}
+
+
+function renderUploadForm($errors, $creator_initials, $annotation)
+{
+  global $wgOut, $wgScriptPath;
+
+  $wgOut->addHTML('<p>This is the page for importing an SBML model.</p>');
+  if ( !empty($errors) ) {
+    $wgOut->addHTML("<div class=\"errorbox\"><strong>Errors:</strong><ul>");
+    foreach ( $errors as $error ) {
+      $wgOut->addHTML("<li>$error</li>");
     }
+    $wgOut->addHTML("</ul></div><div class=\"visualClear\"></div>");
+  }
 
-    $wgOut->addHTML(<<<FORM
+  $wgOut->addHTML(<<<FORM
 <div>
 
 <form method="post" action="$wgScriptPath/index.php/Special:ImportModel">
@@ -98,8 +71,49 @@ INTRO
 
 </div>
 FORM
-                    );
+		  );
+}
 
+
+function renderPreview($model_contents, $creator_initials, $model_annotation)
+{
+  global $wgOut, $smwgScriptPath;
+
+  $parser = new SBWSbmlReader($model_contents);
+  $model = $parser->getModel();
+
+  // assign fake UIDs for preview display purposes
+  $fake_counter = 100;
+  $model->uid = sbwfFormatUID('MD', $creator_initials, $fake_counter++, $annotation);
+  foreach ( $model->getSpeciesIds() as $id ) {
+    $species = $model->getSpecies($id);
+    $species->uid = sbwfFormatUID('SP', $creator_initials, $fake_counter++, $species->getBestName());
+  }
+  foreach ( $model->getReactionIds() as $id ) {
+    $reaction = $model->getReaction($id);
+    $reaction->uid = sbwfFormatUID('IX', $creator_initials, $fake_counter++, $reaction->getBestName());
+  }
+  foreach ( $model->getParameterIds() as $id ) {
+    $parameter = $model->getParameter($id);
+    $parameter->uid = sbwfFormatUID('PA', $creator_initials, $fake_counter++, $parameter->getBestName());
   }
 
+  $formatter = new SBWModelFormatter($parser->getModel());
+# FIXME: SMW could change this... probably better to copy it and make our own style
+  $wgOut->addHeadItem('smw_css',
+		      "\t\t" . '<link rel="stylesheet" type="text/css" media="screen, projection" href="' .
+		      $smwgScriptPath . '/skins/SMW_custom.css" />' . "\n");
+  $wgOut->addWikiText(<<<INTRO
+Below is a preview of what your model will look like in the wiki.
+'''DO NOT CLICK''' on any of the links!
+
+----
+
+
+INTRO
+                        );
+  $wgOut->addWikiText($formatter->formatAll());
 }
+
+
+?>
