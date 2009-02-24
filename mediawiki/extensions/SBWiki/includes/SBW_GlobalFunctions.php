@@ -42,6 +42,7 @@ function sbwgSetupExtension() {
   //require_once($sbwgIP . '/includes/SBW_CreateObjectTab.php');
   require_once($sbwgIP . '/includes/SBW_RewriteUIDLinks.php');
   require_once($sbwgIP . '/includes/SBW_EditNonexistentObject.php');
+  require_once($sbwgIP . '/includes/SBW_DeleteUIDOnPageDeletion.php');
   
   /**********************************************/
   /***** common classes                     *****/
@@ -101,7 +102,7 @@ function sbwfFormatUID($type_code, $creator_initials, $id, $annotation = NULL) {
 /*
  * Splits a UID string into its four parts
  */
-function sbwfParseUID($uid) {
+function sbwfParseUID($uid, $want_hash=false) {
   $uid_parts = explode('-', $uid, 4);
   for ( $i=0; $i<4; $i++) {
     if ( !isset($uid_parts[$i]) ) {
@@ -110,7 +111,11 @@ function sbwfParseUID($uid) {
   }
   $uid_parts[3] = strtr($uid_parts[3], ' ', '_'); // normalize space to underscore
 
-  return $uid_parts;
+  if ($want_hash) {
+    return array_combine(array('type_code', 'creator_initials', 'id', 'annotation'), $uid_parts);
+  } else {
+    return $uid_parts;
+  }
 }
 
 
@@ -148,6 +153,17 @@ function sbwfAllocateUID($type_code, $creator_initials, $annotation) {
   // FIXME should this return a Title object?  Does that work if the
   // page doesn't exist? (Yes, call Title::newFromText())
   return $page_title;
+}
+
+
+/**
+ * Deletes a record from the UID table
+ */
+function sbwfDeleteUID($uid) {
+  $fname = 'SBW::sbwfDeleteUID';
+
+  $db =& wfGetDB(DB_MASTER);
+  $db->delete($db->tableName('sbw_uid'), sbwfParseUID($uid, true), $fname);
 }
 
 
