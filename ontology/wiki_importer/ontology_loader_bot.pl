@@ -11,9 +11,6 @@ use Perlwikipedia;
 use POSIX;
 
 
-my $owl_filename = shift @ARGV;
-defined $owl_filename  or die "error: no .owl file given\n";
-
 my ($skip_import, $skip_category, $skip_object, $skip_datatype, $skip_template, $skip_form);
 my ($wiki_url, $wiki_scriptpath, $wiki_username, $wiki_password);
 my $xml = 1;
@@ -36,6 +33,10 @@ GetOptions(
   "skip-form|sf"         => \$skip_form,
   "dry-run|n"            => sub {$skip_import=$skip_category=$skip_object=$skip_datatype=$skip_template=$skip_form=1},
 ) or die "GetOptions error";
+
+
+my ($owl_filespec, @owl_extra_filespecs) = @ARGV;
+defined $owl_filespec  or die "error: no OWL filespec given\n";
 
 
 if ( $xml )
@@ -75,6 +76,10 @@ else
 my $timestamp = POSIX::strftime('%Y-%m-%dT%H:%M:%SZ', gmtime);
 
 
+# parse remaining tokens as our filespecs (see parse_owl_filespec)
+my @owl_filespec_data = map { parse_owl_filespec($_) } $owl_filespec, @owl_extra_filespecs;
+my %extra_ns = map { $_->{prefix} => $_->{uri}.$_->{separator} } @owl_filespec_data;
+
 my $rdf = RDF::Helper->new(
   BaseInterface => 'RDF::Core',
   ExpandQNames => 1,
@@ -83,9 +88,25 @@ my $rdf = RDF::Helper->new(
     rdfs => 'http://www.w3.org/2000/01/rdf-schema#',
     xsd  => 'http://www.w3.org/2001/XMLSchema#',
     owl  => 'http://www.w3.org/2002/07/owl#',
+    %extra_ns,
   },
 );
-$rdf->include_rdfxml(filename => $owl_filename);
+# load all owl files
+foreach my $filename ( map($_->{filename}, @owl_filespec_data) )
+{
+  $rdf->include_rdfxml(filename => $filename);
+}
+
+# verify imports have been loaded
+foreach my $uri ( map($_->object->as_string,
+                      $rdf->get_statements(undef, 'owl:imports', undef)) )
+{
+  if ( ! grep($_->{uri} eq $uri, @owl_filespec_data) )
+  {
+    die "OWL file specification not provided for imported ontology: $uri\n";
+  }
+}
+
 
 my %xsd_smw_types = (
   string  => 'String',
@@ -113,20 +134,11 @@ my $form_post = <<FORM_POST;
 FORM_POST
 
 
-my $prefix = 'sbwiki';
+my $prefix = $owl_filespec_data[0]->{prefix};
+my $ontology_ns = join('', @{$owl_filespec_data[0]}{qw(uri separator)});
 
 
-# query the rdf itself for the base uri of the ontology
-my $ontology_stmt = ($rdf->get_statements(undef, RDF_TYPE, 'owl:Ontology'))[0];
-$ontology_stmt or die "error: no owl:Ontology declared in input file\n";
-# XXX: Is the following safe?  Might also be "/"... Does Protege always use "#"?
-my $ontology_ns = $ontology_stmt->subject->as_string . "#";
-# store the ontology's namespace so the convenience object functions work
-$rdf->ns($prefix, $ontology_ns);
-$rdf->{_NS}{$ontology_ns} = $prefix; # FIXME: patch RDF::Helper subclasses to do this
-
-
-my $edit_summary = "OWL import from '$owl_filename'";
+my $edit_summary = "OWL import from '" . $owl_filespec_data[0]->{filename} . "'";
 
 my $import_text  = "$ontology_ns|[$ontology_ns $prefix]\n";
 my $import_title = 'MediaWiki:Smw_import_' . $prefix;
@@ -162,7 +174,7 @@ foreach my $uri ( map($_->subject->as_string,
     $page_text .= " [[Category:$superclass]] ";
   }
 
-  my $abbrev = $obj->sbwiki_abbreviation;
+  my $abbrev = $obj->ssw_abbreviation;
   if ( $abbrev )
   {
     log_msg("  abbreviation: $abbrev");
@@ -174,7 +186,7 @@ foreach my $uri ( map($_->subject->as_string,
     my $ancestor_label = '!!ERROR!!';
     while ( $ancestor and !$abbrev )
     {
-      $abbrev = $ancestor->sbwiki_abbreviation;
+      $abbrev = $ancestor->ssw_abbreviation;
       $ancestor_label = $ancestor->rdfs_label;
       $ancestor = $ancestor->rdfs_subClassOf;
     }
@@ -187,7 +199,7 @@ foreach my $uri ( map($_->subject->as_string,
 
   $page_text .= "\n";
 
-  if ( $obj->sbwiki_virtual eq 'true' )
+  if ( $obj->ssw_isVirtual eq 'true' )
   {
     log_msg("  virtual");
     $page_text .= "[[Image:Warning.png]] '''$uc_label''' is [[virtual::true|virtual]], meaning that there are no instances of it, only of its subcategories.\n";
@@ -221,7 +233,7 @@ foreach my $uri ( map($_->subject->as_string,
   {
     edit_page("Category:$label", $page_text);
     # for virtual classes, skip template/form since their sole purpose is instance editing
-    unless ( $obj->sbwiki_virtual eq 'true' )
+    unless ( $obj->ssw_isVirtual eq 'true' )
     {
       edit_page("Template:Category_$label", $template_text) unless $skip_template;
       edit_page("Form:$label", $form_text) unless $skip_form;
@@ -311,7 +323,7 @@ foreach my $uri ( @object_property_uris )
   {
     edit_page("Property:$label", $page_text);
     # create template
-    unless ( $skip_template or $obj->sbwiki_noEdit )
+    unless ( $skip_template or $obj->ssw_isHidden )
     {
       edit_page("Template:PropertyPrefix_$label", $template_prefix_text);
       edit_page("Template:Property_$label", $template_text);
@@ -404,7 +416,7 @@ foreach my $uri ( @datatype_property_uris )
   {
     edit_page("Property:$label", $page_text);
     # create template, unless this is an AnnotationProperty
-    unless ( $skip_template or $obj->sbwiki_noEdit or
+    unless ( $skip_template or $obj->ssw_isHidden or
 	     $rdf->exists($uri, RDF_TYPE, 'owl:AnnotationProperty') )
     {
       edit_page("Template:Property_$label", $template_text);
@@ -444,6 +456,28 @@ sub log_msg
 {
   print STDERR @_, "\n";
 }
+
+
+
+# parse command line params of the format filename:prefix:uri
+# (uri must include trailing # or /)
+sub parse_owl_filespec
+{
+  my ($filespec) = @_;
+
+  my @parts = split(/:/, $filespec, 3);
+  if ( @parts != 3 )
+  {
+    die "OWL file specification must be in the form filename:prefix:uri (got: $filespec)\n";
+  }
+
+  my %ret;
+  @ret{qw(filename prefix uri)} = @parts;
+  $ret{separator} = substr($ret{uri}, -1, 1, '');
+
+  return \%ret;
+}
+
 
 
 sub edit_page
@@ -518,7 +552,6 @@ sub domain_to_properties
 
   push @properties, map($_->subject, $rdf->get_statements(undef, RDFS_DOMAIN, $class->object_uri));
 
-  #$DB::single = 1 if $class eq 'http://pipeline.med.harvard.edu/sbwiki-20080408.owl#Model';
   # find all rdf:list nodes which contain $class
   my @list_nodes = map($_->subject,
                        $rdf->get_statements(undef, RDF_FIRST, $class->object_uri));
@@ -610,7 +643,7 @@ sub properties_to_formtext
 
   foreach my $property ( @properties )
   {
-    next if $property->sbwiki_noEdit;
+    next if $property->ssw_isHidden;
 
     my $property_label = $property->rdfs_label or
       die "error: no rdfs:label given for '".$property->object_uri."'\n";
