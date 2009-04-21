@@ -10,26 +10,25 @@
     xmlns:swrl="http://www.w3.org/2003/11/swrl#"
     xmlns:swrlb="http://www.w3.org/2003/11/swrlb#"
     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-  xml:base="http://pipeline.med.harvard.edu/ssw-20090421.owl">
-  <owl:Ontology rdf:about=""/>
-  <owl:AnnotationProperty rdf:ID="isVirtual">
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >If true, the subject class should never be instantiated. (Is there a nicer way to express this in OWL?)</rdfs:comment>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >is virtual</rdfs:label>
-  </owl:AnnotationProperty>
-  <owl:AnnotationProperty rdf:ID="hasAbbreviation">
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >This is the two-letter code used as the first component of UIDs.  It is meant to apply only to classes.</rdfs:comment>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >has abbreviation</rdfs:label>
-  </owl:AnnotationProperty>
-  <owl:AnnotationProperty rdf:ID="isHidden">
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >is hidden</rdfs:label>
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >If true, the subject property should not be included in infoboxes and edit forms.</rdfs:comment>
-  </owl:AnnotationProperty>
+  xml:base="http://pipeline.med.harvard.edu/ssw-20090421.owl" > 
+  <rdf:Description rdf:about="#isVirtual">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AnnotationProperty"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">If true, the subject class should never be instantiated. (Is there a nicer way to express this in OWL?)</rdfs:comment>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">is virtual</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Ontology"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#hasAbbreviation">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">This is the two-letter code used as the first component of UIDs.  It is meant to apply only to classes.</rdfs:comment>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AnnotationProperty"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">has abbreviation</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="#isHidden">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">is hidden</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AnnotationProperty"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">If true, the subject property should not be included in infoboxes and edit forms.</rdfs:comment>
+  </rdf:Description>
 </rdf:RDF>
 
 <!-- Created with Protege (with OWL Plugin 3.4, Build 533)  http://protege.stanford.edu -->
