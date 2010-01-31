@@ -21,12 +21,15 @@ while (<>)
   # skip a bunch of properties we don't care about
   next if $t[1] eq 'http://semantic-mediawiki.org/swivt/1.0#page' or
     $t[1] eq 'http://www.w3.org/2000/01/rdf-schema#isDefinedBy' or
+    $t[1] eq 'http://www.w3.org/2002/07/owl#imports' or
+    $t[1] eq 'http://www.w3.org/2002/07/owl#disjointWith' or
     $t[0] eq 'http://semantic-mediawiki.org/swivt/1.0#Subject' or
     $t[2] eq 'http://semantic-mediawiki.org/swivt/1.0#Subject' or
     $t[2] eq 'http://www.w3.org/2002/07/owl#Class' or
     $t[2] eq 'http://www.w3.org/2002/07/owl#ObjectProperty' or
     $t[2] eq 'http://www.w3.org/2002/07/owl#DatatypeProperty' or
     $t[2] eq 'http://www.w3.org/2002/07/owl#AnnotationProperty' or
+    $t[2] =~ m|^http://www.w3.org/2001/XMLSchema#| or
     $t[0] eq 'file:/tmp/tmpb7UiTo-rdfconverter';
 
   # skip relations to classes (may or may not want this enabled)
@@ -39,6 +42,8 @@ while (<>)
     s|^\w+://||;
     s|dev.pipeline.med.harvard.edu/wiki/index.php/Special:URIResolver/||;
     s|pipeline.med.harvard.edu/sbwiki-20080408.owl#||;
+    s|pipeline.med.harvard.edu/sb-20080408.owl#||;
+    s|pipeline.med.harvard.edu/ssw-20090421.owl#||;
     # undo some uri escaping and such
     s|-2D|-|g;
     s|-|_|g;
@@ -48,13 +53,21 @@ while (<>)
   $nodes{$t[0]} = 1;
   $nodes{$t[2]} = 1;
 
+  my %edge_opts;
+
   # turn edge name into a nice label
-  my $label = $t[1];
-  $label =~ tr/_/ /;
+  $edge_opts{label} = $t[1];
+  $edge_opts{label} =~ s/.*#//;
+  $edge_opts{label} =~ tr/_/ /;
+
+  if ($t[1] eq 'www.w3.org/2000/01/rdf_schema#range')
+  {
+    $edge_opts{dir} = 'forward';
+  }
 
   # print edge statement
   print "$t[0] -> $t[2]" .
-    #"[label=\"$label\"]" .
+    " [ " . join(', ', map("$_=\"$edge_opts{$_}\"", keys %edge_opts)) . " ]" .
     "\n";
 }
 
