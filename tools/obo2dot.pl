@@ -9,11 +9,11 @@ my %nodes;
 
 my ($id, $name, $skip, @parents);
 while (<>) {
-  chomp;
+  s/\s+$//;
   last if $_ eq '';
 }
 while (<>) {
-  chomp;
+  s/\s+$//;
   given ($_) {
     when (/^\[Term\]/)    { $id = $name = $skip = undef; @parents = () }
     when (/^id: (\S+)/)   { $id = normalize_id($1); $skip = 1 if $id eq 'is_a' }
