@@ -6,10 +6,12 @@ use RDF::Helper;
 use RDF::Helper::Constants qw(:rdf :rdfs);
 
 
-my (@skip_classes);
+my @skip_classes;
+my $skip_reflexive = undef;
 
 GetOptions(
-  "skip-class|s=s" => \@skip_classes,
+  "skip-class|sc=s" => \@skip_classes,
+  "skip-reflexive|sr" => \$skip_reflexive,
 ) or die "GetOptions error";
 
 
@@ -109,7 +111,7 @@ foreach my $uri ( $rdf->resourcelist(RDF_TYPE, 'owl:ObjectProperty') )
   {
     my $domain_uri = $domain->object_uri;
     next if exists $skip_classes{$domain_uri};
-    if ($domain_uri eq $range_uri)
+    if ($domain_uri eq $range_uri and $skip_reflexive)
     {
       print STDERR "skipping reflexive property: ", $domain->rdfs_label, " -- ", $obj->rdfs_label, "\n";
       next;
