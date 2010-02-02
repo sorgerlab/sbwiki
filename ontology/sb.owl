@@ -6,6 +6,7 @@
     xmlns:sb="http://pipeline.med.harvard.edu/sb-20080408.owl#"
     xmlns:p1="http://www.owl-ontologies.com/assert.owl#"
     xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
     xmlns:bqbiol="http://biomodels.net/biology-qualifiers/"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
     xmlns:swrl="http://www.w3.org/2003/11/swrl#"
@@ -17,9 +18,6 @@
     <rdfs:subClassOf>
       <owl:Class rdf:ID="Thing"/>
     </rdfs:subClassOf>
-    <owl:disjointWith>
-      <owl:Class rdf:ID="Cell_Line"/>
-    </owl:disjointWith>
     <owl:disjointWith>
       <owl:Class rdf:ID="Protocol"/>
     </owl:disjointWith>
@@ -36,19 +34,10 @@
       <owl:Class rdf:ID="Study"/>
     </owl:disjointWith>
     <owl:disjointWith>
-      <owl:Class rdf:ID="Data_Compendium"/>
-    </owl:disjointWith>
-    <owl:disjointWith>
       <owl:Class rdf:ID="Model"/>
     </owl:disjointWith>
     <owl:disjointWith>
-      <owl:Class rdf:ID="Experimental_Module"/>
-    </owl:disjointWith>
-    <owl:disjointWith>
       <owl:Class rdf:ID="Substance"/>
-    </owl:disjointWith>
-    <owl:disjointWith>
-      <owl:Class rdf:ID="Assay"/>
     </owl:disjointWith>
     <owl:disjointWith>
       <owl:Class rdf:ID="Raw_Data"/>
@@ -77,9 +66,6 @@
     <owl:disjointWith>
       <owl:Class rdf:ID="Rule_Based_Statement"/>
     </owl:disjointWith>
-    <owl:disjointWith>
-      <owl:Class rdf:ID="Logical_Rule"/>
-    </owl:disjointWith>
   </owl:Class>
   <owl:Class rdf:ID="Cell_Sample">
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -90,67 +76,30 @@
     <owl:disjointWith>
       <owl:Class rdf:ID="Drug"/>
     </owl:disjointWith>
-    <owl:disjointWith>
-      <owl:Class rdf:ID="Antibody"/>
-    </owl:disjointWith>
-    <owl:disjointWith>
-      <owl:Class rdf:ID="Biomolecule"/>
-    </owl:disjointWith>
   </owl:Class>
   <owl:Class rdf:about="#Organism">
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Instrument"/>
-    </owl:disjointWith>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Model_Interaction"/>
-    </owl:disjointWith>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Cell_Line"/>
-    </owl:disjointWith>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Person"/>
-    </owl:disjointWith>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >organism</rdfs:label>
-    <owl:disjointWith rdf:resource="#Gene"/>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Experimental_Module"/>
-    </owl:disjointWith>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Protocol"/>
-    </owl:disjointWith>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Data_Compendium"/>
-    </owl:disjointWith>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Raw_Data"/>
-    </owl:disjointWith>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Assay"/>
-    </owl:disjointWith>
     <owl:disjointWith>
       <owl:Class rdf:about="#Substance"/>
-    </owl:disjointWith>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Model_Compartment"/>
-    </owl:disjointWith>
-    <rdfs:subClassOf>
-      <owl:Class rdf:about="#Thing"/>
-    </rdfs:subClassOf>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Model"/>
     </owl:disjointWith>
     <owl:disjointWith>
       <owl:Class rdf:about="#Study"/>
     </owl:disjointWith>
     <owl:disjointWith>
-      <owl:Class rdf:about="#Investigation"/>
+      <owl:Class rdf:about="#Raw_Data"/>
     </owl:disjointWith>
     <owl:disjointWith>
-      <owl:Class rdf:about="#Model_Species"/>
+      <owl:Class rdf:about="#Protocol"/>
     </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Person"/>
+    </owl:disjointWith>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="#Thing"/>
+    </rdfs:subClassOf>
   </owl:Class>
-  <owl:Class rdf:about="#Experimental_Module">
+  <owl:Class rdf:ID="Experimental_Module">
     <owl:disjointWith>
       <owl:Class rdf:about="#Model_Interaction"/>
     </owl:disjointWith>
@@ -161,9 +110,6 @@
       <owl:Class rdf:about="#Thing"/>
     </rdfs:subClassOf>
     <owl:disjointWith rdf:resource="#Organism"/>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Cell_Line"/>
-    </owl:disjointWith>
     <owl:disjointWith>
       <owl:Class rdf:about="#Raw_Data"/>
     </owl:disjointWith>
@@ -180,13 +126,10 @@
       <owl:Class rdf:about="#Person"/>
     </owl:disjointWith>
     <owl:disjointWith>
-      <owl:Class rdf:about="#Assay"/>
+      <owl:Class rdf:about="#Model_Species"/>
     </owl:disjointWith>
     <owl:disjointWith>
       <owl:Class rdf:about="#Model_Compartment"/>
-    </owl:disjointWith>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Model_Species"/>
     </owl:disjointWith>
     <owl:disjointWith>
       <owl:Class rdf:about="#Protocol"/>
@@ -195,16 +138,10 @@
       <owl:Class rdf:about="#Model"/>
     </owl:disjointWith>
     <owl:disjointWith>
-      <owl:Class rdf:about="#Data_Compendium"/>
-    </owl:disjointWith>
-    <owl:disjointWith>
       <owl:Class rdf:about="#Study"/>
     </owl:disjointWith>
   </owl:Class>
   <owl:Class rdf:ID="Physicochemical_Species">
-    <owl:disjointWith>
-      <owl:Class rdf:ID="Logical_Species"/>
-    </owl:disjointWith>
     <owl:disjointWith>
       <owl:Class rdf:ID="Rule_Based_Species"/>
     </owl:disjointWith>
@@ -214,12 +151,9 @@
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >physicochemical species</rdfs:label>
   </owl:Class>
-  <owl:Class rdf:about="#Biomolecule">
+  <owl:Class rdf:ID="Biomolecule">
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >biomolecule</rdfs:label>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Antibody"/>
-    </owl:disjointWith>
     <owl:disjointWith>
       <owl:Class rdf:about="#Drug"/>
     </owl:disjointWith>
@@ -228,12 +162,12 @@
       <owl:Class rdf:about="#Substance"/>
     </rdfs:subClassOf>
   </owl:Class>
-  <owl:Class rdf:about="#Data_Compendium">
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Raw_Data"/>
-    </owl:disjointWith>
+  <owl:Class rdf:ID="Data_Compendium">
     <owl:disjointWith>
       <owl:Class rdf:about="#Substance"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Raw_Data"/>
     </owl:disjointWith>
     <owl:disjointWith>
       <owl:Class rdf:about="#Model"/>
@@ -264,20 +198,14 @@
       <owl:Class rdf:about="#Instrument"/>
     </owl:disjointWith>
     <owl:disjointWith rdf:resource="#Organism"/>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Assay"/>
-    </owl:disjointWith>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >data compendium</rdfs:label>
     <owl:disjointWith rdf:resource="#Experimental_Module"/>
     <owl:disjointWith>
-      <owl:Class rdf:about="#Cell_Line"/>
-    </owl:disjointWith>
-    <owl:disjointWith>
       <owl:Class rdf:about="#Investigation"/>
     </owl:disjointWith>
   </owl:Class>
-  <owl:Class rdf:about="#Antibody">
+  <owl:Class rdf:ID="Antibody">
     <rdfs:subClassOf>
       <owl:Class rdf:about="#Substance"/>
     </rdfs:subClassOf>
@@ -295,10 +223,6 @@
     <rdfs:subClassOf>
       <owl:Class rdf:about="#Model_Species"/>
     </rdfs:subClassOf>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Logical_Species"/>
-    </owl:disjointWith>
-    <owl:disjointWith rdf:resource="#Physicochemical_Species"/>
   </owl:Class>
   <owl:Class rdf:ID="Model_Parameter">
     <rdfs:subClassOf>
@@ -309,58 +233,26 @@
   </owl:Class>
   <owl:Class rdf:about="#Person">
     <owl:disjointWith>
-      <owl:Class rdf:about="#Assay"/>
-    </owl:disjointWith>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Model"/>
-    </owl:disjointWith>
-    <rdfs:subClassOf>
-      <owl:Class rdf:about="#Thing"/>
-    </rdfs:subClassOf>
-    <owl:disjointWith rdf:resource="#Data_Compendium"/>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >person</rdfs:label>
-    <owl:disjointWith rdf:resource="#Organism"/>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Raw_Data"/>
+      <owl:Class rdf:about="#Substance"/>
     </owl:disjointWith>
     <owl:disjointWith>
       <owl:Class rdf:about="#Study"/>
     </owl:disjointWith>
     <owl:disjointWith>
+      <owl:Class rdf:about="#Raw_Data"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
       <owl:Class rdf:about="#Protocol"/>
     </owl:disjointWith>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Model_Species"/>
-    </owl:disjointWith>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Investigation"/>
-    </owl:disjointWith>
-    <owl:disjointWith rdf:resource="#Experimental_Module"/>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Cell_Line"/>
-    </owl:disjointWith>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Model_Interaction"/>
-    </owl:disjointWith>
-    <owl:disjointWith rdf:resource="#Gene"/>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Model_Compartment"/>
-    </owl:disjointWith>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Instrument"/>
-    </owl:disjointWith>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Substance"/>
-    </owl:disjointWith>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="#Thing"/>
+    </rdfs:subClassOf>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >person</rdfs:label>
   </owl:Class>
   <owl:Class rdf:about="#Investigation">
     <owl:disjointWith>
       <owl:Class rdf:about="#Substance"/>
-    </owl:disjointWith>
-    <owl:disjointWith rdf:resource="#Data_Compendium"/>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Cell_Line"/>
     </owl:disjointWith>
     <owl:disjointWith rdf:resource="#Organism"/>
     <owl:disjointWith>
@@ -369,20 +261,12 @@
     <owl:disjointWith>
       <owl:Class rdf:about="#Raw_Data"/>
     </owl:disjointWith>
-    <owl:disjointWith rdf:resource="#Gene"/>
     <owl:disjointWith>
       <owl:Class rdf:about="#Model_Interaction"/>
-    </owl:disjointWith>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Assay"/>
     </owl:disjointWith>
     <rdfs:subClassOf>
       <owl:Class rdf:about="#Thing"/>
     </rdfs:subClassOf>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Instrument"/>
-    </owl:disjointWith>
-    <owl:disjointWith rdf:resource="#Experimental_Module"/>
     <owl:disjointWith>
       <owl:Class rdf:about="#Protocol"/>
     </owl:disjointWith>
@@ -405,96 +289,42 @@
     <rdfs:subClassOf>
       <owl:Class rdf:about="#Model_Interaction"/>
     </rdfs:subClassOf>
-    <owl:disjointWith rdf:resource="#Physicochemical_Reaction"/>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Logical_Rule"/>
-    </owl:disjointWith>
   </owl:Class>
   <owl:Class rdf:about="#Model_Species">
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Instrument"/>
-    </owl:disjointWith>
-    <rdfs:subClassOf>
-      <owl:Class rdf:about="#Thing"/>
-    </rdfs:subClassOf>
-    <owl:disjointWith rdf:resource="#Data_Compendium"/>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >model species</rdfs:label>
-    <owl:disjointWith rdf:resource="#Organism"/>
-    <owl:disjointWith rdf:resource="#Investigation"/>
-    <owl:disjointWith rdf:resource="#Experimental_Module"/>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Model"/>
-    </owl:disjointWith>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Model_Compartment"/>
-    </owl:disjointWith>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Protocol"/>
-    </owl:disjointWith>
-    <owl:disjointWith rdf:resource="#Gene"/>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Cell_Line"/>
-    </owl:disjointWith>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Model_Interaction"/>
-    </owl:disjointWith>
-    <owl:disjointWith rdf:resource="#Person"/>
     <owl:disjointWith>
       <owl:Class rdf:about="#Substance"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Study"/>
     </owl:disjointWith>
     <owl:disjointWith>
       <owl:Class rdf:about="#Raw_Data"/>
     </owl:disjointWith>
     <owl:disjointWith>
-      <owl:Class rdf:about="#Assay"/>
+      <owl:Class rdf:about="#Protocol"/>
     </owl:disjointWith>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Study"/>
-    </owl:disjointWith>
-  </owl:Class>
-  <owl:Class rdf:about="#Raw_Data">
     <owl:disjointWith rdf:resource="#Person"/>
     <owl:disjointWith rdf:resource="#Organism"/>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="#Thing"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="#Raw_Data">
     <owl:disjointWith>
       <owl:Class rdf:about="#Substance"/>
     </owl:disjointWith>
     <owl:disjointWith>
       <owl:Class rdf:about="#Study"/>
     </owl:disjointWith>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Model_Interaction"/>
-    </owl:disjointWith>
-    <owl:disjointWith rdf:resource="#Model_Species"/>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Model"/>
-    </owl:disjointWith>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Assay"/>
-    </owl:disjointWith>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Instrument"/>
-    </owl:disjointWith>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >raw data</rdfs:label>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Cell_Line"/>
-    </owl:disjointWith>
-    <owl:disjointWith rdf:resource="#Gene"/>
-    <owl:disjointWith rdf:resource="#Data_Compendium"/>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Model_Compartment"/>
-    </owl:disjointWith>
     <rdfs:subClassOf>
       <owl:Class rdf:about="#Thing"/>
     </rdfs:subClassOf>
-    <owl:disjointWith rdf:resource="#Investigation"/>
-    <owl:disjointWith rdf:resource="#Experimental_Module"/>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Protocol"/>
-    </owl:disjointWith>
   </owl:Class>
-  <owl:Class rdf:about="#Assay">
+  <owl:Class rdf:ID="Assay">
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >assay</rdfs:label>
     <owl:disjointWith rdf:resource="#Model_Species"/>
@@ -526,75 +356,34 @@
     </rdfs:subClassOf>
     <owl:disjointWith rdf:resource="#Experimental_Module"/>
     <owl:disjointWith>
-      <owl:Class rdf:about="#Cell_Line"/>
+      <owl:Class rdf:ID="Cell_Line"/>
     </owl:disjointWith>
     <owl:disjointWith rdf:resource="#Person"/>
     <owl:disjointWith rdf:resource="#Investigation"/>
+    <owl:disjointWith rdf:resource="#Raw_Data"/>
     <owl:disjointWith>
       <owl:Class rdf:about="#Instrument"/>
     </owl:disjointWith>
-    <owl:disjointWith rdf:resource="#Raw_Data"/>
   </owl:Class>
   <owl:Class rdf:about="#Study">
-    <owl:disjointWith rdf:resource="#Investigation"/>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Substance"/>
-    </owl:disjointWith>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Model"/>
-    </owl:disjointWith>
     <rdfs:subClassOf>
       <owl:Class rdf:about="#Thing"/>
     </rdfs:subClassOf>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Protocol"/>
-    </owl:disjointWith>
-    <owl:disjointWith rdf:resource="#Assay"/>
-    <owl:disjointWith rdf:resource="#Raw_Data"/>
-    <owl:disjointWith rdf:resource="#Gene"/>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Model_Interaction"/>
-    </owl:disjointWith>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Instrument"/>
-    </owl:disjointWith>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >study</rdfs:label>
-    <owl:disjointWith rdf:resource="#Person"/>
-    <owl:disjointWith rdf:resource="#Model_Species"/>
-    <owl:disjointWith rdf:resource="#Experimental_Module"/>
     <owl:disjointWith>
-      <owl:Class rdf:about="#Cell_Line"/>
+      <owl:Class rdf:about="#Substance"/>
     </owl:disjointWith>
-    <owl:disjointWith rdf:resource="#Data_Compendium"/>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Model_Compartment"/>
-    </owl:disjointWith>
-    <owl:disjointWith rdf:resource="#Organism"/>
   </owl:Class>
   <owl:Class rdf:about="#Model_Interaction">
-    <owl:disjointWith rdf:resource="#Gene"/>
-    <owl:disjointWith rdf:resource="#Experimental_Module"/>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Model"/>
-    </owl:disjointWith>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >model interaction</rdfs:label>
     <owl:disjointWith>
       <owl:Class rdf:about="#Substance"/>
     </owl:disjointWith>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Instrument"/>
-    </owl:disjointWith>
     <owl:disjointWith rdf:resource="#Model_Species"/>
     <owl:disjointWith rdf:resource="#Study"/>
-    <owl:disjointWith rdf:resource="#Investigation"/>
-    <owl:disjointWith rdf:resource="#Assay"/>
     <owl:disjointWith rdf:resource="#Raw_Data"/>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Model_Compartment"/>
-    </owl:disjointWith>
-    <owl:disjointWith rdf:resource="#Data_Compendium"/>
     <owl:disjointWith rdf:resource="#Person"/>
     <owl:disjointWith rdf:resource="#Organism"/>
     <rdfs:subClassOf>
@@ -603,54 +392,25 @@
     <owl:disjointWith>
       <owl:Class rdf:about="#Protocol"/>
     </owl:disjointWith>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Cell_Line"/>
-    </owl:disjointWith>
   </owl:Class>
   <owl:Class rdf:about="#Protocol">
-    <owl:disjointWith rdf:resource="#Assay"/>
-    <owl:disjointWith rdf:resource="#Study"/>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Instrument"/>
-    </owl:disjointWith>
-    <owl:disjointWith rdf:resource="#Person"/>
-    <owl:disjointWith rdf:resource="#Organism"/>
-    <owl:disjointWith rdf:resource="#Model_Species"/>
-    <owl:disjointWith rdf:resource="#Raw_Data"/>
-    <owl:disjointWith rdf:resource="#Experimental_Module"/>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Cell_Line"/>
-    </owl:disjointWith>
-    <owl:disjointWith rdf:resource="#Gene"/>
-    <owl:disjointWith rdf:resource="#Model_Interaction"/>
     <rdfs:subClassOf>
       <owl:Class rdf:about="#Thing"/>
     </rdfs:subClassOf>
-    <owl:disjointWith rdf:resource="#Investigation"/>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Model"/>
-    </owl:disjointWith>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >protocol</rdfs:label>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Model_Compartment"/>
-    </owl:disjointWith>
-    <owl:disjointWith rdf:resource="#Data_Compendium"/>
     <owl:disjointWith>
       <owl:Class rdf:about="#Substance"/>
     </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Study"/>
+    <owl:disjointWith rdf:resource="#Raw_Data"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >protocol</rdfs:label>
   </owl:Class>
   <owl:Class rdf:about="#Model">
     <rdfs:subClassOf>
       <owl:Class rdf:about="#Thing"/>
     </rdfs:subClassOf>
     <owl:disjointWith rdf:resource="#Raw_Data"/>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Cell_Line"/>
-    </owl:disjointWith>
-    <owl:disjointWith rdf:resource="#Gene"/>
     <owl:disjointWith rdf:resource="#Study"/>
-    <owl:disjointWith rdf:resource="#Data_Compendium"/>
     <owl:disjointWith>
       <owl:Class rdf:about="#Substance"/>
     </owl:disjointWith>
@@ -662,14 +422,8 @@
     <owl:disjointWith>
       <owl:Class rdf:about="#Model_Compartment"/>
     </owl:disjointWith>
-    <owl:disjointWith rdf:resource="#Assay"/>
-    <owl:disjointWith rdf:resource="#Investigation"/>
     <owl:disjointWith rdf:resource="#Protocol"/>
     <owl:disjointWith rdf:resource="#Organism"/>
-    <owl:disjointWith rdf:resource="#Experimental_Module"/>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Instrument"/>
-    </owl:disjointWith>
   </owl:Class>
   <owl:Class rdf:about="#Instrument">
     <owl:disjointWith>
@@ -681,21 +435,14 @@
     <rdfs:subClassOf>
       <owl:Class rdf:about="#Thing"/>
     </rdfs:subClassOf>
-    <owl:disjointWith rdf:resource="#Experimental_Module"/>
-    <owl:disjointWith rdf:resource="#Assay"/>
     <owl:disjointWith rdf:resource="#Protocol"/>
     <owl:disjointWith rdf:resource="#Person"/>
     <owl:disjointWith>
       <owl:Class rdf:about="#Model_Compartment"/>
     </owl:disjointWith>
-    <owl:disjointWith rdf:resource="#Data_Compendium"/>
-    <owl:disjointWith rdf:resource="#Gene"/>
     <owl:disjointWith rdf:resource="#Organism"/>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >instrument</rdfs:label>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Cell_Line"/>
-    </owl:disjointWith>
     <owl:disjointWith rdf:resource="#Model_Species"/>
     <owl:disjointWith rdf:resource="#Study"/>
     <owl:disjointWith rdf:resource="#Raw_Data"/>
@@ -703,10 +450,10 @@
   <owl:Class rdf:about="#Cell_Line">
     <owl:disjointWith rdf:resource="#Model"/>
     <owl:disjointWith rdf:resource="#Protocol"/>
+    <owl:disjointWith rdf:resource="#Study"/>
     <owl:disjointWith rdf:resource="#Data_Compendium"/>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >cell line</rdfs:label>
-    <owl:disjointWith rdf:resource="#Study"/>
     <owl:disjointWith rdf:resource="#Model_Species"/>
     <owl:disjointWith>
       <owl:Class rdf:about="#Substance"/>
@@ -720,9 +467,8 @@
     <rdfs:subClassOf>
       <owl:Class rdf:about="#Thing"/>
     </rdfs:subClassOf>
-    <owl:disjointWith rdf:resource="#Assay"/>
-    <owl:disjointWith rdf:resource="#Organism"/>
     <owl:disjointWith rdf:resource="#Raw_Data"/>
+    <owl:disjointWith rdf:resource="#Organism"/>
     <owl:disjointWith rdf:resource="#Instrument"/>
     <owl:disjointWith rdf:resource="#Investigation"/>
     <owl:disjointWith rdf:resource="#Model_Interaction"/>
@@ -751,19 +497,18 @@
     >SBWiki thing</rdfs:label>
   </owl:Class>
   <owl:Class rdf:about="#Treatment">
-    <owl:disjointWith rdf:resource="#Data_Acquisition"/>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >treatment</rdfs:label>
     <rdfs:subClassOf rdf:resource="#Experimental_Module"/>
   </owl:Class>
-  <owl:Class rdf:about="#Logical_Species">
+  <owl:Class rdf:ID="Logical_Species">
     <owl:disjointWith rdf:resource="#Rule_Based_Species"/>
     <owl:disjointWith rdf:resource="#Physicochemical_Species"/>
     <rdfs:subClassOf rdf:resource="#Model_Species"/>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >logical species</rdfs:label>
   </owl:Class>
-  <owl:Class rdf:about="#Logical_Rule">
+  <owl:Class rdf:ID="Logical_Rule">
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >logical rule</rdfs:label>
     <owl:disjointWith rdf:resource="#Rule_Based_Statement"/>
@@ -781,48 +526,23 @@
     <rdfs:subClassOf rdf:resource="#Thing"/>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >model compartment</rdfs:label>
-    <owl:disjointWith rdf:resource="#Cell_Line"/>
-    <owl:disjointWith rdf:resource="#Instrument"/>
-    <owl:disjointWith rdf:resource="#Gene"/>
     <owl:disjointWith rdf:resource="#Model_Species"/>
     <owl:disjointWith rdf:resource="#Organism"/>
-    <owl:disjointWith rdf:resource="#Investigation"/>
-    <owl:disjointWith rdf:resource="#Assay"/>
     <owl:disjointWith>
       <owl:Class rdf:about="#Substance"/>
     </owl:disjointWith>
     <owl:disjointWith rdf:resource="#Model_Interaction"/>
-    <owl:disjointWith rdf:resource="#Model"/>
     <owl:disjointWith rdf:resource="#Raw_Data"/>
     <owl:disjointWith rdf:resource="#Person"/>
-    <owl:disjointWith rdf:resource="#Data_Compendium"/>
-    <owl:disjointWith rdf:resource="#Experimental_Module"/>
   </owl:Class>
   <owl:Class rdf:about="#Substance">
-    <owl:disjointWith rdf:resource="#Investigation"/>
-    <owl:disjointWith rdf:resource="#Protocol"/>
-    <owl:disjointWith rdf:resource="#Organism"/>
-    <owl:disjointWith rdf:resource="#Model"/>
-    <owl:disjointWith rdf:resource="#Gene"/>
-    <owl:disjointWith rdf:resource="#Assay"/>
-    <owl:disjointWith rdf:resource="#Raw_Data"/>
-    <owl:disjointWith rdf:resource="#Cell_Line"/>
-    <owl:disjointWith rdf:resource="#Person"/>
-    <rdfs:subClassOf rdf:resource="#Thing"/>
-    <owl:disjointWith rdf:resource="#Data_Compendium"/>
-    <owl:disjointWith rdf:resource="#Experimental_Module"/>
-    <owl:disjointWith rdf:resource="#Instrument"/>
-    <owl:disjointWith rdf:resource="#Study"/>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >substance</rdfs:label>
-    <owl:disjointWith rdf:resource="#Model_Interaction"/>
-    <owl:disjointWith rdf:resource="#Model_Species"/>
-    <owl:disjointWith rdf:resource="#Model_Compartment"/>
+    <rdfs:subClassOf rdf:resource="#Thing"/>
   </owl:Class>
   <owl:Class rdf:about="#Physicochemical_Model">
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >physicochemical model</rdfs:label>
-    <owl:disjointWith rdf:resource="#Logical_Model"/>
     <owl:disjointWith>
       <owl:Class rdf:about="#Rule_Based_Model"/>
     </owl:disjointWith>
@@ -832,15 +552,10 @@
     <rdfs:subClassOf rdf:resource="#Substance"/>
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Sometimes also referred to as "small molecule".  Meant to cover clinical therapeutic compounds as well as inhibitors used in cellular assays.</rdfs:comment>
-    <owl:disjointWith rdf:resource="#Antibody"/>
-    <owl:disjointWith rdf:resource="#Biomolecule"/>
-    <owl:disjointWith rdf:resource="#Cell_Sample"/>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >drug</rdfs:label>
   </owl:Class>
   <owl:Class rdf:about="#Rule_Based_Model">
-    <owl:disjointWith rdf:resource="#Logical_Model"/>
-    <owl:disjointWith rdf:resource="#Physicochemical_Model"/>
     <rdfs:subClassOf rdf:resource="#Model"/>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >rule-based model</rdfs:label>
@@ -885,7 +600,6 @@
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >is catalytic substrate of</rdfs:label>
     <rdfs:domain rdf:resource="#Physicochemical_Species"/>
-    <owl:inverseOf rdf:resource="#hasCatalyticSubstrate"/>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="hasReagent">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -905,19 +619,12 @@
         <owl:unionOf rdf:parseType="Collection">
           <owl:Class rdf:about="#Assay"/>
           <owl:Class rdf:about="#Investigation"/>
-          <owl:Class rdf:about="#Study"/>
           <owl:Class rdf:about="#Model"/>
+          <owl:Class rdf:about="#Study"/>
         </owl:unionOf>
       </owl:Class>
     </rdfs:domain>
     <rdfs:range rdf:resource="#Person"/>
-  </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:ID="hasModel">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
-    <rdfs:domain rdf:resource="#Study"/>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >has model</rdfs:label>
-    <rdfs:range rdf:resource="#Model"/>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="hasProtocol">
     <rdfs:domain rdf:resource="#Assay"/>
@@ -942,14 +649,6 @@
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >The raw output data generated by a data acquisition step.</rdfs:comment>
     <rdfs:range rdf:resource="#Raw_Data"/>
-  </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:ID="bindsTo">
-    <rdfs:domain rdf:resource="#Physicochemical_Species"/>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >binds to</rdfs:label>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#SymmetricProperty"/>
-    <rdfs:range rdf:resource="#Physicochemical_Species"/>
-    <owl:inverseOf rdf:resource="#bindsTo"/>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="isInvolvedInReaction">
     <owl:inverseOf>
@@ -979,13 +678,6 @@
       <owl:ObjectProperty rdf:ID="isComponentSpeciesOf"/>
     </owl:inverseOf>
   </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:ID="hasModelCompartment">
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >has model compartment</rdfs:label>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
-    <rdfs:domain rdf:resource="#Model"/>
-    <rdfs:range rdf:resource="#Model_Compartment"/>
-  </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="hasPerturbator">
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >has perturbator</rdfs:label>
@@ -993,28 +685,6 @@
     >A drug, siRNA, etc. which alters the functioning of a protein.</rdfs:comment>
     <rdfs:range rdf:resource="#Substance"/>
     <rdfs:domain rdf:resource="#Protein"/>
-  </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:ID="hasAttachedFile">
-    <rdfs:domain>
-      <owl:Class>
-        <owl:unionOf rdf:parseType="Collection">
-          <owl:Class rdf:about="#Data_Compendium"/>
-          <owl:Class rdf:about="#Raw_Data"/>
-        </owl:unionOf>
-      </owl:Class>
-    </rdfs:domain>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >has attached file</rdfs:label>
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >A file that stores the actual set of data represented by this individual.</rdfs:comment>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
-  </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:ID="hasModelInteraction">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
-    <rdfs:domain rdf:resource="#Model"/>
-    <rdfs:range rdf:resource="#Model_Interaction"/>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >has model interaction</rdfs:label>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="hasEmulatedCellLine">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -1033,26 +703,17 @@
     >converted to</rdfs:label>
     <rdfs:domain rdf:resource="#Physicochemical_Species"/>
   </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:ID="hasModelParameter">
-    <rdfs:domain rdf:resource="#Model"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >has model parameter</rdfs:label>
-    <rdfs:range rdf:resource="#Model_Parameter"/>
-  </owl:ObjectProperty>
   <owl:ObjectProperty rdf:about="#hasInvolvedSpecies">
     <rdfs:range rdf:resource="#Physicochemical_Species"/>
-    <owl:inverseOf rdf:resource="#isInvolvedInReaction"/>
     <rdfs:domain rdf:resource="#Physicochemical_Reaction"/>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >has involved species</rdfs:label>
   </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:ID="hasStudy">
+  <owl:ObjectProperty rdf:about="#translocatedTo">
+    <rdfs:domain rdf:resource="#Physicochemical_Species"/>
+    <rdfs:range rdf:resource="#Physicochemical_Species"/>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >has study</rdfs:label>
-    <rdfs:domain rdf:resource="#Investigation"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
-    <rdfs:range rdf:resource="#Study"/>
+    >translocated to</rdfs:label>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="hasUtilizedCellLine">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -1061,22 +722,6 @@
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >has utilized cell line</rdfs:label>
     <rdfs:domain rdf:resource="#Assay"/>
-  </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:about="#translocatedTo">
-    <owl:inverseOf rdf:resource="#translocatedFrom"/>
-    <rdfs:domain rdf:resource="#Physicochemical_Species"/>
-    <rdfs:range rdf:resource="#Physicochemical_Species"/>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >translocated to</rdfs:label>
-  </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:ID="hasAntibodySourceOrganism">
-    <rdfs:range rdf:resource="#Organism"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >The organism in which an antibody was made.</rdfs:comment>
-    <rdfs:domain rdf:resource="#Antibody"/>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >has antibody source organism</rdfs:label>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="hasInitialCondition">
     <rdfs:range rdf:resource="#Model_Parameter"/>
@@ -1093,13 +738,6 @@
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >The protein to which an antibody is designed to bind.</rdfs:comment>
     <rdfs:domain rdf:resource="#Antibody"/>
-  </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:ID="hasCompendium">
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >has compendium</rdfs:label>
-    <rdfs:range rdf:resource="#Data_Compendium"/>
-    <rdfs:domain rdf:resource="#Study"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="hasParameterFit">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -1118,23 +756,6 @@
     >has gene</rdfs:label>
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >The gene which encodes a protein.</rdfs:comment>
-  </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:ID="hasSourceCellLine">
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >has source cell line</rdfs:label>
-    <rdfs:range rdf:resource="#Cell_Line"/>
-    <rdfs:domain rdf:resource="#Cell_Sample"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >The cell line from which a cell sample is taken.</rdfs:comment>
-  </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:ID="equivalentTo">
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >equivalent to</rdfs:label>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#SymmetricProperty"/>
-    <owl:inverseOf rdf:resource="#equivalentTo"/>
-    <rdfs:range rdf:resource="#Physicochemical_Species"/>
-    <rdfs:domain rdf:resource="#Physicochemical_Species"/>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="isContainedIn">
     <rdfs:range rdf:resource="#Model_Compartment"/>
@@ -1155,7 +776,6 @@
   <owl:ObjectProperty rdf:about="#isComponentSpeciesOf">
     <rdfs:range rdf:resource="#Physicochemical_Species"/>
     <rdfs:domain rdf:resource="#Physicochemical_Species"/>
-    <owl:inverseOf rdf:resource="#hasComponentSpecies"/>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >is component species of</rdfs:label>
   </owl:ObjectProperty>
@@ -1176,13 +796,6 @@
     >catalyzes production of</rdfs:label>
     <rdfs:range rdf:resource="#Physicochemical_Species"/>
   </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:ID="hasAssay">
-    <rdfs:domain rdf:resource="#Study"/>
-    <rdfs:range rdf:resource="#Assay"/>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >has assay</rdfs:label>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
-  </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="isVersionOf">
     <rdfs:range rdf:resource="#Substance"/>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -1193,24 +806,9 @@
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >The real-world substance represented by a species in a model.</rdfs:comment>
   </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:ID="hasModelSpecies">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
-    <rdfs:domain rdf:resource="#Model"/>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >has model species</rdfs:label>
-    <rdfs:range rdf:resource="#Model_Species"/>
-  </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:ID="hasModule">
-    <rdfs:range rdf:resource="#Experimental_Module"/>
-    <rdfs:domain rdf:resource="#Assay"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >has module</rdfs:label>
-  </owl:ObjectProperty>
   <owl:ObjectProperty rdf:about="#hasProductionCatalyzedBy">
     <rdfs:range rdf:resource="#Physicochemical_Species"/>
     <rdfs:domain rdf:resource="#Physicochemical_Species"/>
-    <owl:inverseOf rdf:resource="#catalyzesProductionOf"/>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >has production catalyzed by</rdfs:label>
   </owl:ObjectProperty>
@@ -1219,16 +817,7 @@
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >converted from</rdfs:label>
     <rdfs:range rdf:resource="#Physicochemical_Species"/>
-    <owl:inverseOf rdf:resource="#convertedTo"/>
   </owl:ObjectProperty>
-  <owl:DatatypeProperty rdf:ID="uniprotAccessionNumber">
-    <owl:versionInfo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >TODO: work in SBO uri scheme?  this should really be a sort of isVersionOf to a literal uri.</owl:versionInfo>
-    <rdfs:domain rdf:resource="#Protein"/>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >UniProt accession number</rdfs:label>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-  </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="synonym">
     <rdfs:domain>
       <owl:Class>
@@ -1240,6 +829,14 @@
     </rdfs:domain>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >synonym</rdfs:label>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="uniprotAccessionNumber">
+    <owl:versionInfo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >TODO: work in SBO uri scheme?  this should really be a sort of isVersionOf to a literal uri.</owl:versionInfo>
+    <rdfs:domain rdf:resource="#Protein"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >UniProt accession number</rdfs:label>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="modification">
@@ -1256,93 +853,25 @@
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >validation details</rdfs:label>
   </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="softwareFramework">
+  <owl:DatatypeProperty rdf:ID="speciesName">
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >software framework</rdfs:label>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    ></rdfs:comment>
-    <rdfs:domain rdf:resource="#Model"/>
+    >species name</rdfs:label>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-  </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="parameterValue">
-    <rdfs:domain rdf:resource="#Model_Parameter"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >parameter value</rdfs:label>
-  </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="fullName">
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >full name</rdfs:label>
-    <rdfs:domain>
-      <owl:Class>
-        <owl:unionOf rdf:parseType="Collection">
-          <owl:Class rdf:about="#Model_Species"/>
-          <owl:Class rdf:about="#Model"/>
-          <owl:Class rdf:about="#Substance"/>
-          <owl:Class rdf:about="#Model_Compartment"/>
-          <owl:Class rdf:about="#Cell_Line"/>
-          <owl:Class rdf:about="#Model_Interaction"/>
-        </owl:unionOf>
-      </owl:Class>
-    </rdfs:domain>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-  </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="logicalSpeciesType">
-    <owl:versionInfo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >TODO: add allowed values (RDF::Core 0.51 dies when faced with rdf:first properties with literal values)</owl:versionInfo>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >logical species type</rdfs:label>
-    <rdfs:domain rdf:resource="#Logical_Species"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-  </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="label">
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >label</rdfs:label>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-    <rdfs:domain>
-      <owl:Class>
-        <owl:unionOf rdf:parseType="Collection">
-          <owl:Class rdf:about="#Model_Interaction"/>
-          <owl:Class rdf:about="#Model_Compartment"/>
-          <owl:Class rdf:about="#Model_Species"/>
-          <owl:Class rdf:about="#Model_Parameter"/>
-        </owl:unionOf>
-      </owl:Class>
-    </rdfs:domain>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-  </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="manufacturer">
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >manufacturer</rdfs:label>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-    <rdfs:domain rdf:resource="#Instrument"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-  </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="parameterValueSource">
-    <rdfs:domain rdf:resource="#Model_Parameter"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >a short description of how the parameter value was chosen (e.g. literature, fitting to data, guessed)</rdfs:comment>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >parameter value source</rdfs:label>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-  </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="immunogen">
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >immunogen</rdfs:label>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-    <rdfs:domain rdf:resource="#Antibody"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#Organism"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="catalogNumber">
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <rdfs:domain rdf:resource="#Substance"/>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >catalog number</rdfs:label>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="molecularFunction">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >molecular function</rdfs:label>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >range is Gene Ontology - Molecular Function</rdfs:comment>
+    <rdfs:domain rdf:resource="#Protein"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="literatureReference">
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -1354,10 +883,10 @@
       <owl:Class>
         <owl:unionOf rdf:parseType="Collection">
           <owl:Class rdf:about="#Model"/>
-          <owl:Class rdf:about="#Model_Interaction"/>
-          <owl:Class rdf:about="#Model_Species"/>
           <owl:Class rdf:about="#Model_Compartment"/>
+          <owl:Class rdf:about="#Model_Interaction"/>
           <owl:Class rdf:about="#Model_Parameter"/>
+          <owl:Class rdf:about="#Model_Species"/>
         </owl:unionOf>
       </owl:Class>
     </rdfs:domain>
@@ -1368,6 +897,12 @@
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >logic statement</rdfs:label>
   </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="casNumber">
+    <rdfs:domain rdf:resource="#Substance"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >CAS number</rdfs:label>
+  </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="localization">
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <rdfs:domain rdf:resource="#Biomolecule"/>
@@ -1376,47 +911,11 @@
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >localization</rdfs:label>
   </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="casNumber">
-    <rdfs:domain rdf:resource="#Substance"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >CAS number</rdfs:label>
-  </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="monoclonal">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
-    <rdfs:domain rdf:resource="#Antibody"/>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >monoclonal</rdfs:label>
-  </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="ic50Details">
     <rdfs:domain rdf:resource="#Drug"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >IC50 details</rdfs:label>
-  </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="massActionFormula">
-    <rdfs:domain rdf:resource="#Physicochemical_Reaction"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >mass action formula</rdfs:label>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-  </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="compartmentSize">
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >compartment size</rdfs:label>
-    <rdfs:domain rdf:resource="#Model_Compartment"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Area, volume, etc.</rdfs:comment>
-  </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="serialNumber">
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >serial number</rdfs:label>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-    <rdfs:domain rdf:resource="#Instrument"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="emulatedBiologicalProcess">
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -1426,13 +925,237 @@
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >range is Gene Ontology - Biological Process</rdfs:comment>
   </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="modelName">
+  <owl:SymmetricProperty rdf:ID="equivalentTo">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >equivalent to</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <owl:inverseOf rdf:resource="#equivalentTo"/>
+    <rdfs:range rdf:resource="#Physicochemical_Species"/>
+    <rdfs:domain rdf:resource="#Physicochemical_Species"/>
+  </owl:SymmetricProperty>
+  <owl:SymmetricProperty rdf:ID="bindsTo">
+    <rdfs:domain rdf:resource="#Physicochemical_Species"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >binds to</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:range rdf:resource="#Physicochemical_Species"/>
+    <owl:inverseOf rdf:resource="#bindsTo"/>
+  </owl:SymmetricProperty>
+  <owl:FunctionalProperty rdf:ID="softwareFramework">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >software framework</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    ></rdfs:comment>
+    <rdfs:domain rdf:resource="#Model"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:ID="parameterValue">
+    <rdfs:domain rdf:resource="#Model_Parameter"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >parameter value</rdfs:label>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:ID="fullName">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >full name</rdfs:label>
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <owl:Class rdf:about="#Cell_Line"/>
+          <owl:Class rdf:about="#Model"/>
+          <owl:Class rdf:about="#Model_Compartment"/>
+          <owl:Class rdf:about="#Model_Interaction"/>
+          <owl:Class rdf:about="#Model_Species"/>
+          <owl:Class rdf:about="#Substance"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:ID="logicalSpeciesType">
+    <owl:versionInfo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >TODO: add allowed values (RDF::Core 0.51 dies when faced with rdf:first properties with literal values)</owl:versionInfo>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >logical species type</rdfs:label>
+    <rdfs:domain rdf:resource="#Logical_Species"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:ID="manufacturer">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >manufacturer</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
     <rdfs:domain rdf:resource="#Instrument"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:ID="label">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >label</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <owl:Class rdf:about="#Model_Compartment"/>
+          <owl:Class rdf:about="#Model_Interaction"/>
+          <owl:Class rdf:about="#Model_Parameter"/>
+          <owl:Class rdf:about="#Model_Species"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:ID="hasAntibodySourceOrganism">
+    <rdfs:range rdf:resource="#Organism"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >The organism in which an antibody was made.</rdfs:comment>
+    <rdfs:domain rdf:resource="#Antibody"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >has antibody source organism</rdfs:label>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:ID="parameterValueSource">
+    <rdfs:domain rdf:resource="#Model_Parameter"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >a short description of how the parameter value was chosen (e.g. literature, fitting to data, guessed)</rdfs:comment>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >parameter value source</rdfs:label>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:ID="immunogen">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >immunogen</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="#Antibody"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:ID="hasSourceCellLine">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >has source cell line</rdfs:label>
+    <rdfs:range rdf:resource="#Cell_Line"/>
+    <rdfs:domain rdf:resource="#Cell_Sample"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >The cell line from which a cell sample is taken.</rdfs:comment>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:ID="monoclonal">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#Antibody"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >monoclonal</rdfs:label>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:ID="massActionFormula">
+    <rdfs:domain rdf:resource="#Physicochemical_Reaction"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >mass action formula</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:ID="compartmentSize">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >compartment size</rdfs:label>
+    <rdfs:domain rdf:resource="#Model_Compartment"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Area, volume, etc.</rdfs:comment>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:ID="serialNumber">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >serial number</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="#Instrument"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:ID="modelName">
+    <rdfs:domain rdf:resource="#Instrument"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >model name</rdfs:label>
-  </owl:DatatypeProperty>
+  </owl:FunctionalProperty>
+  <owl:InverseFunctionalProperty rdf:ID="hasCompendium">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >has compendium</rdfs:label>
+    <rdfs:range rdf:resource="#Data_Compendium"/>
+    <rdfs:domain rdf:resource="#Study"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </owl:InverseFunctionalProperty>
+  <owl:InverseFunctionalProperty rdf:ID="hasModelParameter">
+    <rdfs:domain rdf:resource="#Model"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >has model parameter</rdfs:label>
+    <rdfs:range rdf:resource="#Model_Parameter"/>
+  </owl:InverseFunctionalProperty>
+  <owl:InverseFunctionalProperty rdf:ID="hasStudy">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >has study</rdfs:label>
+    <rdfs:domain rdf:resource="#Investigation"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:range rdf:resource="#Study"/>
+  </owl:InverseFunctionalProperty>
+  <owl:InverseFunctionalProperty rdf:ID="hasModel">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="#Study"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >has model</rdfs:label>
+    <rdfs:range rdf:resource="#Model"/>
+  </owl:InverseFunctionalProperty>
+  <owl:InverseFunctionalProperty rdf:ID="hasAssay">
+    <rdfs:domain rdf:resource="#Study"/>
+    <rdfs:range rdf:resource="#Assay"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >has assay</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </owl:InverseFunctionalProperty>
+  <owl:InverseFunctionalProperty rdf:ID="hasModelCompartment">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >has model compartment</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="#Model"/>
+    <rdfs:range rdf:resource="#Model_Compartment"/>
+  </owl:InverseFunctionalProperty>
+  <owl:InverseFunctionalProperty rdf:ID="hasModelSpecies">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="#Model"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >has model species</rdfs:label>
+    <rdfs:range rdf:resource="#Model_Species"/>
+  </owl:InverseFunctionalProperty>
+  <owl:InverseFunctionalProperty rdf:ID="hasModule">
+    <rdfs:range rdf:resource="#Experimental_Module"/>
+    <rdfs:domain rdf:resource="#Assay"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >has module</rdfs:label>
+  </owl:InverseFunctionalProperty>
+  <owl:InverseFunctionalProperty rdf:ID="hasModelInteraction">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="#Model"/>
+    <rdfs:range rdf:resource="#Model_Interaction"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >has model interaction</rdfs:label>
+  </owl:InverseFunctionalProperty>
+  <owl:InverseFunctionalProperty rdf:ID="hasAttachedFile">
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <owl:Class rdf:about="#Data_Compendium"/>
+          <owl:Class rdf:about="#Raw_Data"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >has attached file</rdfs:label>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >A file that stores the actual set of data represented by this individual.</rdfs:comment>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </owl:InverseFunctionalProperty>
 </rdf:RDF>
 
 <!-- Created with Protege (with OWL Plugin 3.4, Build 533)  http://protege.stanford.edu -->

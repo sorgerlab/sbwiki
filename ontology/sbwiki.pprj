@@ -1,4 +1,4 @@
-; Tue Apr 21 18:29:50 EDT 2009
+; Fri May 15 17:53:26 EDT 2009
 ; 
 ;+ (version "3.4")
 ;+ (build "Build 533")
@@ -6,11 +6,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[sbwiki_ProjectKB_Class13]
-		[sbwiki_ProjectKB_Class14]
-		[sbwiki_ProjectKB_Class15]
-		[sbwiki_ProjectKB_Class16]
-		[sbwiki_ProjectKB_Class17]))
+		[sbwiki_ProjectKB_Class10006]
+		[sbwiki_ProjectKB_Class10007]
+		[sbwiki_ProjectKB_Class10008]
+		[sbwiki_ProjectKB_Class10009]
+		[sbwiki_ProjectKB_Class10010]))
 
 ([CLSES_TAB] of  Widget
 
@@ -3331,6 +3331,9 @@
 	(boolean_value FALSE)
 	(name "ButtonDisplayed-Delete Instance"))
 
+([KB_913408_Class0] of  Map
+)
+
 ([KB_933314_Instance_11] of  Boolean
 
 	(boolean_value FALSE)
@@ -5323,9 +5326,6 @@
 ([KB_941921_Instance_7] of  Property_List
 )
 
-([KB_979033_Class0] of  Map
-)
-
 ([OWL_ProjectKB_Instance_3] of  Integer
 
 	(integer_value 533)
@@ -5548,7 +5548,6 @@
 		"http://www.w3.org/2002/07/owl#ObjectProperty"
 		"http://www.w3.org/2001/XMLSchema#ENTITY"
 		"http://www.w3.org/2001/XMLSchema#byte"
-		"http://www.w3.org/2001/XMLSchema#float"
 		":NUMERIC-MINIMUM"
 		"http://www.w3.org/1999/02/22-rdf-syntax-ns#rest"
 		"http://protege.stanford.edu/plugins/owl/protege#TO"
@@ -5570,8 +5569,8 @@
 		"http://www.w3.org/2003/11/swrl#argument2"
 		"http://www.w3.org/2003/11/swrl#argument1"
 		":FACET"
-		":SLOT-VALUES"
 		"http://www.w3.org/2002/07/owl#intersectionOf"
+		":SLOT-VALUES"
 		"http://www.w3.org/2002/07/owl#Nothing"
 		"http://www.w3.org/2002/07/owl#hasValue")
 	(journaling_enabled FALSE)
@@ -5583,18 +5582,24 @@
 		[Instance_2534]
 		[Instance_86]
 		[Instance_2600]
-		[FORMS_TAB]
 		[Instance_3234]
-		[Instance_43]
-		[CLSES_TAB]
-		[KB_865583_Instance_6]
-		[INSTANCES_TAB]
-		[Instance_45]
-		[KB_865583_Instance_12]
 		[KB_865583_Instance_8]
+		[sbwiki_ProjectKB_Class5]
+		[Instance_43]
+		[sbwiki_ProjectKB_Class11]
+		[KB_865583_Instance_6]
+		[FORMS_TAB]
+		[Instance_45]
+		[sbwiki_ProjectKB_Class7]
+		[KB_865583_Instance_12]
+		[sbwiki_ProjectKB_Class9]
+		[sbwiki_ProjectKB_Class3]
 		[KB_865583_Instance_4]
-		[SLOTS_TAB]
-		[KB_865583_Instance_10]))
+		[KB_865583_Instance_10]
+		[sbwiki_ProjectKB_Class1]
+		[CLSES_TAB]
+		[INSTANCES_TAB]
+		[SLOTS_TAB]))
 
 ([sbwiki_ProjectKB_Class1] of  Widget
 
@@ -5605,6 +5610,121 @@
 ([sbwiki_ProjectKB_Class10] of  Property_List
 )
 
+([sbwiki_ProjectKB_Class10006] of  String
+
+	(name ":INSTANCE-ANNOTATION")
+	(string_value "%3AANNOTATION-TEXT"))
+
+([sbwiki_ProjectKB_Class10007] of  String
+
+	(name "http://www.w3.org/2002/07/owl#Class")
+	(string_value "%3ANAME"))
+
+([sbwiki_ProjectKB_Class10008] of  String
+
+	(name ":PAL-CONSTRAINT")
+	(string_value "%3APAL-NAME"))
+
+([sbwiki_ProjectKB_Class10009] of  String
+
+	(name ":META-CLASS")
+	(string_value "%3ANAME"))
+
+([sbwiki_ProjectKB_Class10010] of  String
+
+	(name "http://www.w3.org/2002/07/owl#Thing")
+	(string_value "%3ANAME"))
+
+([sbwiki_ProjectKB_Class10013] of  Widget
+
+	(is_hidden FALSE)
+	(name "http://protege.stanford.edu/plugins/owl/protege#defaultLanguage")
+	(property_list [sbwiki_ProjectKB_Class10014]))
+
+([sbwiki_ProjectKB_Class10014] of  Property_List
+)
+
+([sbwiki_ProjectKB_Class10015] of  Widget
+
+	(is_hidden FALSE)
+	(name "http://protege.stanford.edu/plugins/owl/protege#usedLanguage")
+	(property_list [sbwiki_ProjectKB_Class10016]))
+
+([sbwiki_ProjectKB_Class10016] of  Property_List
+)
+
+([sbwiki_ProjectKB_Class10017] of  Widget
+
+	(is_hidden FALSE)
+	(name "http://protege.stanford.edu/plugins/owl/protege#excludedTest")
+	(property_list [sbwiki_ProjectKB_Class10018]))
+
+([sbwiki_ProjectKB_Class10018] of  Property_List
+)
+
+([sbwiki_ProjectKB_Class10019] of  Widget
+
+	(is_hidden FALSE)
+	(name "http://protege.stanford.edu/plugins/owl/protege#todoPrefix")
+	(property_list [sbwiki_ProjectKB_Class10020]))
+
+([sbwiki_ProjectKB_Class10020] of  Property_List
+)
+
+([sbwiki_ProjectKB_Class10021] of  Widget
+
+	(is_hidden FALSE)
+	(name "http://protege.stanford.edu/plugins/owl/protege#todoProperty")
+	(property_list [sbwiki_ProjectKB_Class10022]))
+
+([sbwiki_ProjectKB_Class10022] of  Property_List
+)
+
+([sbwiki_ProjectKB_Class10023] of  Widget
+
+	(is_hidden FALSE)
+	(name "http://protege.stanford.edu/plugins/owl/protege#abstract")
+	(property_list [sbwiki_ProjectKB_Class10024]))
+
+([sbwiki_ProjectKB_Class10024] of  Property_List
+)
+
+([sbwiki_ProjectKB_Class10025] of  Widget
+
+	(is_hidden FALSE)
+	(name "http://protege.stanford.edu/plugins/owl/protege#subclassesDisjoint")
+	(property_list [sbwiki_ProjectKB_Class10026]))
+
+([sbwiki_ProjectKB_Class10026] of  Property_List
+)
+
+([sbwiki_ProjectKB_Class10027] of  Widget
+
+	(is_hidden FALSE)
+	(name "http://protege.stanford.edu/plugins/owl/protege#probeClass")
+	(property_list [sbwiki_ProjectKB_Class10028]))
+
+([sbwiki_ProjectKB_Class10028] of  Property_List
+)
+
+([sbwiki_ProjectKB_Class10029] of  Widget
+
+	(is_hidden FALSE)
+	(name "http://protege.stanford.edu/plugins/owl/protege#readOnly")
+	(property_list [sbwiki_ProjectKB_Class10030]))
+
+([sbwiki_ProjectKB_Class10030] of  Property_List
+)
+
+([sbwiki_ProjectKB_Class10031] of  Widget
+
+	(is_hidden FALSE)
+	(name "http://protege.stanford.edu/plugins/owl/protege#allowedParent")
+	(property_list [sbwiki_ProjectKB_Class10032]))
+
+([sbwiki_ProjectKB_Class10032] of  Property_List
+)
+
 ([sbwiki_ProjectKB_Class11] of  Widget
 
 	(is_hidden TRUE)
@@ -5613,31 +5733,6 @@
 
 ([sbwiki_ProjectKB_Class12] of  Property_List
 )
-
-([sbwiki_ProjectKB_Class13] of  String
-
-	(name ":INSTANCE-ANNOTATION")
-	(string_value "%3AANNOTATION-TEXT"))
-
-([sbwiki_ProjectKB_Class14] of  String
-
-	(name "http://www.w3.org/2002/07/owl#Class")
-	(string_value "%3ANAME"))
-
-([sbwiki_ProjectKB_Class15] of  String
-
-	(name ":PAL-CONSTRAINT")
-	(string_value "%3APAL-NAME"))
-
-([sbwiki_ProjectKB_Class16] of  String
-
-	(name ":META-CLASS")
-	(string_value "%3ANAME"))
-
-([sbwiki_ProjectKB_Class17] of  String
-
-	(name "http://www.w3.org/2002/07/owl#Thing")
-	(string_value "%3ANAME"))
 
 ([sbwiki_ProjectKB_Class2] of  Property_List
 )
