@@ -6,11 +6,11 @@ use RDF::Helper;
 use RDF::Helper::Constants qw(:rdf :rdfs);
 
 
-my @skip_classes;
+my @skip_uris;
 my $skip_reflexive = undef;
 
 GetOptions(
-  "skip-class|sc=s" => \@skip_classes,
+  "skip|s=s"          => \@skip_uris,
   "skip-reflexive|sr" => \$skip_reflexive,
 ) or die "GetOptions error";
 
@@ -48,7 +48,7 @@ foreach my $uri ( map($_->object->as_string,
 }
 
 
-my %skip_classes = map { $_ => undef } @skip_classes;
+my %skip_uris = map { expand_uri_prefix($_) => undef } @skip_uris;
 
 
 print "digraph g {\n";
@@ -61,7 +61,7 @@ my %uri_to_id;
 foreach my $uri ( $rdf->resourcelist(RDF_TYPE, 'owl:Class') )
 {
   next if $uri =~ /^_/;
-  next if exists $skip_classes{$uri};
+  next if exists $skip_uris{$uri};
 
   my $obj = $rdf->get_object($uri);
 
@@ -73,7 +73,7 @@ foreach my $uri ( $rdf->resourcelist(RDF_TYPE, 'owl:Class') )
   my $label = $obj->rdfs_label;
   $label = join(' ', map(ucfirst, split(' ', $label)));
 
-  print qq{$id [label="$label"]\n};
+  print qq{$id [label="$label", style="filled", fillcolor="#8ed2ff"]\n};
 }
 
 
@@ -82,15 +82,17 @@ foreach my $uri ( $rdf->resourcelist(RDFS_SUBCLASS_OF) )
 {
   my $super_uri = $rdf->get_object($uri)->rdfs_subClassOf->object_uri;
 
-  next if exists $skip_classes{$uri} or exists $skip_classes{$super_uri};
+  next if exists $skip_uris{$uri} or exists $skip_uris{$super_uri};
 
-  print qq{$uri_to_id{$super_uri} -> $uri_to_id{$uri} [color="#ff0000" dir=back] \n};
+  print qq{$uri_to_id{$super_uri} -> $uri_to_id{$uri} [color="#ff0000", dir="back", arrowtail="empty"] \n};
 }
 
 
 # range/domain links
 foreach my $uri ( $rdf->resourcelist(RDF_TYPE, 'owl:ObjectProperty') )
 {
+  next if exists $skip_uris{$uri};
+
   my $obj = $rdf->get_object($uri);
 
   next unless $obj->rdfs_domain and $obj->rdfs_range;
@@ -105,18 +107,25 @@ foreach my $uri ( $rdf->resourcelist(RDF_TYPE, 'owl:ObjectProperty') )
   my $range_uri = $range->object_uri;
   my $label = $obj->rdfs_label;
 
-  next if exists $skip_classes{$range_uri};
+  next if exists $skip_uris{$range_uri};
 
   foreach my $domain ( @domains )
   {
+    my %attribs;
     my $domain_uri = $domain->object_uri;
-    next if exists $skip_classes{$domain_uri};
+    next if exists $skip_uris{$domain_uri};
     if ($domain_uri eq $range_uri and $skip_reflexive)
     {
       print STDERR "skipping reflexive property: ", $domain->rdfs_label, " -- ", $obj->rdfs_label, "\n";
       next;
     }
-    print qq{$uri_to_id{$domain_uri} -> $uri_to_id{$range_uri} [label="$label"] \n};
+    if ($rdf->exists($uri, RDF_TYPE, 'owl:InverseFunctionalProperty'))
+    {
+      $attribs{arrowhead} = 'diamond';
+      $attribs{color} = '#9536ff';
+    }
+    my $attribs = join(", ", map("$_=\"$attribs{$_}\"", keys %attribs));
+    print qq{$uri_to_id{$domain_uri} -> $uri_to_id{$range_uri} [label="$label", $attribs] \n};
   }
 }
 
@@ -169,3 +178,15 @@ sub parse_list
   return @values;
 }
 
+
+sub expand_uri_prefix
+{
+  my ($uri) = @_;
+
+  foreach my $prefix (keys %extra_ns)
+  {
+    $uri =~ s/^\Q$prefix\E:/$extra_ns{$prefix}/;
+  }
+  
+  return $uri;
+}
