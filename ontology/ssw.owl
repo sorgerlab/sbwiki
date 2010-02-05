@@ -4,7 +4,6 @@
     xmlns:ssw="http://pipeline.med.harvard.edu/ssw-20090421.owl#"
     xmlns:protege="http://protege.stanford.edu/plugins/owl/protege#"
     xmlns:xsp="http://www.owl-ontologies.com/2005/08/07/xsp.owl#"
-    xmlns:sbwiki="http://pipeline.med.harvard.edu/sbwiki-20080408.owl#"
     xmlns:owl="http://www.w3.org/2002/07/owl#"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
     xmlns:swrl="http://www.w3.org/2003/11/swrl#"

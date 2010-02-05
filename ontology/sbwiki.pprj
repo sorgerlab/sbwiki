@@ -1,4 +1,4 @@
-; Fri May 15 17:53:26 EDT 2009
+; Thu Feb 04 22:13:27 EST 2010
 ; 
 ;+ (version "3.4")
 ;+ (build "Build 533")
@@ -6,11 +6,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[sbwiki_ProjectKB_Class10006]
-		[sbwiki_ProjectKB_Class10007]
-		[sbwiki_ProjectKB_Class10008]
-		[sbwiki_ProjectKB_Class10009]
-		[sbwiki_ProjectKB_Class10010]))
+		[sbwiki_ProjectKB_Class10053]
+		[sbwiki_ProjectKB_Class10054]
+		[sbwiki_ProjectKB_Class10055]
+		[sbwiki_ProjectKB_Class10056]
+		[sbwiki_ProjectKB_Class10057]))
 
 ([CLSES_TAB] of  Widget
 
@@ -163,6 +163,7 @@
 	(display_multi_parent_class_icon FALSE)
 	(is_readonly FALSE)
 	(tabbed_instance_form_layout TRUE)
+	(undo_enabled TRUE)
 	(update_modification_slots FALSE))
 
 ([Instance_581] of  Widget
@@ -265,6 +266,9 @@
 	(y 0))
 
 ([KB_024013_Instance_5] of  Property_List
+)
+
+([KB_045184_Class0] of  Map
 )
 
 ([KB_100699_Instance_0] of  Widget
@@ -745,7 +749,11 @@
 	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.OWLFormWidget"))
 
 ([KB_325529_Class0] of  Map
-)
+
+	(entries
+		[sbwiki_ProjectKB_Class10058]
+		[sbwiki_ProjectKB_Class10059]
+		[sbwiki_ProjectKB_Class10060]))
 
 ([KB_325529_Class4] of  String
 
@@ -3051,7 +3059,7 @@
 
 ([KB_865583_Instance_8] of  Widget
 
-	(is_hidden FALSE)
+	(is_hidden TRUE)
 	(property_list [KB_865583_Instance_9])
 	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.OWLFormsTab"))
 
@@ -3330,9 +3338,6 @@
 
 	(boolean_value FALSE)
 	(name "ButtonDisplayed-Delete Instance"))
-
-([KB_913408_Class0] of  Map
-)
 
 ([KB_933314_Instance_11] of  Boolean
 
@@ -5415,7 +5420,6 @@
 		":STANDARD-SLOT"
 		":OWL-ANONYMOUS-ROOT"
 		":MAXIMUM-CARDINALITY"
-		"http://protege.stanford.edu/plugins/owl/protege#ExternalResource"
 		"http://www.w3.org/1999/02/22-rdf-syntax-ns#Alt"
 		"http://www.w3.org/2001/XMLSchema#NMTOKEN"
 		"http://www.w3.org/2002/07/owl#UnionClass"
@@ -5474,8 +5478,8 @@
 		"http://www.w3.org/2002/07/owl#minCardinality"
 		"http://www.w3.org/2002/07/owl#allValuesFrom"
 		":INVERSE"
-		"http://www.w3.org/2002/07/owl#priorVersion"
 		"http://www.w3.org/2003/11/swrl#DataRangeAtom"
+		"http://www.w3.org/2002/07/owl#priorVersion"
 		"http://www.w3.org/2001/XMLSchema#token"
 		"http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq"
 		":DIRECT-TEMPLATE-SLOTS"
@@ -5584,22 +5588,22 @@
 		[Instance_2600]
 		[Instance_3234]
 		[KB_865583_Instance_8]
-		[sbwiki_ProjectKB_Class5]
 		[Instance_43]
+		[CLSES_TAB]
 		[sbwiki_ProjectKB_Class11]
 		[KB_865583_Instance_6]
 		[FORMS_TAB]
+		[INSTANCES_TAB]
+		[sbwiki_ProjectKB_Class5]
 		[Instance_45]
 		[sbwiki_ProjectKB_Class7]
 		[KB_865583_Instance_12]
 		[sbwiki_ProjectKB_Class9]
 		[sbwiki_ProjectKB_Class3]
 		[KB_865583_Instance_4]
+		[SLOTS_TAB]
 		[KB_865583_Instance_10]
-		[sbwiki_ProjectKB_Class1]
-		[CLSES_TAB]
-		[INSTANCES_TAB]
-		[SLOTS_TAB]))
+		[sbwiki_ProjectKB_Class1]))
 
 ([sbwiki_ProjectKB_Class1] of  Widget
 
@@ -5610,120 +5614,51 @@
 ([sbwiki_ProjectKB_Class10] of  Property_List
 )
 
-([sbwiki_ProjectKB_Class10006] of  String
+([sbwiki_ProjectKB_Class10053] of  String
 
 	(name ":INSTANCE-ANNOTATION")
 	(string_value "%3AANNOTATION-TEXT"))
 
-([sbwiki_ProjectKB_Class10007] of  String
+([sbwiki_ProjectKB_Class10054] of  String
 
 	(name "http://www.w3.org/2002/07/owl#Class")
 	(string_value "%3ANAME"))
 
-([sbwiki_ProjectKB_Class10008] of  String
+([sbwiki_ProjectKB_Class10055] of  String
 
 	(name ":PAL-CONSTRAINT")
 	(string_value "%3APAL-NAME"))
 
-([sbwiki_ProjectKB_Class10009] of  String
+([sbwiki_ProjectKB_Class10056] of  String
 
 	(name ":META-CLASS")
 	(string_value "%3ANAME"))
 
-([sbwiki_ProjectKB_Class10010] of  String
+([sbwiki_ProjectKB_Class10057] of  String
 
 	(name "http://www.w3.org/2002/07/owl#Thing")
 	(string_value "%3ANAME"))
 
-([sbwiki_ProjectKB_Class10013] of  Widget
+([sbwiki_ProjectKB_Class10058] of  Map_Entry
 
-	(is_hidden FALSE)
-	(name "http://protege.stanford.edu/plugins/owl/protege#defaultLanguage")
-	(property_list [sbwiki_ProjectKB_Class10014]))
+	(key "add_name_on_instance_form")
+	(key_class "java.lang.String")
+	(value "false")
+	(value_class "java.lang.String"))
 
-([sbwiki_ProjectKB_Class10014] of  Property_List
-)
+([sbwiki_ProjectKB_Class10059] of  Map_Entry
 
-([sbwiki_ProjectKB_Class10015] of  Widget
+	(key "change_tracking_active")
+	(key_class "java.lang.String")
+	(value "false")
+	(value_class "java.lang.String"))
 
-	(is_hidden FALSE)
-	(name "http://protege.stanford.edu/plugins/owl/protege#usedLanguage")
-	(property_list [sbwiki_ProjectKB_Class10016]))
+([sbwiki_ProjectKB_Class10060] of  Map_Entry
 
-([sbwiki_ProjectKB_Class10016] of  Property_List
-)
-
-([sbwiki_ProjectKB_Class10017] of  Widget
-
-	(is_hidden FALSE)
-	(name "http://protege.stanford.edu/plugins/owl/protege#excludedTest")
-	(property_list [sbwiki_ProjectKB_Class10018]))
-
-([sbwiki_ProjectKB_Class10018] of  Property_List
-)
-
-([sbwiki_ProjectKB_Class10019] of  Widget
-
-	(is_hidden FALSE)
-	(name "http://protege.stanford.edu/plugins/owl/protege#todoPrefix")
-	(property_list [sbwiki_ProjectKB_Class10020]))
-
-([sbwiki_ProjectKB_Class10020] of  Property_List
-)
-
-([sbwiki_ProjectKB_Class10021] of  Widget
-
-	(is_hidden FALSE)
-	(name "http://protege.stanford.edu/plugins/owl/protege#todoProperty")
-	(property_list [sbwiki_ProjectKB_Class10022]))
-
-([sbwiki_ProjectKB_Class10022] of  Property_List
-)
-
-([sbwiki_ProjectKB_Class10023] of  Widget
-
-	(is_hidden FALSE)
-	(name "http://protege.stanford.edu/plugins/owl/protege#abstract")
-	(property_list [sbwiki_ProjectKB_Class10024]))
-
-([sbwiki_ProjectKB_Class10024] of  Property_List
-)
-
-([sbwiki_ProjectKB_Class10025] of  Widget
-
-	(is_hidden FALSE)
-	(name "http://protege.stanford.edu/plugins/owl/protege#subclassesDisjoint")
-	(property_list [sbwiki_ProjectKB_Class10026]))
-
-([sbwiki_ProjectKB_Class10026] of  Property_List
-)
-
-([sbwiki_ProjectKB_Class10027] of  Widget
-
-	(is_hidden FALSE)
-	(name "http://protege.stanford.edu/plugins/owl/protege#probeClass")
-	(property_list [sbwiki_ProjectKB_Class10028]))
-
-([sbwiki_ProjectKB_Class10028] of  Property_List
-)
-
-([sbwiki_ProjectKB_Class10029] of  Widget
-
-	(is_hidden FALSE)
-	(name "http://protege.stanford.edu/plugins/owl/protege#readOnly")
-	(property_list [sbwiki_ProjectKB_Class10030]))
-
-([sbwiki_ProjectKB_Class10030] of  Property_List
-)
-
-([sbwiki_ProjectKB_Class10031] of  Widget
-
-	(is_hidden FALSE)
-	(name "http://protege.stanford.edu/plugins/owl/protege#allowedParent")
-	(property_list [sbwiki_ProjectKB_Class10032]))
-
-([sbwiki_ProjectKB_Class10032] of  Property_List
-)
+	(key "suppress_instance_counting")
+	(key_class "java.lang.String")
+	(value "false")
+	(value_class "java.lang.String"))
 
 ([sbwiki_ProjectKB_Class11] of  Widget
 
@@ -7411,7 +7346,6 @@
 	(properties
 		[XY_Instance_893]
 		[XY_Instance_897]
-		[XY_Instance_900]
 		[XY_Instance_906]
 		[XY_Instance_910]
 		[XY_Instance_912]
