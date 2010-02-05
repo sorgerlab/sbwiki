@@ -202,7 +202,7 @@ foreach my $uri ( map($_->subject->as_string,
   if ( $obj->ssw_isVirtual eq 'true' )
   {
     log_msg("  virtual");
-    $page_text .= "[[Image:Warning.png]] '''$uc_label''' is [[virtual::true|virtual]], meaning that there are no instances of it, only of its subcategories.\n";
+    $page_text .= "[[Image:Warning.png]] '''$uc_label''' is [[isVirtual::true|virtual]], meaning that there are no instances of it, only of its subcategories.\n";
   }
   else
   {
@@ -270,7 +270,7 @@ foreach my $uri ( @object_property_uris )
     @domain_labels = map($_->rdfs_label, @domains);
   }
 
-  my $range_label  = $obj->rdfs_range->rdfs_label;
+  my $range_label  = defined $obj->rdfs_range ? $obj->rdfs_range->rdfs_label : undef;
 
   log_msg("object property: $label");
   my $page_text = '';
@@ -281,6 +281,12 @@ foreach my $uri ( @object_property_uris )
   }
 
   $page_text .= "This property represents [[imported from::$prefix:$id]].";
+  if ( $obj->rdfs_subPropertyOf )
+  {
+    my $superproperty = $obj->rdfs_subPropertyOf->rdfs_label;
+    log_msg("  superproperty: $superproperty");
+    $page_text .= " It is a subproperty of [[subproperty of::Property:$superproperty|$superproperty]].";
+  }
   if (@domain_labels)
   {
     log_msg("  domain: @domain_labels");
@@ -378,6 +384,12 @@ foreach my $uri ( @datatype_property_uris )
   }
 
   $page_text .= "This property represents [[imported from::$prefix:$id]].";
+  if ( $obj->rdfs_subPropertyOf )
+  {
+    my $superproperty = $obj->rdfs_subPropertyOf->rdfs_label;
+    log_msg("  superproperty: $superproperty");
+    $page_text .= " It is a subproperty of [[subproperty of::Property:$superproperty|$superproperty]].";
+  }
   if (@domain_labels)
   {
     log_msg("  domain: @domain_labels");
