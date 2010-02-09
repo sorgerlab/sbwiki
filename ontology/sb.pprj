@@ -1,4 +1,4 @@
-; Thu Feb 04 20:38:04 EST 2010
+; Tue Feb 09 10:39:59 EST 2010
 ; 
 ;+ (version "3.4")
 ;+ (build "Build 533")
@@ -6,11 +6,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[sb_ProjectKB_Class10060]
-		[sb_ProjectKB_Class10061]
-		[sb_ProjectKB_Class10062]
-		[sb_ProjectKB_Class10063]
-		[sb_ProjectKB_Class10064]))
+		[sb_ProjectKB_Class10012]
+		[sb_ProjectKB_Class10013]
+		[sb_ProjectKB_Class10014]
+		[sb_ProjectKB_Class10015]
+		[sb_ProjectKB_Class10016]))
 
 ([CLSES_TAB] of  Widget
 
@@ -671,58 +671,10 @@
 	(name "DisabledTest")
 	(properties [KB_307200_Instance_25]))
 
-([KB_307200_Instance_24] of  Boolean
-
-	(boolean_value TRUE)
-	(name "OWL-DL Tests"))
-
 ([KB_307200_Instance_25] of  Boolean
 
 	(boolean_value TRUE)
 	(name "edu.stanford.smi.protegex.owl.testing.owldl.NoTopLevelJunkOWLDLTest"))
-
-([KB_307200_Instance_26] of  Boolean
-
-	(boolean_value TRUE)
-	(name "edu.stanford.smi.protegex.owl.testing.owldl.NoSubclassesOfRDFClassesOWLDLTest"))
-
-([KB_307200_Instance_27] of  Boolean
-
-	(boolean_value TRUE)
-	(name "edu.stanford.smi.protegex.owl.testing.owldl.NoImportOfSystemOntologiesOWLDLTest"))
-
-([KB_307200_Instance_28] of  Boolean
-
-	(boolean_value TRUE)
-	(name "edu.stanford.smi.protegex.owl.testing.owldl.NoClassesOrPropertiesInEnumerationsOWLDLTest"))
-
-([KB_307200_Instance_29] of  Boolean
-
-	(boolean_value TRUE)
-	(name "edu.stanford.smi.protegex.owl.testing.owldl.NoPropertiesWithClassAsRangeOWLDLTest"))
-
-([KB_307200_Instance_30] of  Boolean
-
-	(boolean_value TRUE)
-	(name "edu.stanford.smi.protegex.owl.testing.owldl.NoMetaclassOWLDLTest"))
-
-([KB_307200_Instance_31] of  Boolean
-
-	(boolean_value TRUE)
-	(name "edu.stanford.smi.protegex.owl.testing.owldl.NoSuperOrSubPropertiesOfAnnotationPropertiesTest"))
-
-([KB_307200_Instance_32] of  Boolean
-
-	(boolean_value TRUE)
-	(name "edu.stanford.smi.protegex.owl.testing.owldl.TransitivePropertiesCannotBeFunctionalOWLDLTest"))
-
-([KB_307200_Instance_33] of  Boolean
-
-	(boolean_value TRUE)
-	(name "edu.stanford.smi.protegex.owl.testing.owldl.NoCardiRestrictionOnTransitivePropertiesOWLDLTest"))
-
-([KB_310088_Class3] of  Map
-)
 
 ([KB_313796_Instance_852] of  Widget
 
@@ -741,9 +693,9 @@
 ([KB_325529_Class0] of  Map
 
 	(entries
-		[sb_ProjectKB_Class10065]
-		[sb_ProjectKB_Class10066]
-		[sb_ProjectKB_Class10067]))
+		[sb_ProjectKB_Class10017]
+		[sb_ProjectKB_Class10018]
+		[sb_ProjectKB_Class10019]))
 
 ([KB_325529_Class4] of  String
 
@@ -5314,6 +5266,9 @@
 ([KB_941921_Instance_7] of  Property_List
 )
 
+([KB_990535_Class3] of  Map
+)
+
 ([OWL_ProjectKB_Instance_3] of  Integer
 
 	(integer_value 533)
@@ -5596,46 +5551,46 @@
 ([sb_ProjectKB_Class10] of  Property_List
 )
 
-([sb_ProjectKB_Class10060] of  String
+([sb_ProjectKB_Class10012] of  String
 
 	(name "http://www.w3.org/2002/07/owl#Class")
 	(string_value "%3ANAME"))
 
-([sb_ProjectKB_Class10061] of  String
+([sb_ProjectKB_Class10013] of  String
 
 	(name ":INSTANCE-ANNOTATION")
 	(string_value "%3AANNOTATION-TEXT"))
 
-([sb_ProjectKB_Class10062] of  String
+([sb_ProjectKB_Class10014] of  String
 
 	(name ":META-CLASS")
 	(string_value "%3ANAME"))
 
-([sb_ProjectKB_Class10063] of  String
+([sb_ProjectKB_Class10015] of  String
 
 	(name ":PAL-CONSTRAINT")
 	(string_value "%3APAL-NAME"))
 
-([sb_ProjectKB_Class10064] of  String
+([sb_ProjectKB_Class10016] of  String
 
 	(name "http://www.w3.org/2002/07/owl#Thing")
 	(string_value "%3ANAME"))
 
-([sb_ProjectKB_Class10065] of  Map_Entry
+([sb_ProjectKB_Class10017] of  Map_Entry
 
 	(key "add_name_on_instance_form")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([sb_ProjectKB_Class10066] of  Map_Entry
+([sb_ProjectKB_Class10018] of  Map_Entry
 
 	(key "change_tracking_active")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([sb_ProjectKB_Class10067] of  Map_Entry
+([sb_ProjectKB_Class10019] of  Map_Entry
 
 	(key "suppress_instance_counting")
 	(key_class "java.lang.String")

@@ -15,41 +15,17 @@
     <owl:imports rdf:resource="http://pipeline.med.harvard.edu/sb-20080408.owl"/>
     <owl:imports rdf:resource="http://pipeline.med.harvard.edu/ssw-20090421.owl"/>
   </owl:Ontology>
-  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#Gene">
-    <ssw:abbreviation rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >GE</ssw:abbreviation>
-  </rdf:Description>
   <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#Organism">
     <ssw:abbreviation rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >OR</ssw:abbreviation>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#hasSpecies">
-    <ssw:isHidden rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >true</ssw:isHidden>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#locatedInCompartment">
-    <ssw:isHidden rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >true</ssw:isHidden>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#Experimental_Module">
-    <ssw:isVirtual rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-    >true</ssw:isVirtual>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#siRNA">
-    <ssw:abbreviation rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >SI</ssw:abbreviation>
   </rdf:Description>
   <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#Parameter">
     <ssw:abbreviation rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >PA</ssw:abbreviation>
   </rdf:Description>
-  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#hasModel">
-    <ssw:isHidden rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >true</ssw:isHidden>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#hasRate">
-    <ssw:isHidden rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >true</ssw:isHidden>
+  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#siRNA">
+    <ssw:abbreviation rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >SI</ssw:abbreviation>
   </rdf:Description>
   <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#Biomolecule">
     <ssw:abbreviation rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -63,33 +39,17 @@
     <ssw:isHidden rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >true</ssw:isHidden>
   </rdf:Description>
-  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#Data_Compendium">
-    <ssw:abbreviation rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >DC</ssw:abbreviation>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#hasGeneratedData">
-    <ssw:isHidden rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >true</ssw:isHidden>
-  </rdf:Description>
   <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#Antibody">
     <ssw:abbreviation rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >AB</ssw:abbreviation>
   </rdf:Description>
+  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#hasInteractionIntermediate">
+    <ssw:isHidden rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >true</ssw:isHidden>
+  </rdf:Description>
   <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#hasAttachedFile">
     <ssw:isHidden rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
     >true</ssw:isHidden>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#Person">
-    <ssw:abbreviation rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >PE</ssw:abbreviation>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#Investigation">
-    <ssw:abbreviation rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >IV</ssw:abbreviation>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#Reagent">
-    <ssw:abbreviation rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >RG</ssw:abbreviation>
   </rdf:Description>
   <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#Cell_Type">
     <ssw:abbreviation rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -103,13 +63,121 @@
     <ssw:abbreviation rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >RD</ssw:abbreviation>
   </rdf:Description>
-  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#hasParameter">
-    <ssw:isHidden rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >true</ssw:isHidden>
-  </rdf:Description>
   <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#Species">
     <ssw:abbreviation rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >SP</ssw:abbreviation>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#isModifierOfInteraction">
+    <ssw:isHidden rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >true</ssw:isHidden>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#Model">
+    <ssw:abbreviation rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >MD</ssw:abbreviation>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#hasInteractionInput">
+    <ssw:isHidden rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >true</ssw:isHidden>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#hasInteraction">
+    <ssw:isHidden rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >true</ssw:isHidden>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#isIntermediateOfInteraction">
+    <ssw:isHidden rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >true</ssw:isHidden>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#Data_Acquisition">
+    <ssw:abbreviation rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >DA</ssw:abbreviation>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#hasCompendium">
+    <ssw:isHidden rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >true</ssw:isHidden>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#Thing">
+    <ssw:isVirtual rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</ssw:isVirtual>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#Treatment">
+    <ssw:abbreviation rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >TR</ssw:abbreviation>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#Protein">
+    <ssw:abbreviation rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >PN</ssw:abbreviation>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#hasAssay">
+    <ssw:isHidden rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >true</ssw:isHidden>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#hasModule">
+    <ssw:isHidden rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</ssw:isHidden>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#isDerivedFrom">
+    <ssw:isHidden rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >true</ssw:isHidden>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#hasInteractionParticipant">
+    <ssw:isHidden rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >true</ssw:isHidden>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#Gene">
+    <ssw:abbreviation rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >GE</ssw:abbreviation>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#hasSpecies">
+    <ssw:isHidden rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >true</ssw:isHidden>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#hasInteractionOutput">
+    <ssw:isHidden rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >true</ssw:isHidden>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#locatedInCompartment">
+    <ssw:isHidden rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >true</ssw:isHidden>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#Experimental_Module">
+    <ssw:isVirtual rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</ssw:isVirtual>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#hasModel">
+    <ssw:isHidden rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >true</ssw:isHidden>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#hasRate">
+    <ssw:isHidden rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >true</ssw:isHidden>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#hasGeneratedData">
+    <ssw:isHidden rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >true</ssw:isHidden>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#Data_Compendium">
+    <ssw:abbreviation rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >DC</ssw:abbreviation>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#hasInteractionModifier">
+    <ssw:isHidden rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >true</ssw:isHidden>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#Person">
+    <ssw:abbreviation rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >PE</ssw:abbreviation>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#Reagent">
+    <ssw:abbreviation rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >RG</ssw:abbreviation>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#Investigation">
+    <ssw:abbreviation rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >IV</ssw:abbreviation>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#hasParameter">
+    <ssw:isHidden rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >true</ssw:isHidden>
   </rdf:Description>
   <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#Study">
     <ssw:abbreviation rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -123,14 +191,6 @@
     <ssw:abbreviation rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >PL</ssw:abbreviation>
   </rdf:Description>
-  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#isModifierOfInteraction">
-    <ssw:isHidden rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >true</ssw:isHidden>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#Model">
-    <ssw:abbreviation rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >MD</ssw:abbreviation>
-  </rdf:Description>
   <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#hasInitialCondition">
     <ssw:isHidden rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
     >true</ssw:isHidden>
@@ -139,37 +199,17 @@
     <ssw:abbreviation rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >IN</ssw:abbreviation>
   </rdf:Description>
-  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#hasInteraction">
-    <ssw:isHidden rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >true</ssw:isHidden>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#Data_Acquisition">
-    <ssw:abbreviation rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >DA</ssw:abbreviation>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#isIntermediateOfInteraction">
-    <ssw:isHidden rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >true</ssw:isHidden>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#Thing">
-    <ssw:isVirtual rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-    >true</ssw:isVirtual>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#hasCompendium">
-    <ssw:isHidden rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >true</ssw:isHidden>
-  </rdf:Description>
   <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#hasCompartment">
+    <ssw:isHidden rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >true</ssw:isHidden>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#parameterizedBy">
     <ssw:isHidden rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >true</ssw:isHidden>
   </rdf:Description>
   <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#Interaction">
     <ssw:abbreviation rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >IX</ssw:abbreviation>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#Treatment">
-    <ssw:abbreviation rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >TR</ssw:abbreviation>
   </rdf:Description>
   <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#Compartment">
     <ssw:abbreviation rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -179,29 +219,13 @@
     <ssw:isHidden rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >true</ssw:isHidden>
   </rdf:Description>
-  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#Protein">
-    <ssw:abbreviation rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >PN</ssw:abbreviation>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#hasAssay">
-    <ssw:isHidden rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >true</ssw:isHidden>
-  </rdf:Description>
   <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#Substance">
     <ssw:abbreviation rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >SU</ssw:abbreviation>
   </rdf:Description>
-  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#hasModule">
-    <ssw:isHidden rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-    >true</ssw:isHidden>
-  </rdf:Description>
   <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#Drug">
     <ssw:abbreviation rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >DR</ssw:abbreviation>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20080408.owl#isDerivedFrom">
-    <ssw:isHidden rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >true</ssw:isHidden>
   </rdf:Description>
 </rdf:RDF>
 
