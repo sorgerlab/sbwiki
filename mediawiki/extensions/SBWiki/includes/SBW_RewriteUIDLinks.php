@@ -35,8 +35,8 @@ function sbwRewriteUIDLinks(&$parser, &$text) {
       $text = substr_replace($text, $annotation, $uid_start, strlen($uid_text));
     }
 
-    // start the next match after this link
-    $offset = $matches[0][1] + strlen($matches[0][0]);
+    // start the next match precisely after this matched <a> tag
+    $offset = $matches[0][1] + strlen($matches[0][0]) - (strlen($uid_text) - strlen($annotation));
   }
 
   return true; // always return true, in order not to stop MW's hook processing!
