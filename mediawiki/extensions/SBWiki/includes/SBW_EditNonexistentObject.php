@@ -79,8 +79,8 @@ function sbwFixNonexistentObjectLinks(&$article, &$user, &$text, &$summary, &$mi
 
   // get the UID's annotation field which is the "old title" we'll be searching for
   $new_title = $article->mTitle->getText();
-  $uid_parts = sbwfParseUID($new_title);
-  $old_title = $uid_parts[3];
+  $uid_parts = sbwfParseUID($new_title, true);
+  $old_title = $uid_parts['annotation'];
 
   // find properties for which the old title is the object
   $article = SMWDataValueFactory::newTypeIDValue('_wpg', $old_title);

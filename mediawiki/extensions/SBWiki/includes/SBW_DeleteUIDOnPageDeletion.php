@@ -11,7 +11,7 @@ function sbwDeleteUIDOnPageDeletion(&$article, &$user, $reason, $id) {
 
   $title = $article->mTitle;
 
-  // only try to delete if it's an actual UID (still harmless if not, I guess)
+  // only try to delete if it's an actual UID
   if (sbwfVerifyUID($title)) {
     sbwfDeleteUID($title);
   }

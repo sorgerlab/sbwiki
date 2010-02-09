@@ -8,6 +8,8 @@ define('SBW_VERSION','0.0.1');
 $wgExtensionFunctions[] = 'sbwgSetupExtension';
 $wgHooks['LanguageGetMagic'][] = 'sbwLanguageGetMagic';
 
+$sbwgUIDPattern = null;  // initialized in sbwgSetupExtention, once Title has been loaded
+
 
 function sbwLanguageGetMagic( &$magicWords, $langCode ) {
   // FIXME: this ignores $langCode since we only offer English anyway
@@ -23,7 +25,8 @@ function sbwLanguageGetMagic( &$magicWords, $langCode ) {
  *  MediaWiki is set up properly before we add our stuff.
  */
 function sbwgSetupExtension() {
-  global $sbwgIP, $wgHooks, $wgExtensionCredits, $wgArticlePath, $wgScriptPath, $wgServer;
+  global $sbwgIP, $sbwgUIDPattern, $wgHooks, $wgExtensionCredits, $wgArticlePath,
+    $wgScriptPath, $wgServer;
 
   /**********************************************/
   /***** register specials                  *****/
@@ -59,6 +62,8 @@ function sbwgSetupExtension() {
 
   sbwfSetupMessages();
 
+  $sbwgUIDPattern = '([' . Title::legalChars() . ']+?)\.([^0-9]+)([0-9]+)([^0-9]+)';
+
   return true;
 }
 
@@ -88,12 +93,9 @@ function sbwfSetupMessages() {
 /*
  * Assembles a UID string from its four parts
  */
-function sbwfFormatUID($type_code, $creator_initials, $id, $annotation = NULL) {
-  $parts = array($type_code, $creator_initials, $id);
-  if ( $annotation != NULL and $annotation != '' ) {
-    array_push($parts, strtr($annotation, ' ', '_')); // normalize space to underscore
-  }
-  $uid = join('-', $parts);
+function sbwfFormatUID($type_code, $creator_initials, $id, $annotation) {
+  $annotation = strtr($annotation, ' ', '_'); // normalize space to underscore
+  $uid = "$annotation.$type_code$id$creator_initials";
 
   return $uid;
 }
@@ -103,16 +105,17 @@ function sbwfFormatUID($type_code, $creator_initials, $id, $annotation = NULL) {
  * Splits a UID string into its four parts
  */
 function sbwfParseUID($uid, $want_hash=false) {
-  $uid_parts = explode('-', $uid, 4);
-  for ( $i=0; $i<4; $i++) {
-    if ( !isset($uid_parts[$i]) ) {
-      $uid_parts[$i] = '';
-    }
+  global $sbwgUIDPattern;
+
+  $result = preg_match("/^$sbwgUIDPattern$/", $uid, $uid_parts);
+  if (!$result) {
+    return null;
   }
-  $uid_parts[3] = strtr($uid_parts[3], ' ', '_'); // normalize space to underscore
+  array_splice($uid_parts, 0, 1); // remove first element, the entire match
+  $uid_parts[0] = strtr($uid_parts[0], ' ', '_'); // normalize space to underscore
 
   if ($want_hash) {
-    return array_combine(array('type_code', 'creator_initials', 'id', 'annotation'), $uid_parts);
+    return array_combine(array('annotation', 'type_code', 'id', 'creator_initials'), $uid_parts);
   } else {
     return $uid_parts;
   }
@@ -133,12 +136,12 @@ function sbwfRowToUID($row) {
 function sbwfAllocateUID($type_code, $creator_initials, $annotation) {
   $fname = 'SBW::sbwfAllocateUID';
 
-  $insert_values = array('type_code'        => $type_code,
-                         'creator_initials' => $creator_initials);
+  // FIXME add full page title (or probably just a link to the 'page' table)
+  // FIXME pre-validate page title to ensure no bad characters (use Title::newFromText)
   $annotation = strtr($annotation, ' ', '_'); // normalize space to underscore
-  if ( $annotation != '' ) {
-    $insert_values['annotation'] = $annotation;
-  }
+  $insert_values = array('type_code'        => $type_code,
+                         'creator_initials' => $creator_initials,
+			 'annotation'       => $annotation);
 
   $db =& wfGetDB(DB_MASTER);
   $db->insert($db->tableName('sbw_uid'), $insert_values, $fname);
@@ -162,28 +165,43 @@ function sbwfAllocateUID($type_code, $creator_initials, $annotation) {
 function sbwfDeleteUID($uid) {
   $fname = 'SBW::sbwfDeleteUID';
 
-  $db =& wfGetDB(DB_MASTER);
-  $db->delete($db->tableName('sbw_uid'), sbwfParseUID($uid, true), $fname);
+  $uid_parts = sbwfParseUID($uid, true);
+  if ($uid_parts) {
+    $db =& wfGetDB(DB_MASTER);
+    $db->delete($db->tableName('sbw_uid'), $uid_parts, $fname);
+  } else {
+    die("Invalid or empty UID: '$uid'");
+  }
 }
 
 
 /**
  * Checks whether a given string is registered as a UID
  */
-function sbwfVerifyUID($uid) {
+function sbwfVerifyUID($uid, $want_hash=false) {
   $fname = 'SBW::sbwfVerifyUID';
 
   $uid_parts = sbwfParseUID($uid);
-  $db =& wfGetDB(DB_MASTER);
-  $columns = array('type_code', 'creator_initials', 'id', 'annotation');
-  $result = $db->select($db->tableName('sbw_uid'),
-                        'id',
-                        array_combine($columns, $uid_parts),
-                        $fname);
-  $row = $db->fetchRow($result);
+  if ($uid_parts) {
+    // make sure this isn't just something that *looks* like a UID
+    $db =& wfGetDB(DB_MASTER);
+    $columns = array('annotation', 'type_code', 'id', 'creator_initials');
+    $uid_hash = array_combine($columns, $uid_parts);
+    $result = $db->select($db->tableName('sbw_uid'),
+			  'id', $uid_hash, $fname);
+    $row = $db->fetchRow($result);
+    
+    if ($want_hash) {
+      $ret = $row ? array_combine($columns, $uid_parts) : null;
+    } else {
+      // force return to be a boolean value
+      $ret = $row ? true : false;
+    }
+  } else {
+    $ret = false;
+  }
 
-  // force return to be a boolean value (i.e. not the result row on success)
-  return $row ? true : false; 
+  return $ret;
 }
 
 

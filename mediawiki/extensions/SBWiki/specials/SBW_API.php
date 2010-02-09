@@ -39,6 +39,7 @@ function method_list_raw_data($request) {
   while ( $row = $result->getNext() ) {
     $filename = $row[1]->getNextHTMLText();
     $filename = preg_replace('/^Image:/', '', $filename);
+    $filename = strtr($filename, ' ', '_');
     print "$filename\n";
   }
 }

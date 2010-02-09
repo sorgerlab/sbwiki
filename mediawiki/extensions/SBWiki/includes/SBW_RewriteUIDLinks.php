@@ -2,6 +2,7 @@
 global $wgHooks;
 $wgHooks['ParserAfterTidy'][] = 'sbwRewriteUIDLinks';
 
+
 /**
  * Rewrite wiki links to UID pages such that they display as just the
  * annotation (the last part of the UID string).  Will leave links
@@ -13,42 +14,29 @@ $wgHooks['ParserAfterTidy'][] = 'sbwRewriteUIDLinks';
  * e.g. [[XX-YY-ZZZ-foo| XX-YY-ZZZ-foo]]. (See the 'UID List' special
  * page, SBW_ListUIDs.php, for an example of this)
  */
-function sbwRewriteUIDLinks($obj, $text) {
-  global $wgRequest;
-  $fname = 'sbwRewriteUIDLinks';
-
-  $db =& wfGetDB( DB_SLAVE );
-  $table_name = $db->tableName('sbw_uid');
-  $select_vars = array('id');
-  $condition_vars = array('type_code', 'creator_initials', 'id', 'annotation');
+function sbwRewriteUIDLinks(&$parser, &$text) {
+  global $wgRequest, $sbwgUIDPattern;
 
   // loop over links whose text looks like a UID
   $offset = 0;
   // FIXME: this matches text after *any* tag, and also the Special:Browse link at the top of the SMW factbox
-  while ( preg_match('/>([A-Z]+-[A-Z]+-\d+(-[^|]*?)?)</', $text, $matches,
-                     PREG_OFFSET_CAPTURE, $offset) ) {
-    $uid_text  = $matches[1][0];
-    $uid_start = $matches[1][1];
+  // FIXME: this has a dependence on the UID format, which we would like to avoid
+  while ( preg_match("/<a [^>]*title=\"$sbwgUIDPattern\">($sbwgUIDPattern)<\/a>/S",
+		     $text, $matches, PREG_OFFSET_CAPTURE, $offset) ) {
+    $uid_text  = $matches[5][0];
+    $uid_start = $matches[5][1];
 
-    // force underscores-for-spaces convention just in case the text has spaces
-    $uid_text = strtr($uid_text, ' ', '_'); 
-    $uid_parts = explode('-', $uid_text, 4);
-    // convert underscores back to spaces for display
-    $annotation = strtr($uid_parts[3], '_',' ');
+    // see if this is a legitimage UID
+    $uid_parts = sbwfVerifyUID($uid_text, true);
 
-    // check the db table to make sure this is a legitimate UID
-    $select_conds = array_combine($condition_vars, $uid_parts);  // keys => values
-    $res = $db->selectRow( $table_name, $select_vars, $select_conds ); // sanitizes values automatically
-
-    // if the lookup succeeded and there is an annotation, replace the link
-    // text with the annotation
-    if ( $res and strlen($annotation) ) {
+    // if the lookup succeeded, replace the link text with the annotation
+    if ( $uid_parts ) {
+      $annotation = strtr($uid_parts['annotation'], '_', ' ');
       $text = substr_replace($text, $annotation, $uid_start, strlen($uid_text));
     }
 
-    // start the next match after this link (the true end of the link is a bit
-    // farther on, but this is sufficient to get the regex to do its thing)
-    $offset = $uid_start + strlen($uid_text);
+    // start the next match after this link
+    $offset = $matches[0][1] + strlen($matches[0][0]);
   }
 
   return true; // always return true, in order not to stop MW's hook processing!

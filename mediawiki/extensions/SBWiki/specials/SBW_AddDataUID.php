@@ -54,6 +54,7 @@ function doSpecialAddDataUID() {
       if ( !$form->exists() ) $errors[] = "<em>$form</em> (the default form for <em>$root_category</em>) does not exist";
       if ( !$type_code      ) $errors[] = "category <em>$category</em> does not have an <em>Abbreviation</em> property";
     }
+    if ( !$annotation )       $errors[] = 'Please enter the <em>Title</em>';
     if ( !$creator_initials ) $errors[] = 'Please enter the <em>Creator Initials</em>';
   }
 
@@ -80,7 +81,7 @@ function doSpecialAddDataUID() {
     $category_input .= '</select>';
   }
 
-  $wgOut->addHTML('<p>This is the page for creating a new UID and then editing its fields.</p>');
+  $wgOut->addHTML('<p>This is the page for creating a new UID and then editing its fields.  All fields are required.</p>');
   if ( !empty($errors) ) {
     $wgOut->addHTML("<div class=\"errorbox\"><strong>Errors:</strong><ul>");
     foreach ( $errors as $error ) {
@@ -95,9 +96,9 @@ function doSpecialAddDataUID() {
 <form method="post" action="$wgScriptPath/index.php/Special:AddDataUID">
 
 <table>
+<tr><td><strong>Title:</strong></td><td><input name="annotation" type="text" value="$annotation" size="50"></td></tr>
 <tr><td><strong>Category:</strong></td><td>$category_input</td></tr>
-<tr><td><strong>Creator Initials:</strong></td><td><input name="creator_initials" type="text" value="$creator_initials"></td></tr>
-<tr><td><strong>Title:</strong></td><td><input name="annotation" type="text" value="$annotation"></td></tr>
+<tr><td><strong>Creator Initials:</strong></td><td><input name="creator_initials" type="text" value="$creator_initials" size="4"></td></tr>
 <tr><td></td><td><input name="create" type="submit" value="Create UID"></td></tr>
 </table>
 
