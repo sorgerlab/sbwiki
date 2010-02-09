@@ -11,8 +11,8 @@
     xmlns:owl="http://www.w3.org/2002/07/owl#"
     xmlns:dcterms="http://purl.org/dc/terms/"
     xmlns:sbo="http://biomodels.net/SBO/"
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
     xmlns:bqbiol="http://biomodels.net/biology-qualifiers/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
     xmlns:swrl="http://www.w3.org/2003/11/swrl#"
     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
   xml:base="http://pipeline.med.harvard.edu/sb-20080408.owl">
@@ -832,25 +832,6 @@
     <rdfs:domain rdf:resource="#Species"/>
     <rdfs:range rdf:resource="#Compartment"/>
   </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:ID="hasParticipant">
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >has participant</rdfs:label>
-    <owl:versionInfo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >TODO: Should this just be a Datatype property?  Is there any point in having an actual Person page/entity for people in the scope of a lab or other close group?</owl:versionInfo>
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >A person who participates in an activity.</rdfs:comment>
-    <rdfs:domain>
-      <owl:Class>
-        <owl:unionOf rdf:parseType="Collection">
-          <owl:Class rdf:about="#Assay"/>
-          <owl:Class rdf:about="#Investigation"/>
-          <owl:Class rdf:about="#Model"/>
-          <owl:Class rdf:about="#Study"/>
-        </owl:unionOf>
-      </owl:Class>
-    </rdfs:domain>
-    <rdfs:range rdf:resource="#Person"/>
-  </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="hasModel">
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
     <rdfs:domain rdf:resource="#Study"/>
@@ -1181,16 +1162,6 @@
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >is derived from</rdfs:label>
   </owl:ObjectProperty>
-  <owl:DatatypeProperty rdf:ID="uniprotAccessionNumber">
-    <owl:versionInfo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >TODO: work in MIRIAM uri scheme?  this should really be like a bqbiol:is to an arbitrary MIRIAM uri, with a domain including all model component types.  but this will require some special UI work in the wiki to create a MIRIAM-uri-entering widget.</owl:versionInfo>
-    <rdfs:domain rdf:resource="#Protein"/>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >UniProt accession number</rdfs:label>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >The UniProt accession number corresponding to a protein.</rdfs:comment>
-  </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="synonym">
     <rdfs:domain>
       <owl:Class>
@@ -1205,6 +1176,91 @@
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >An alternate name for an entity.</rdfs:comment>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="manufacturer">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >manufacturer</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:domain rdf:resource="#Instrument"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >The company or organization that made an instrument.</rdfs:comment>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="label">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >label</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <owl:versionInfo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >TODO: Should the domain be sb:Thing, and be used to store the base part of the page title for all individuals?  If so, might also want to add the unique id and creator initials (the other parts of the UID).</owl:versionInfo>
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <owl:Class rdf:about="#Compartment"/>
+          <owl:Class rdf:about="#Interaction"/>
+          <owl:Class rdf:about="#Parameter"/>
+          <owl:Class rdf:about="#Species"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >The local name for an entity in its typical context.  This name is often nonstandard and not globally unique, but nonetheless convenient and well-understood in context.</rdfs:comment>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="catalogNumber">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#Substance"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >A vendor name and catalog number under which a substance can be obtained.</rdfs:comment>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >catalog number</rdfs:label>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="literatureReference">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >literature reference</rdfs:label>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Link to a journal article or other reference.  PubMed can be linked to easily with just the PMID like this: "PMID 12345".  Books can be referenced by ISBN in the same way.</rdfs:comment>
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <owl:Class rdf:about="#Model"/>
+          <owl:Class rdf:about="#Compartment"/>
+          <owl:Class rdf:about="#Interaction"/>
+          <owl:Class rdf:about="#Parameter"/>
+          <owl:Class rdf:about="#Species"/>
+          <owl:Class rdf:about="#Protocol"/>
+          <owl:Class rdf:about="#Substance"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="monoclonal">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#Antibody"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Flags an antibody as monoclonal or not.</rdfs:comment>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >is monoclonal?</rdfs:label>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="serialNumber">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >The serial number of an instrument.</rdfs:comment>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >serial number</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:domain rdf:resource="#Instrument"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="uniprotAccessionNumber">
+    <owl:versionInfo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >TODO: work in MIRIAM uri scheme?  this should really be like a bqbiol:is to an arbitrary MIRIAM uri, with a domain including all model component types.  but this will require some special UI work in the wiki to create a MIRIAM-uri-entering widget.</owl:versionInfo>
+    <rdfs:domain rdf:resource="#Protein"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >UniProt accession number</rdfs:label>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >The UniProt accession number corresponding to a protein.</rdfs:comment>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="modification">
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
@@ -1221,6 +1277,23 @@
     <rdfs:domain rdf:resource="#Antibody"/>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >validation details</rdfs:label>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="participant">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >A person who participates in an activity.</rdfs:comment>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >participant</rdfs:label>
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <owl:Class rdf:about="#Assay"/>
+          <owl:Class rdf:about="#Investigation"/>
+          <owl:Class rdf:about="#Model"/>
+          <owl:Class rdf:about="#Study"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="softwareFramework">
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -1261,35 +1334,6 @@
     >TODO: Think about the proper Domain for this.</owl:versionInfo>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
   </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="label">
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >label</rdfs:label>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-    <owl:versionInfo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >TODO: Should the domain be sb:Thing, and be used to store the base part of the page title for all individuals?  If so, might also want to add the unique id and creator initials (the other parts of the UID).</owl:versionInfo>
-    <rdfs:domain>
-      <owl:Class>
-        <owl:unionOf rdf:parseType="Collection">
-          <owl:Class rdf:about="#Compartment"/>
-          <owl:Class rdf:about="#Interaction"/>
-          <owl:Class rdf:about="#Parameter"/>
-          <owl:Class rdf:about="#Species"/>
-        </owl:unionOf>
-      </owl:Class>
-    </rdfs:domain>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >The local name for an entity in its typical context.  This name is often nonstandard and not globally unique, but nonetheless convenient and well-understood in context.</rdfs:comment>
-  </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="manufacturer">
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >manufacturer</rdfs:label>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-    <rdfs:domain rdf:resource="#Instrument"/>
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >The company or organization that made an instrument.</rdfs:comment>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-  </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="parameterValueSource">
     <rdfs:domain rdf:resource="#Parameter"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
@@ -1316,14 +1360,6 @@
     <rdfs:domain rdf:resource="#Organism"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
   </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="catalogNumber">
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:domain rdf:resource="#Substance"/>
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >A vendor name and catalog number under which a substance can be obtained.</rdfs:comment>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >catalog number</rdfs:label>
-  </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="molecularFunction">
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -1332,33 +1368,13 @@
     >The function of a protein.  Should be restricted to Gene Ontology - Molecular Function.</rdfs:comment>
     <rdfs:domain rdf:resource="#Protein"/>
   </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="literatureReference">
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >literature reference</rdfs:label>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  <owl:DatatypeProperty rdf:ID="casNumber">
+    <rdfs:domain rdf:resource="#Substance"/>
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Link to a journal article or other reference.  PubMed can be linked to easily with just the PMID like this: "PMID 12345".  Books can be referenced by ISBN in the same way.</rdfs:comment>
-    <rdfs:domain>
-      <owl:Class>
-        <owl:unionOf rdf:parseType="Collection">
-          <owl:Class rdf:about="#Model"/>
-          <owl:Class rdf:about="#Compartment"/>
-          <owl:Class rdf:about="#Interaction"/>
-          <owl:Class rdf:about="#Parameter"/>
-          <owl:Class rdf:about="#Species"/>
-          <owl:Class rdf:about="#Protocol"/>
-          <owl:Class rdf:about="#Substance"/>
-        </owl:unionOf>
-      </owl:Class>
-    </rdfs:domain>
-  </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="localization">
+    >Chemical Abstracts Service number for a substance.</rdfs:comment>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:domain rdf:resource="#Biomolecule"/>
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >The part of the cell in which a biomolecule is found.  Should be restricted to Gene Ontology - Cellular Component.</rdfs:comment>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >localization</rdfs:label>
+    >CAS number</rdfs:label>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="performedOnDate">
     <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -1370,22 +1386,13 @@
     <rdfs:domain rdf:resource="#Assay"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
   </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="casNumber">
-    <rdfs:domain rdf:resource="#Substance"/>
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Chemical Abstracts Service number for a substance.</rdfs:comment>
+  <owl:DatatypeProperty rdf:ID="localization">
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >CAS number</rdfs:label>
-  </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="monoclonal">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
-    <rdfs:domain rdf:resource="#Antibody"/>
+    <rdfs:domain rdf:resource="#Biomolecule"/>
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Flags an antibody as monoclonal or not.</rdfs:comment>
+    >The part of the cell in which a biomolecule is found.  Should be restricted to Gene Ontology - Cellular Component.</rdfs:comment>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >is monoclonal?</rdfs:label>
+    >localization</rdfs:label>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="ic50Details">
     <rdfs:domain rdf:resource="#Drug"/>
@@ -1404,23 +1411,6 @@
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Size of a model compartment, as area, volume, etc.</rdfs:comment>
   </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="serialNumber">
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >The serial number of an instrument.</rdfs:comment>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >serial number</rdfs:label>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-    <rdfs:domain rdf:resource="#Instrument"/>
-  </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="emulatedBiologicalProcess">
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >emulated biological process</rdfs:label>
-    <rdfs:domain rdf:resource="#Model"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >The biological process which a model is intented to emulate. Should be restricted to Gene Ontology - Biological Process.</rdfs:comment>
-  </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="modelName">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >The name of an instrument, not including the manufacturer name.</rdfs:comment>
@@ -1429,6 +1419,14 @@
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >model name</rdfs:label>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="emulatedBiologicalProcess">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >emulated biological process</rdfs:label>
+    <rdfs:domain rdf:resource="#Model"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >The biological process which a model is intented to emulate. Should be restricted to Gene Ontology - Biological Process.</rdfs:comment>
   </owl:DatatypeProperty>
   <owl:FunctionalProperty rdf:ID="interactionDefinition">
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
