@@ -21,7 +21,7 @@ function sbwRewriteUIDLinks(&$parser, &$text) {
   $offset = 0;
   // FIXME: this matches text after *any* tag, and also the Special:Browse link at the top of the SMW factbox
   // FIXME: this has a dependence on the UID format, which we would like to avoid
-  while ( preg_match("/<a [^>]*title=\"$sbwgUIDPattern\">($sbwgUIDPattern)<\/a>/S",
+  while ( preg_match("/<a [^>]*?title=\"$sbwgUIDPattern\"[^>]*?>($sbwgUIDPattern)<\/a>/S",
 		     $text, $matches, PREG_OFFSET_CAPTURE, $offset) ) {
     $uid_text  = $matches[5][0];
     $uid_start = $matches[5][1];

@@ -62,7 +62,8 @@ function sbwgSetupExtension() {
 
   sbwfSetupMessages();
 
-  $sbwgUIDPattern = '([' . Title::legalChars() . ']+?)\.([^0-9]+)([0-9]+)([^0-9]+)';
+  // includes < in final char group to avoid matching closing html tags in certain uses
+  $sbwgUIDPattern = '([' . Title::legalChars() . ']+?)\.([^0-9]+)([0-9]+)([^0-9<]+)';
 
   return true;
 }
