@@ -42,7 +42,6 @@ function sbwgSetupExtension() {
   /***** register hooks                     *****/
   /**********************************************/
   require_once($sbwgIP . '/includes/SBW_ParserFunctions.php');
-  //require_once($sbwgIP . '/includes/SBW_CreateObjectTab.php');
   require_once($sbwgIP . '/includes/SBW_RewriteUIDLinks.php');
   require_once($sbwgIP . '/includes/SBW_EditNonexistentObject.php');
   require_once($sbwgIP . '/includes/SBW_DeleteUIDOnPageDeletion.php');
