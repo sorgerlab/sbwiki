@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Maintenance script to create the SBWiki database structure
+ * Maintenance script to create the SemanticBiology database structure
  *
  * @addtogroup Maintenance
  * @author Jeremy Muhlich
@@ -16,12 +16,12 @@ require_once("$sbwgMIP/SBW_initdatabase.php");
 require_once("$sbwgMIP/SBW_MaintenanceHelpers.php");
 
 if( isset( $options['help'] ) ) {
-  echo( "Creates the SBWiki database structure.\n\n" );
+  echo( "Creates the SemanticBiology database structure.\n\n" );
   echo( "Usage: php SBW_initdatabase.php\n\n" );
   exit();
 }
 
-echo("Creating SBWiki database structure\n\n");
+echo("Creating SemanticBiology database structure\n\n");
 sbwfInitDatabase();
 echo("\n");
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * Global functions and constants for SBW
+ * Global functions and constants for SemanticBiology
  */
 
 define('SBW_VERSION','0.0.1');
@@ -54,10 +54,10 @@ function sbwgSetupExtension() {
   /**********************************************/
   /***** credits (see "Special:Version")    *****/
   /**********************************************/
-  $wgExtensionCredits['other'][]= array('name'=>'Systems Biology Wiki',
+  $wgExtensionCredits['other'][]= array('name'=>'Semantic Biology',
                                         'version'=>SBW_VERSION,
                                         'author'=>'Jeremy Muhlich',
-                                        'description' => 'TODO');
+                                        'description' => 'A community-oriented knowledge management system for systems biology.');
 
   sbwfSetupMessages();
 
@@ -82,7 +82,7 @@ function sbwfSetupMessages() {
                     'generateuidlist'     => 'Generate several UIDs at once',
                     'importmodel'         => 'Import SBML Model',
                     'listuids'            => 'UID List',
-                    'sbw_api'             => 'SBwiki API endpoint',
+                    'sb_api'              => 'SemanticBiology API endpoint',
                     'uploadattachfileuid' => 'Upload file content for a UID',
                     );
 
