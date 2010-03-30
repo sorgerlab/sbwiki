@@ -1,6 +1,8 @@
 <?php
 
-require('../includes/classes/SBW_SbmlReader.php');
+$mwRoot = dirname(__FILE__) . '/../../..'; # XXX could break if our dir structure changes
+require_once("$mwRoot/maintenance/commandLine.inc");
+
 
 $parser = new SBWSbmlReader(read_model());
 $model = $parser->getModel();
