@@ -8,23 +8,24 @@ require_once( $sbwgIP . '/includes/classes/SBW_SbmlReader.php' );
 require_once( $sbwgIP . '/includes/classes/SBW_ModelFormatter.php' );
 
 
-SpecialPage::addPage( new SpecialPage('ImportModel','',true,'doSpecialImportModel',false) );
+SpecialPage::addPage( new SpecialPage('ImportSBMLModel','',true,'doSpecialImportSBMLModel',false) );
 
 
-function doSpecialImportModel() {
+function doSpecialImportSBMLModel() {
   global $wgOut, $wgRequest, $wgScriptPath, $smwgScriptPath;
-  $fname = 'SBW::doSpecialImportModel';
+  $fname = 'SBW::doSpecialImportSBMLModel';
 
   $do_preview       = $wgRequest->getVal('preview');
   $do_import        = $wgRequest->getVal('import');
   $creator_initials = $wgRequest->getVal('creator_initials');
-  $annotation       = $wgRequest->getVal('annotation');
+  $model_title      = $wgRequest->getVal('model_title');
   $model_contents   = $wgRequest->getVal('model_contents');
 
   $errors = array();
 
   if ( $wgRequest->wasPosted() ) {
     if ( !$creator_initials ) $errors[] = '<em>Creator Initials</em> not specified';
+    if ( !$model_title )      $errors[] = '<em>Model Title</em> not specified';
     if ( !$model_contents   ) $errors[] = '<em>SBML Code</em> not provided';
   } elseif ( $user_initials = sbwfGetUserInitials() ) {
     $creator_initials = $user_initials;
@@ -34,19 +35,19 @@ function doSpecialImportModel() {
   if ( $wgRequest->wasPosted() and empty($errors) ) {
     // successful form submission
     if ( $do_preview ) {
-      renderPreview($model_contents, $creator_initials, $annotation);
+      renderPreview($model_contents, $creator_initials, $model_title);
     } elseif ( $do_import ) {
-      importModel($model_contents, $creator_initials, $annotation);
+      importModel($model_contents, $creator_initials, $model_title);
     }
   } else {
     // first visit or error on submission
-    renderUploadForm($errors, $creator_initials, $annotation);
+    renderUploadForm($errors, $creator_initials, $model_title);
   }
 
 }
 
 
-function renderUploadForm($errors, $creator_initials, $annotation)
+function renderUploadForm($errors, $creator_initials, $model_title)
 {
   global $wgOut, $wgScriptPath;
 
@@ -62,11 +63,11 @@ function renderUploadForm($errors, $creator_initials, $annotation)
   $wgOut->addHTML(<<<FORM
 <div>
 
-<form method="post" action="$wgScriptPath/index.php/Special:ImportModel">
+<form method="post" action="$wgScriptPath/index.php/Special:ImportSBMLModel">
 
 <table>
 <tr><td><strong>Creator Initials:</strong></td><td><input name="creator_initials" type="text" value="$creator_initials"></td></tr>
-<tr><td><strong>Annotation (optional):</strong></td><td><input name="annotation" type="text" value="$annotation"></td></tr>
+<tr><td><strong>Model Title:</strong></td><td><input name="model_title" type="text" value="$model_title"></td></tr>
 <tr><td><strong>SBML Code<br/>(paste file contents):</strong></td><td><textarea cols="50" rows="20" name="model_contents"></textarea></td></tr>
 <tr><td></td><td><input name="preview" type="submit" value="Continue"></td></tr>
 </table>
@@ -79,7 +80,7 @@ FORM
 }
 
 
-function renderPreview($model_contents, $creator_initials, $model_annotation)
+function renderPreview($model_contents, $creator_initials, $model_title)
 {
   global $wgOut, $wgScriptPath, $smwgScriptPath;
 
@@ -88,7 +89,7 @@ function renderPreview($model_contents, $creator_initials, $model_annotation)
 
   // assign fake UIDs for preview display purposes
   $fake_counter = 100;
-  $model->uid = sbwfFormatUID('MD', $creator_initials, $fake_counter++, $model_annotation);
+  $model->uid = sbwfFormatUID('MD', $creator_initials, $fake_counter++, $model_title);
   foreach ( $model->getSpeciesIds() as $id ) {
     $species = $model->getSpecies($id);
     $species->uid = sbwfFormatUID('SP', $creator_initials, $fake_counter++, $species->getBestName());
@@ -104,7 +105,7 @@ function renderPreview($model_contents, $creator_initials, $model_annotation)
 
   $model_contents   = htmlspecialchars($model_contents);
   $creator_initials = htmlspecialchars($creator_initials);
-  $model_annotation = htmlspecialchars($model_annotation);
+  $model_title      = htmlspecialchars($model_title);
 
   $formatter = new SBWModelFormatter($parser->getModel());
 # FIXME: SMW could change this... probably better to copy it and make our own style
@@ -124,9 +125,9 @@ INTRO
   $wgOut->addWikiText($formatter->formatAll());
 
   $wgOut->addHTML(<<<FORM
-<form method="post" action="$wgScriptPath/index.php/Special:ImportModel">
+<form method="post" action="$wgScriptPath/index.php/Special:ImportSBMLModel">
 <input name="creator_initials" type="hidden" value="$creator_initials">
-<input name="annotation" type="hidden" value="$model_annotation">
+<input name="model_title" type="hidden" value="$model_title">
 <input name="model_contents" type="hidden" value="$model_contents">
 <input name="import" type="submit" value="Import">
 </form>
@@ -135,7 +136,7 @@ FORM
 }
 
 
-function importModel($model_contents, $creator_initials, $model_annotation)
+function importModel($model_contents, $creator_initials, $model_title)
 {
   global $wgOut;
 
@@ -143,7 +144,7 @@ function importModel($model_contents, $creator_initials, $model_annotation)
   $model = $parser->getModel();
   $entities = array();
 
-  $model->uid = sbwfAllocateUID('MD', $creator_initials, $model_annotation);
+  $model->uid = sbwfAllocateUID('MD', $creator_initials, $model_title);
   $entities[] = $model;
 
   foreach ( $model->getSpeciesIds() as $id ) {

@@ -1,10 +1,11 @@
 <?php
 
-$mwRoot = dirname(__FILE__) . '/../../..'; # XXX could break if our dir structure changes
+$mwRoot = dirname(__FILE__) . '/../../..'; // XXX could break if our dir structure changes
+{} // fixes php-mode's intentation problem with the above line
 require_once("$mwRoot/maintenance/commandLine.inc");
 
-
-$parser = new SBWSbmlReader(read_model());
+$model_content = $argc >= 2 ? file_get_contents($argv[0]) : get_default_model();
+$parser = new SBWSbmlReader($model_content);
 $model = $parser->getModel();
 
 echo "SPECIES:\n";
@@ -28,11 +29,18 @@ foreach ($model->getParameterIds() as $id) {
 }
 echo "\n";
 
+echo "COMPARTMENTS:\n";
+foreach ($model->getCompartmentIds() as $id) {
+  $compartment = $model->getCompartment($id);  
+  echo "  ", $compartment->getBestName(), ": ", $compartment->asText(), "\n";
+}
+echo "\n";
 
 
 
-
-function read_model()
+/* Defined as a function so we can put the block of text down here,
+   instead of cluttering the main code up top. */
+function get_default_model()
 {
   return
 '<?xml version="1.0" encoding="UTF-8"?>
