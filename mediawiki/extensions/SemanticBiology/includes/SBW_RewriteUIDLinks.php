@@ -30,6 +30,7 @@ function sbwRewriteUIDLinks(&$parser, &$text) {
     $uid_parts = sbwfVerifyUID($uid_text, true);
 
     // if the lookup succeeded, replace the link text with the annotation
+    $annotation = ''; // initialize so that $offset calculation won't cause an error
     if ( $uid_parts ) {
       $annotation = strtr($uid_parts['annotation'], '_', ' ');
       $text = substr_replace($text, $annotation, $uid_start, strlen($uid_text));
