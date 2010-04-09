@@ -90,6 +90,10 @@ function renderPreview($model_contents, $creator_initials, $model_title)
   // assign fake UIDs for preview display purposes
   $fake_counter = 100;
   $model->uid = sbwfFormatUID('MD', $creator_initials, $fake_counter++, $model_title);
+  foreach ( $model->getCompartmentIds() as $id ) {
+    $compartment = $model->getCompartment($id);
+    $compartment->uid = sbwfFormatUID('CO', $creator_initials, $fake_counter++, $compartment->getBestName());
+  }
   foreach ( $model->getSpeciesIds() as $id ) {
     $species = $model->getSpecies($id);
     $species->uid = sbwfFormatUID('SP', $creator_initials, $fake_counter++, $species->getBestName());
@@ -147,6 +151,11 @@ function importModel($model_contents, $creator_initials, $model_title)
   $model->uid = sbwfAllocateUID('MD', $creator_initials, $model_title);
   $entities[] = $model;
 
+  foreach ( $model->getCompartmentIds() as $id ) {
+    $compartment = $model->getCompartment($id);
+    $compartment->uid = sbwfAllocateUID('CO', $creator_initials, $compartment->getBestName());
+    $entities[] = $compartment;
+  }
   foreach ( $model->getSpeciesIds() as $id ) {
     $species = $model->getSpecies($id);
     $species->uid = sbwfAllocateUID('SP', $creator_initials, $species->getBestName());

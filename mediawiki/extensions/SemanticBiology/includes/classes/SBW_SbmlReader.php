@@ -114,12 +114,14 @@ class SBWSbmlReader {
 
   public function parseNotes($entity, $elt) {
     $notes = '';
-    $root_elt = $elt->notes->body;
-    if ( !$root_elt ) {
-      $root_elt = $elt->notes;
-    }
-    foreach ($root_elt->children() as $c_elt) {
-      $notes .= $c_elt->asXML();
+    $root_elt = $elt->notes;
+    // if there are html/body tags, descend into them
+    if ( $root_elt->html ) $root_elt = $root_elt->html;
+    if ( $root_elt->body ) $root_elt = $root_elt->body;
+    if ( $root_elt ) {
+      foreach ($root_elt->children() as $c_elt) {
+	$notes .= $c_elt->asXML();
+      }
     }
     if (strlen($notes)) $notes = '<html>'.$notes.'</html>'; // FIXME: replace with perl HTML::WikiConverter script
     $entity->notes = $notes;
