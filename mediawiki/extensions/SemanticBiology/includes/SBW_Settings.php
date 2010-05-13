@@ -5,7 +5,7 @@
 # seen from the web. Change it if required ($wgScriptPath is the
 # path to the base directory of your wiki). No final slash.
 ##
-$sbwgScriptPath = $wgScriptPath . '/extensions/SBWiki';
+$sbwgScriptPath = $wgScriptPath . '/extensions/SemanticBiology';
 ##
 
 ###
