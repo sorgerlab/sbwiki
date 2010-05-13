@@ -3,72 +3,114 @@
 class SBWModelFormatter {
 
   protected $model;
+  protected $pages;
+  protected $pages_flat;
 
 
-  public function SBWModelFormatter($model) {
+  public function SBWModelFormatter($model, $model_title, $page_names) {
     if ( !isset($model) ) {
       trigger_error("No model specified", E_USER_ERROR);
     }
     $this->model = $model;
+    $this->initPages($model_title, $page_names);
   }
 
 
-  public function format($entity) {
-    if     ($entity instanceof SBWSbmlModel)       return $this->formatModel();
-    elseif ($entity instanceof SBWSbmlCompartment) return $this->formatCompartment($entity->id);
-    elseif ($entity instanceof SBWSbmlSpecies)     return $this->formatSpecies($entity->id);
-    elseif ($entity instanceof SBWSbmlReaction)    return $this->formatReaction($entity->id);
-    elseif ($entity instanceof SBWSbmlParameter)   return $this->formatParameter($entity->id);
+  public function getModelPage() {
+    $tmp = $this->getPages('model');
+    return $tmp[0];
+  }
+
+  public function getAllPages() {
+    return $this->pages_flat;
+  }
+
+  public function getPages($type) {
+    if ( !array_key_exists($type, $this->pages) ) {
+      trigger_error("Unrecognized model entity type: $type", E_USER_ERROR);
+    }
+    return $this->pages[$type];
+  }
+
+
+  public function getPageForEntity($search_entity) {
+    foreach ( $this->pages_flat as $page ) {
+      foreach ( $page->model_entities as $entity ) {
+	if ( $entity === $search_entity ) {
+	  return $page;
+	}
+      }
+    }
+    trigger_error("Entity not found in page list", E_USER_ERROR);
+  }
+
+
+  public function format($page) {
+    $class = get_class($page->model_entities[0]);
+    switch ( $class ) {
+    case 'SBWSbmlModel':
+      return $this->formatModel();
+      break;
+    case 'SBWSbmlCompartment':
+      return $this->formatCompartment($page);
+      break;
+    case 'SBWSbmlSpecies':
+      return $this->formatSpecies($page);
+      break;
+    case 'SBWSbmlReaction':
+      return $this->formatReaction($page);
+      break;
+    case 'SBWSbmlParameter':
+      return $this->formatParameter($page);
+      break;
+    default:
+      trigger_error("Unrecognized model entity class: $class", E_USER_ERROR);
+    }
   }
 
 
   public function formatAll() {
     $wikitext = '';
 
-    $uid = $this->model->uid;
     $wikitext .= "<div style='border: 1px dashed #000000; background: #f8f8f8; padding: .5em;'>\n";
-    $wikitext .= "= $uid =\n";
+    $wikitext .= "= " . $this->getModelPage()->uid . " =\n";
     //$wikitext .= '<pre>';
     $wikitext .= $this->formatModel();
     //$wikitext .= '</pre>';
     $wikitext .= "</div>\n\n\n";
-    
-    foreach ( $this->model->getCompartmentIds() as $id ) {
-      $uid = $this->model->getCompartment($id)->uid;
+
+    foreach ( $this->getPages('compartment') as $page) {
       $wikitext .= "<div style='border: 1px dashed #000000; background: #fff0e0; padding: .5em;'>\n";
-      $wikitext .= "= $uid =\n";
+      $wikitext .= "= $page->uid =\n";
       //$wikitext .= '<pre>';
-      $wikitext .= $this->formatCompartment($id);
+      $wikitext .= $this->formatCompartment($page);
       //$wikitext .= '</pre>';
       $wikitext .= "</div>\n\n\n";
     }
 
-    foreach ( $this->model->getSpeciesIds() as $id ) {
-      $uid = $this->model->getSpecies($id)->uid;
+    foreach ( $this->getPages('species') as $page ) {
       $wikitext .= "<div style='border: 1px dashed #000000; background: #f0fff0; padding: .5em;'>\n";
-      $wikitext .= "= $uid =\n";
+      $wikitext .= "= $page->uid =\n";
       //$wikitext .= '<pre>';
-      $wikitext .= $this->formatSpecies($id);
+      $wikitext .= $this->formatSpecies($page);
       //$wikitext .= '</pre>';
       $wikitext .= "</div>\n\n\n";
     }
 
-    foreach ( $this->model->getReactionIds() as $id ) {
-      $uid = $this->model->getReaction($id)->uid;
+    foreach ( $this->getPages('interaction') as $page  ) {
       $wikitext .= "<div style='border: 1px dashed #000000; background: #fffff0; padding: .5em;'>\n";
-      $wikitext .= "= $uid =\n";
+      $wikitext .= "= $page->uid =\n";
       //$wikitext .= '<pre>';
-      $wikitext .= $this->formatReaction($id);
+      $wikitext .= $this->formatReaction($page);
       //$wikitext .= '</pre>';
       $wikitext .= "</div>\n\n\n";
     }
 
-    foreach ( $this->model->getParameterIds() as $id ) {
-      $uid = $this->model->getParameter($id)->uid;
+    foreach ( $this->getPages('parameter') as $page ) {
       $wikitext .= "<div style='border: 1px dashed #000000; background: #fff0ff; padding: .5em;'>\n";
-      $wikitext .= "= $uid =\n";
+      $wikitext .= "= $page->uid =\n";
       //$wikitext .= '<pre>';
-      $wikitext .= $this->formatParameter($id);
+      $wikitext .= $this->formatParameter($page);
       //$wikitext .= '</pre>';
       $wikitext .= "</div>\n\n\n";
     }
@@ -76,6 +118,30 @@ class SBWModelFormatter {
     $wikitext .= "__NOTOC__\n";
 
     return $wikitext;
+  }
+
+
+  private function initPages($model_title, $page_names) {
+    $this->pages = array();
+    $this->pages_flat = array();
+
+    $model_page = new SBWModelComponentPage($model_title);
+    $model_page->addEntity($this->model);
+    $this->pages['model'] = array($model_page);
+    $this->pages_flat[] = $model_page;
+
+    foreach ( array('compartment', 'species', 'interaction', 'parameter') as $type ) {
+      $this->pages[$type] = array();
+      while ( list($component_id, $title) = each($page_names[$type]) ) {
+	if ( !array_key_exists($title, $this->pages[$type]) ) {
+	  $page = new SBWModelComponentPage($title);
+	  $this->pages[$type][$title] = $page;
+	  $this->pages_flat[] = $page;
+	}
+	$this->pages[$type][$title]->addEntity($this->model->getEntity($type, $component_id));
+      }
+    }
+
   }
 
 
@@ -100,44 +166,36 @@ WIKI;
 
     $wikitext .= "=== Compartments ===  \n";
     $wikitext .= "{| class=\"smwtable\"\n! Name !! Version of !! Size\n";
-    foreach ($this->model->getCompartmentIds() as $id) {
-      $compartment = $this->model->getCompartment($id);
-      $uid = $compartment->uid;
-      $wikitext .= "|-\n| [[has compartment::$uid]] || ";
-      $wikitext .= $this->formatComponentRow($uid, array('is version of', 'parameterized by'));
+    foreach ($this->pages['compartment'] as $page) {
+      $wikitext .= "|-\n| [[has compartment::$page->uid]] || ";
+      $wikitext .= $this->formatComponentRow($page->uid, array('is version of', 'parameterized by'));
       $wikitext .= "\n";
     }
     $wikitext .= "|}\n\n";
 
     $wikitext .= "=== Species ===  \n";
     $wikitext .= "{| class=\"smwtable\"\n! Name !! Version of !! Compartment !! Initial condition\n";
-    foreach ($this->model->getSpeciesIds() as $id) {
-      $species = $this->model->getSpecies($id);
-      $uid = $species->uid;
-      $wikitext .= "|-\n| [[has species::$uid]] || ";
-      $wikitext .= $this->formatComponentRow($uid, array('is version of', 'located in compartment', 'parameterized by'));
+    foreach ($this->pages['species'] as $page) {
+      $wikitext .= "|-\n| [[has species::$page->uid]] || ";
+      $wikitext .= $this->formatComponentRow($page->uid, array('is version of', 'located in compartment', 'parameterized by'));
       $wikitext .= "\n";
     }
     $wikitext .= "|}\n\n";
 
     $wikitext .= "=== Reactions ===  \n";
     $wikitext .= "{| class=\"smwtable\"\n! Name !! Mass action formula !! Parameters \n";
-    foreach ($this->model->getReactionIds() as $id) {
-      $reaction = $this->model->getReaction($id);
-      $uid = $reaction->uid;
-      $wikitext .= "|-\n| [[has interaction::$uid]] || ";
-      $wikitext .= $this->formatComponentRow($uid, array('interaction definition', 'parameterized by'));
+    foreach ($this->pages['interaction'] as $page) {
+      $wikitext .= "|-\n| [[has interaction::$page->uid]] || ";
+      $wikitext .= $this->formatComponentRow($page->uid, array('interaction definition', 'parameterized by'));
       $wikitext .= "\n";
     }
     $wikitext .= "|}\n\n";
       
     $wikitext .= "=== Parameters ===  \n";
     $wikitext .= "{| class=\"smwtable\"\n! Name !! Value !! Source\n";
-    foreach ($this->model->getParameterIds() as $id) {
-      $parameter = $this->model->getParameter($id);
-      $uid = $parameter->uid;
-      $wikitext .= "|-\n| [[has parameter::$uid]] || ";
-      $wikitext .= $this->formatComponentRow($uid, array('parameter value', 'parameter value source'));
+    foreach ($this->pages['parameter'] as $page) {
+      $wikitext .= "|-\n| [[has parameter::$page->uid]] || ";
+      $wikitext .= $this->formatComponentRow($page->uid, array('parameter value', 'parameter value source'));
       $wikitext .= "\n";
     }
     $wikitext .= "|}\n\n";
@@ -146,102 +204,139 @@ WIKI;
   }
 
 
-  private function formatSpecies($id) {
-    $species = $this->model->getSpecies($id);
-
-    $model_uid     = $this->model->uid;
-    $notes         = $species->notes;
-    $id            = $species->id;
-    $ic_uid        = $species->initialParameter->uid;
+  private function formatSpecies($page) {
     $wikitext = <<<WIKI
 {{Category species}}
-{{Property model component ID|model_component_id=$id}}
-{{PropertyPrefix parameterized by}}
-{{Property parameterized by|parameterized_by=$ic_uid}}
 {{Categoryhelper table end}}
-$notes
+
 
 
 <!-- the following text was auto-generated by the model importer -->
-This species is part of the model '[[$model_uid]]'.
+== Model Species ==
+
 WIKI;
+
+    foreach ( $page->model_entities as $species ) {
+      $name   = $species->getBestName();
+      $notes  = $species->notes;
+      $id     = $species->id;
+      $ic_uid = $this->getPageForEntity($species->initialParameter)->uid;
+
+      $wikitext .= <<<WIKI
+=== $name ===
+'''Model species ID:''' [[model_component_ID::$id]]<br>
+'''Initial condition parameter:''' [[parameterized_by::$ic_uid]] = {{#show: $ic_uid | ?parameter value}}<br>
+'''Notes:''' $notes
+
+WIKI;
+    }
+
+    $wikitext .= "\n----\nThis species is part of the model '[[" . $this->getModelPage()->uid . "]]'\n";
 
     return $wikitext;
   }
 
 
-  private function formatReaction($id) {
-    $reaction = $this->model->getReaction($id);
-
-    $model_uid   = $this->model->uid;
-    $notes       = $reaction->notes;
-    $id          = $reaction->id;
-    $mass_action = $reaction->asText();
-    $reaction_wikitext =
-      implode("\n", array_map(create_function('$p',
-					      'return "{{Property parameterized by|parameterized_by=$p->uid}}";'),
-			      $reaction->getParameters()));
-
+  private function formatReaction($page) {
     $wikitext = <<<WIKI
 {{Category interaction}} 
-{{Property model component ID|model_component_id=$id}}
-{{Property interaction definition|interaction_definition=$mass_action}}
-{{PropertyPrefix parameterized by}}
-$reaction_wikitext
 {{Categoryhelper table end}}
-$notes
+
 
 
 <!-- the following text was auto-generated by the model importer -->
-This interaction is part of the model '[[$model_uid]]'.
+== Model Reactions ==
+
 WIKI;
+
+    foreach ( $page->model_entities as $reaction ) {
+      $name   = $reaction->getBestName();
+      $notes  = $reaction->notes;
+      $id     = $reaction->id;
+      $scheme = $reaction->asText();
+
+      $wikitext .= <<<WIKI
+=== $name ===
+'''Model reaction ID:''' [[model_component_ID::$id]]<br>
+'''Reaction scheme:''' [[interaction_definition::$scheme]]<br>
+'''Parameters:''' 
+WIKI;
+      foreach ( $reaction->getParameters() as $parameter ) {
+	$p_uid = $this->getPageForEntity($parameter)->uid;
+	$wikitext .= "[[parameterized_by::$p_uid]] = {{#show: $p_uid | ?parameter value}} ; ";
+      }
+      $wikitext .= "<br>";
+      $wikitext .= "'''Notes:''' $notes\n";
+    }
+
+    $wikitext .= "\n----\nThis interaction is part of the model '[[" . $this->getModelPage()->uid . "]]'\n";
 
     return $wikitext;
   }
 
 
-  private function formatParameter($id) {
-    $parameter = $this->model->getParameter($id);
-
-    $model_uid   = $this->model->uid;
-    $notes       = $parameter->notes;
-    $id          = $parameter->id;
-    $value       = $parameter->value;
+  private function formatParameter($page) {
     $wikitext = <<<WIKI
 {{Category parameter}}
-{{Property model component ID|model_component_id=$id}}
-{{Property parameter value|parameter_value=$value}}
 {{Categoryhelper table end}}
-$notes
+
 
 
 <!-- the following text was auto-generated by the model importer -->
-This parameter is part of the model '[[$model_uid]]'.
+== Model Parameters ==
+
 WIKI;
+
+    foreach ( $page->model_entities as $parameter ) {
+
+      $name = $parameter->getBestName();
+      $notes = $parameter->notes;
+      $id    = $parameter->id;
+      $value = $parameter->value;
+
+      $wikitext .= <<<WIKI
+=== $name ===
+'''Model parameter ID:''' [[model_component_ID::$id]]<br>
+'''Value:''' [[parameter_value::$value]]<br>
+'''Notes:''' $notes
+
+WIKI;
+    }
+
+    $wikitext .= "\n----\nThis parameter is part of the model '[[" . $this->getModelPage()->uid . "]]'\n";
 
     return $wikitext;
   }
 
 
-  private function formatCompartment($id) {
-    $compartment = $this->model->getCompartment($id);
-
-    $model_uid   = $this->model->uid;
-    $notes       = $compartment->notes;
-    $id          = $compartment->id;
-    $sp_uid      = $compartment->sizeParameter->uid;
+  private function formatCompartment($page) {
     $wikitext = <<<WIKI
 {{Category compartment}}
-{{Property model component ID|model_component_id=$id}}
-{{PropertyPrefix parameterized by}}
-{{Property parameterized by|parameterized_by=$sp_uid}}
 {{Categoryhelper table end}}
-$notes
+
 
 
 <!-- the following text was auto-generated by the model importer -->
-This compartment is part of the model '[[$model_uid]]'.
+== Model Compartments ==
+
 WIKI;
+
+    foreach ( $page->model_entities as $compartment) {
+      $name   = $compartment->getBestName();
+      $notes  = $compartment->notes;
+      $id     = $compartment->id;
+      $sp_uid = $this->getPageForEntity($compartment->sizeParameter)->uid;
+
+      $wikitext .= <<<WIKI
+=== $name ===
+'''Model compartment ID:''' [[model_component_ID::$id]]<br>
+'''Size parameter:''' [[parameterized_by::$sp_uid]] = {{#show: $sp_uid | ?parameter value}}<br>
+'''Notes:''' $notes
+
+WIKI;
+    }
+
+    $wikitext .= "\n----\nThis compartment is part of the model '[[" . $this->getModelPage()->uid . "]]'\n";
 
     return $wikitext;
   }
@@ -249,6 +344,25 @@ WIKI;
 
   private function formatComponentRow($uid, $properties) {
     return implode(" || ", array_map(create_function('$p', "return \"{{#show: $uid | ?\$p}}\";"), $properties));
+  }
+
+}
+
+
+
+class SBWModelComponentPage {
+
+  public $uid;
+  public $base_name;
+  public $model_entities;
+
+  public function SBWModelComponentPage($base_name) {
+    $this->base_name = $base_name;
+    $this->model_entities = array();
+  }
+
+  public function addEntity($entity) {
+    $this->model_entities[] = $entity;
   }
 
 }

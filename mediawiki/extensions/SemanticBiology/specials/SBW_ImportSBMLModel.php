@@ -11,6 +11,10 @@ require_once( $sbwgIP . '/includes/classes/SBW_ModelFormatter.php' );
 SpecialPage::addPage( new SpecialPage('ImportSBMLModel','',true,'doSpecialImportSBMLModel',false) );
 
 
+global $type_codes;
+$type_codes = array('model' => 'MD', 'compartment' => 'CO', 'species' => 'SP', 'interaction' => 'IX', 'parameter' => 'PA');
+
+
 function doSpecialImportSBMLModel()
 {
   global $wgOut, $wgRequest, $wgScriptPath, $smwgScriptPath;
@@ -21,6 +25,13 @@ function doSpecialImportSBMLModel()
   $creator_initials = $wgRequest->getText('creator_initials');
   $model_title      = $wgRequest->getText('model_title');
   $model_contents   = $wgRequest->getText('model_contents');
+  $page_names       = $wgRequest->getArray('page_names');
+
+  // manage encoded page_names array from single hidden form field
+  $page_names_encoded = $wgRequest->getText('page_names');
+  if ( strlen($page_names_encoded) ) {
+    $page_names = unserialize(base64_decode($page_names_encoded));
+  }
 
   $errors = array();
 
@@ -37,9 +48,9 @@ function doSpecialImportSBMLModel()
     if ( $step_2_combine ) {
       renderCombine($model_contents, $creator_initials, $model_title);
     } elseif ( $step_3_preview ) {
-      renderPreview($model_contents, $creator_initials, $model_title);
+      renderPreview($model_contents, $creator_initials, $model_title, $page_names);
     } elseif ( $step_4_import ) {
-      importModel($model_contents, $creator_initials, $model_title);
+      importModel($model_contents, $creator_initials, $model_title, $page_names);
     } else {
       throw new MWException("Post without expected submit button click");
     }
@@ -86,11 +97,10 @@ FORM
 
 function renderCombine($model_contents, $creator_initials, $model_title)
 {
-  global $wgOut, $wgScriptPath, $smwgScriptPath;
+  global $wgOut, $wgScriptPath, $smwgScriptPath, $sbwgScriptPath;
 
   $parser = new SBWSbmlReader($model_contents);
   $model = $parser->getModel();
-  assignFakeUids($model, $creator_initials, $model_title);
 
   $model_contents   = htmlspecialchars($model_contents);
   $creator_initials = htmlspecialchars($creator_initials);
@@ -100,6 +110,10 @@ function renderCombine($model_contents, $creator_initials, $model_title)
   $wgOut->addHeadItem('smw_css',
 		      "\t\t" . '<link rel="stylesheet" type="text/css" media="screen, projection" href="' .
 		      $smwgScriptPath . '/skins/SMW_custom.css" />' . "\n");
+  $wgOut->addScript('<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>' . "\n");
+  $wgOut->addScript('<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.0/jquery-ui.min.js"></script>' . "\n");
+  $wgOut->addScript('<script type="text/javascript" src="' . $sbwgScriptPath . '/skins/SBW_importsbml.js"></script>' . "\n");
+
   $wgOut->addWikiText(<<<INTRO
 You may now optionally combine model entities (within the same category) to better
 match the logical grouping of the model.  When you are done, click the
@@ -110,52 +124,56 @@ match the logical grouping of the model.  When you are done, click the
 
 INTRO
 		      );
-  $extra_html .= '<h3>Compartments</h3><table>';
-  foreach ( $model->getCompartmentIds() as $id ) {
-    $entity = $model->getCompartment($id);
-    $name = $entity->getBestName();
-    $extra_html .= "<tr><td>$name</td><td><input name=\"\"/ size=\"4\"></td></tr>";
-  }
-  $extra_html .= '</table>';
-  $extra_html .= '<h3>Species</h3><table>';
-  foreach ( $model->getSpeciesIds() as $id ) {
-    $entity = $model->getSpecies($id);
-    $name = $entity->getBestName();
-    $extra_html .= "<tr><td>$name</td><td><input name=\"\" size=\"4\"/></td></tr>";
-  }
-  $extra_html .= '</table>';
-  $extra_html .= '<h3>Interactions</h3><table>';
-  foreach ( $model->getReactionIds() as $id ) {
-    $entity = $model->getReaction($id);
-    $name = $entity->getBestName();
-    $extra_html .= "<tr><td>$name</td><td><input name=\"\" size=\"4\"/></td></tr>";
-  }
-  $extra_html .= '</table>';
-  $extra_html .= '<h3>Parameters</h3><table>';
-  foreach ( $model->getParameterIds() as $id ) {
-    $entity = $model->getParameter($id);
-    $name = $entity->getBestName();
-    $extra_html .= "<tr><td>$name</td><td><input name=\"\"/ size=\"4\"></td></tr>";
-  }
-  $extra_html .= '</table>';
 
-  renderHiddenForm('step_3_preview', 'Continue', $creator_initials, $model_title, $model_contents, $extra_html);
+  $extra_html = '';
+
+  foreach ( array('compartment', 'species', 'interaction', 'parameter') as $type ) {
+
+    $type_pretty = ucfirst($type);
+    $extra_html .= <<<HTML
+<h3>$type_pretty</h3>
+<table class="sbw-importsbml-combine">
+<tr>
+  <th>Source model element name (ID)</th>
+  <th>Destination wiki page title</th>
+</tr>
+HTML
+    ;
+    foreach ( $model->getIds($type) as $id ) {
+      $entity = $model->getEntity($type, $id);
+      $name = $entity->getBestName();
+      $entity_extra = '';
+      if ( $entity instanceof SBWSbmlReaction ) {
+	$entity_extra = $entity->asText();
+      }
+      $extra_html .= <<<HTML
+<tr>
+  <td>$name ($id) $entity_extra</td>
+  <td><input name="page_names[$type][$id]" value="$name"/></td>
+</tr>
+HTML
+	;
+    }
+    $extra_html .= '</table>';
+  }
+
+  renderHiddenForm('step_3_preview', 'Continue', $creator_initials, $model_title, $model_contents, null, $extra_html);
 }
 
 
-function renderPreview($model_contents, $creator_initials, $model_title)
+function renderPreview($model_contents, $creator_initials, $model_title, $page_names)
 {
   global $wgOut, $wgScriptPath, $smwgScriptPath;
 
   $parser = new SBWSbmlReader($model_contents);
   $model = $parser->getModel();
-  assignFakeUids($model, $creator_initials, $model_title);
+  $formatter = new SBWModelFormatter($model, $model_title, $page_names);
+  assignFakeUids($model, $formatter, $creator_initials, $model_title);
 
   $model_contents   = htmlspecialchars($model_contents);
   $creator_initials = htmlspecialchars($creator_initials);
   $model_title      = htmlspecialchars($model_title);
 
-  $formatter = new SBWModelFormatter($parser->getModel());
   // FIXME: SMW could change this... probably better to copy it and make our own style
   $wgOut->addHeadItem('smw_css',
 		      "\t\t" . '<link rel="stylesheet" type="text/css" media="screen, projection" href="' .
@@ -173,49 +191,30 @@ INTRO
 
   $wgOut->addWikiText($formatter->formatAll());
 
-  renderHiddenForm('step_4_import', 'Import', $creator_initials, $model_title, $model_contents);
+  renderHiddenForm('step_4_import', 'Import', $creator_initials, $model_title, $model_contents, $page_names);
 }
 
 
-function importModel($model_contents, $creator_initials, $model_title)
+function importModel($model_contents, $creator_initials, $model_title, $page_names)
 {
-  global $wgOut;
+  global $wgOut, $type_codes;
 
   $parser = new SBWSbmlReader($model_contents);
   $model = $parser->getModel();
-  $entities = array();
+  $formatter = new SBWModelFormatter($model, $model_title, $page_names);
 
-  $model->uid = sbwfAllocateUID('MD', $creator_initials, $model_title);
-  $entities[] = $model;
-
-  foreach ( $model->getCompartmentIds() as $id ) {
-    $compartment = $model->getCompartment($id);
-    $compartment->uid = sbwfAllocateUID('CO', $creator_initials, $compartment->getBestName());
-    $entities[] = $compartment;
-  }
-  foreach ( $model->getSpeciesIds() as $id ) {
-    $species = $model->getSpecies($id);
-    $species->uid = sbwfAllocateUID('SP', $creator_initials, $species->getBestName());
-    $entities[] = $species;
-  }
-  foreach ( $model->getReactionIds() as $id ) {
-    $reaction = $model->getReaction($id);
-    $reaction->uid = sbwfAllocateUID('IX', $creator_initials, $reaction->getBestName());
-    $entities[] = $reaction;
-  }
-  foreach ( $model->getParameterIds() as $id ) {
-    $parameter = $model->getParameter($id);
-    $parameter->uid = sbwfAllocateUID('PA', $creator_initials, $parameter->getBestName());
-    $entities[] = $parameter;
+  while ( list($type, $code) = each($type_codes) ) {
+    foreach ( $formatter->getPages($type) as $page ) {
+      $page->uid = sbwfAllocateUID($code, $creator_initials, $page->base_name);
+    }
   }
 
-  $formatter = new SBWModelFormatter($model);
   $success_titles = array();
   $error_titles = array();
-  foreach ( $entities as $entity ) {
-    $title = Title::newFromText($entity->uid);
+  foreach ( $formatter->getAllPages() as $page ) {
+    $title = Title::newFromText($page->uid);
     $article = new Article($title);
-    $text = $formatter->format($entity);
+    $text = $formatter->format($page);
     $result = $article->doEdit($text, "model import");
     if ( $result ) {
       $success_titles[] = $title;
@@ -234,15 +233,21 @@ function importModel($model_contents, $creator_initials, $model_title)
 }
 
 
-function renderHiddenForm($step, $button_label, $creator_initials, $model_title, $model_contents, $extra_html = '')
+function renderHiddenForm($step, $button_label, $creator_initials, $model_title, $model_contents, $page_names = null, $extra_html = '')
 {
   global $wgOut, $wgScriptPath;
+
+  $page_names_encoded = '';
+  if ( $page_names ) {
+    $page_names_encoded = base64_encode(serialize($page_names));
+  }
 
   $wgOut->addHTML(<<<FORM
 <form method="post" action="$wgScriptPath/index.php/Special:ImportSBMLModel">
 <input name="creator_initials" type="hidden" value="$creator_initials">
 <input name="model_title" type="hidden" value="$model_title">
 <input name="model_contents" type="hidden" value="$model_contents">
+<input name="page_names" type="hidden" value="$page_names_encoded">
 $extra_html
 <input name="$step" type="submit" value="$button_label">
 </form>
@@ -251,26 +256,17 @@ FORM
 }
 
 
-function assignFakeUids($model, $creator_initials, $model_title)
+/* assign fake UIDs for preview display purposes */
+function assignFakeUids($model, $formatter, $creator_initials, $model_title)
 {
-  // assign fake UIDs for preview display purposes
+  global $type_codes;
+
   $fake_counter = 100;
-  $model->uid = sbwfFormatUID('MD', $creator_initials, $fake_counter++, $model_title);
-  foreach ( $model->getCompartmentIds() as $id ) {
-    $compartment = $model->getCompartment($id);
-    $compartment->uid = sbwfFormatUID('CO', $creator_initials, $fake_counter++, $compartment->getBestName());
-  }
-  foreach ( $model->getSpeciesIds() as $id ) {
-    $species = $model->getSpecies($id);
-    $species->uid = sbwfFormatUID('SP', $creator_initials, $fake_counter++, $species->getBestName());
-  }
-  foreach ( $model->getReactionIds() as $id ) {
-    $reaction = $model->getReaction($id);
-    $reaction->uid = sbwfFormatUID('IX', $creator_initials, $fake_counter++, $reaction->getBestName());
-  }
-  foreach ( $model->getParameterIds() as $id ) {
-    $parameter = $model->getParameter($id);
-    $parameter->uid = sbwfFormatUID('PA', $creator_initials, $fake_counter++, $parameter->getBestName());
+
+  while ( list($type, $code) = each($type_codes) ) {
+    foreach ( $formatter->getPages($type) as $page ) {
+      $page->uid = sbwfFormatUID($code, $creator_initials, $fake_counter++, $page->base_name);
+    }
   }
 }
 

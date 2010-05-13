@@ -146,7 +146,6 @@ class SBWSbmlReader {
 
 class SBWSbmlEntity {
 
-  public $uid;
   public $id;
   public $name;
   public $notes;
@@ -236,6 +235,25 @@ class SBWSbmlModel extends SBWSbmlEntity {
   }
 
 
+  public function getEntity($type, $id) {
+    switch ( $type ) {
+    case 'species':
+      return $this->getSpecies($id);
+      break;
+    case 'interaction':
+      return $this->getReaction($id);
+      break;
+    case 'parameter':
+      return $this->getParameter($id);
+      break;
+    case 'compartment':
+      return $this->getCompartment($id);
+      break;
+    default:
+      trigger_error("Unrecognized model entity type: $type", E_USER_ERROR);
+    }
+  }
+
   public function getSpeciesIds() {
     return array_keys($this->species_set);
   }
@@ -253,6 +271,25 @@ class SBWSbmlModel extends SBWSbmlEntity {
 
   public function getCompartmentIds() {
     return array_keys($this->compartment_set);
+  }
+
+  public function getIds($type) {
+    switch ( $type ) {
+    case 'species':
+      return $this->getSpeciesIds();
+      break;
+    case 'interaction':
+      return $this->getReactionIds();
+      break;
+    case 'parameter':
+      return $this->getParameterIds();
+      break;
+    case 'compartment':
+      return $this->getCompartmentIds();
+      break;
+    default:
+      trigger_error("Unrecognized model entity type: $type", E_USER_ERROR);
+    }
   }
 
 
