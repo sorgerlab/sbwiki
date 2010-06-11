@@ -328,6 +328,7 @@ class SBWSbmlReaction extends SBWSbmlEntity {
     $this->products[] = $species;
   }
 
+  // FIXME: support modifiers
 
   public function addParameter($parameter) {
     $this->parameters[] = $parameter;
@@ -339,7 +340,7 @@ class SBWSbmlReaction extends SBWSbmlEntity {
   }
 
 
-  // FIXME: parse mathml for real
+  // FIXME: parse mathml for real?
   public function asText() {
     return
       implode(' + ', array_map(create_function('$s', 'return $s->getBestName();'), $this->reactants)) .

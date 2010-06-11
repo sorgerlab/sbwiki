@@ -221,11 +221,13 @@ WIKI;
       $notes  = $species->notes;
       $id     = $species->id;
       $ic_uid = $this->getPageForEntity($species->initialParameter)->uid;
+      $compartment_uid = $this->getPageForEntity($species->compartment)->uid;
 
       $wikitext .= <<<WIKI
 === $name ===
 '''Model species ID:''' [[model_component_ID::$id]]<br>
-'''Initial condition parameter:''' [[parameterized_by::$ic_uid]] = {{#show: $ic_uid | ?parameter value}}<br>
+'''Initial condition parameter:''' [[parameterized_by::$ic_uid]]: {{#show: $ic_uid | ?parameter value}}<br>
+'''Compartment:''' [[located_in_compartment::$compartment_uid]]<br>
 '''Notes:''' $notes
 
 WIKI;
@@ -261,9 +263,13 @@ WIKI;
 '''Reaction scheme:''' [[interaction_definition::$scheme]]<br>
 '''Parameters:''' 
 WIKI;
+      $seen = array();  // track previously-output param pages to prevent duplicates
       foreach ( $reaction->getParameters() as $parameter ) {
 	$p_uid = $this->getPageForEntity($parameter)->uid;
-	$wikitext .= "[[parameterized_by::$p_uid]] = {{#show: $p_uid | ?parameter value}} ; ";
+        if ( ! array_key_exists($p_uid, $seen) ) {
+	  $seen[$p_uid] = 1;
+	  $wikitext .= "[[parameterized_by::$p_uid]]: {{#show: $p_uid | ?parameter value}} ; ";
+	}
       }
       $wikitext .= "<br>";
       $wikitext .= "'''Notes:''' $notes\n";
@@ -297,7 +303,7 @@ WIKI;
       $wikitext .= <<<WIKI
 === $name ===
 '''Model parameter ID:''' [[model_component_ID::$id]]<br>
-'''Value:''' [[parameter_value::$value]]<br>
+'''Value:''' [[parameter_value::$id = $value]]<br>
 '''Notes:''' $notes
 
 WIKI;
@@ -325,12 +331,31 @@ WIKI;
       $name   = $compartment->getBestName();
       $notes  = $compartment->notes;
       $id     = $compartment->id;
-      $sp_uid = $this->getPageForEntity($compartment->sizeParameter)->uid;
+      $param_uid = $this->getPageForEntity($compartment->sizeParameter)->uid;
+
+      $species_uids = array(); // data to be stored in keys, not values!
+      foreach ( $this->model->getSpeciesIds() as $species_id ) {
+	$species = $this->model->getSpecies($species_id);
+	if ( $species->compartment == $compartment ) {
+	  $species_uid = $this->getPageForEntity($species)->uid;
+	  $species_uids[$species_uid] = 1;
+	}
+      }
+      if ( count($species_uids) ) {
+	$uids_temp = array_keys($species_uids);
+	sort($uids_temp);
+	$species_text = implode(", ", array_map(create_function('$uid', 'return "[[$uid]]";'), $uids_temp));
+      } else {
+	// A compartment with no species is unlikely, but I think it's legitimate SBML.
+	$species_text = 'NONE';
+      }
+
 
       $wikitext .= <<<WIKI
 === $name ===
 '''Model compartment ID:''' [[model_component_ID::$id]]<br>
-'''Size parameter:''' [[parameterized_by::$sp_uid]] = {{#show: $sp_uid | ?parameter value}}<br>
+'''Size parameter:''' [[parameterized_by::$param_uid]]: {{#show: $param_uid | ?parameter value}}<br>
+'''Contained species:''' : $species_text<br>
 '''Notes:''' $notes
 
 WIKI;
