@@ -940,6 +940,15 @@
       <owl:ObjectProperty rdf:ID="isIntermediateOfInteraction"/>
     </owl:inverseOf>
   </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="isDerivedFromParameter">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >is derived from parameter</rdfs:label>
+    <rdfs:range rdf:resource="#Parameter"/>
+    <rdfs:domain rdf:resource="#Parameter"/>
+    <rdfs:subPropertyOf>
+      <owl:ObjectProperty rdf:about="#isDerivedFrom"/>
+    </rdfs:subPropertyOf>
+  </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="hasAttachedFile">
     <owl:versionInfo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >TODO: Needs more thought.  Should this be more of a wiki-level implementation detail, supported on all pages?</owl:versionInfo>
@@ -1057,13 +1066,14 @@
         <owl:unionOf rdf:parseType="Collection">
           <owl:Class rdf:about="#Interaction"/>
           <owl:Class rdf:about="#Species"/>
+          <owl:Class rdf:about="#Compartment"/>
         </owl:unionOf>
       </owl:Class>
     </rdfs:domain>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >parameterized by</rdfs:label>
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >A parameter defining the behavior of a model component, e.g. a reaction rate or species initial condition.</rdfs:comment>
+    >A parameter defining the behavior of a model component, e.g. a reaction rate, species initial condition, or compartment size.</rdfs:comment>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="hasCompartment">
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
@@ -1177,6 +1187,20 @@
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >An alternate name for an entity.</rdfs:comment>
   </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="specificity">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >specificity</rdfs:label>
+    <rdfs:domain rdf:resource="#Antibody"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="modelLanguage">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >The standard or language in which a model is represented, e.g. SBML or CellML.</rdfs:comment>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >model language</rdfs:label>
+    <rdfs:domain rdf:resource="#Model"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="manufacturer">
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >manufacturer</rdfs:label>
@@ -1185,26 +1209,6 @@
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >The company or organization that made an instrument.</rdfs:comment>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-  </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="label">
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >label</rdfs:label>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-    <owl:versionInfo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >TODO: Should the domain be sb:Thing, and be used to store the base part of the page title for all individuals?  If so, might also want to add the unique id and creator initials (the other parts of the UID).</owl:versionInfo>
-    <rdfs:domain>
-      <owl:Class>
-        <owl:unionOf rdf:parseType="Collection">
-          <owl:Class rdf:about="#Compartment"/>
-          <owl:Class rdf:about="#Interaction"/>
-          <owl:Class rdf:about="#Parameter"/>
-          <owl:Class rdf:about="#Species"/>
-        </owl:unionOf>
-      </owl:Class>
-    </rdfs:domain>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >The local name for an entity in its typical context.  This name is often nonstandard and not globally unique, but nonetheless convenient and well-understood in context.</rdfs:comment>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="catalogNumber">
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
@@ -1402,14 +1406,31 @@
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >An IC50 value for a drug including both the value and the context in which it was measured.</rdfs:comment>
   </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="compartmentSize">
+  <owl:DatatypeProperty rdf:ID="modelComponentId">
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >compartment size</rdfs:label>
-    <rdfs:domain rdf:resource="#Compartment"/>
+    >model component ID</rdfs:label>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <owl:Class rdf:about="#Compartment"/>
+          <owl:Class rdf:about="#Interaction"/>
+          <owl:Class rdf:about="#Parameter"/>
+          <owl:Class rdf:about="#Species"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >The identifier or label of the original model component represented by an entity.</rdfs:comment>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="emulatedBiologicalProcess">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >emulated biological process</rdfs:label>
+    <rdfs:domain rdf:resource="#Model"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Size of a model compartment, as area, volume, etc.</rdfs:comment>
+    >The biological process which a model is intented to emulate. Should be restricted to Gene Ontology - Biological Process.</rdfs:comment>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="modelName">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -1419,14 +1440,6 @@
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >model name</rdfs:label>
-  </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="emulatedBiologicalProcess">
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >emulated biological process</rdfs:label>
-    <rdfs:domain rdf:resource="#Model"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >The biological process which a model is intented to emulate. Should be restricted to Gene Ontology - Biological Process.</rdfs:comment>
   </owl:DatatypeProperty>
   <owl:FunctionalProperty rdf:ID="interactionDefinition">
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>

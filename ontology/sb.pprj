@@ -1,4 +1,4 @@
-; Tue Feb 09 13:09:25 EST 2010
+; Thu Apr 29 12:32:00 EDT 2010
 ; 
 ;+ (version "3.4")
 ;+ (build "Build 533")
@@ -6,11 +6,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[sb_ProjectKB_Class10004]
-		[sb_ProjectKB_Class10005]
-		[sb_ProjectKB_Class10006]
-		[sb_ProjectKB_Class10007]
-		[sb_ProjectKB_Class10008]))
+		[sb_ProjectKB_Class10036]
+		[sb_ProjectKB_Class10037]
+		[sb_ProjectKB_Class10038]
+		[sb_ProjectKB_Class10039]
+		[sb_ProjectKB_Class10040]))
 
 ([CLSES_TAB] of  Widget
 
@@ -484,9 +484,6 @@
 ([KB_140180_Instance_9] of  Property_List
 )
 
-([KB_184865_Class3] of  Map
-)
-
 ([KB_221055_Instance_10] of  Widget
 
 	(height 0)
@@ -696,9 +693,9 @@
 ([KB_325529_Class0] of  Map
 
 	(entries
-		[sb_ProjectKB_Class10009]
-		[sb_ProjectKB_Class10010]
-		[sb_ProjectKB_Class10011]))
+		[sb_ProjectKB_Class10041]
+		[sb_ProjectKB_Class10042]
+		[sb_ProjectKB_Class10043]))
 
 ([KB_325529_Class4] of  String
 
@@ -5269,6 +5266,9 @@
 ([KB_941921_Instance_7] of  Property_List
 )
 
+([KB_984921_Class3] of  Map
+)
+
 ([OWL_ProjectKB_Instance_3] of  Integer
 
 	(integer_value 533)
@@ -5551,46 +5551,46 @@
 ([sb_ProjectKB_Class10] of  Property_List
 )
 
-([sb_ProjectKB_Class10004] of  String
+([sb_ProjectKB_Class10036] of  String
 
 	(name "http://www.w3.org/2002/07/owl#Class")
 	(string_value "%3ANAME"))
 
-([sb_ProjectKB_Class10005] of  String
+([sb_ProjectKB_Class10037] of  String
 
 	(name ":INSTANCE-ANNOTATION")
 	(string_value "%3AANNOTATION-TEXT"))
 
-([sb_ProjectKB_Class10006] of  String
+([sb_ProjectKB_Class10038] of  String
 
 	(name ":META-CLASS")
 	(string_value "%3ANAME"))
 
-([sb_ProjectKB_Class10007] of  String
+([sb_ProjectKB_Class10039] of  String
 
 	(name ":PAL-CONSTRAINT")
 	(string_value "%3APAL-NAME"))
 
-([sb_ProjectKB_Class10008] of  String
+([sb_ProjectKB_Class10040] of  String
 
 	(name "http://www.w3.org/2002/07/owl#Thing")
 	(string_value "%3ANAME"))
 
-([sb_ProjectKB_Class10009] of  Map_Entry
+([sb_ProjectKB_Class10041] of  Map_Entry
 
 	(key "add_name_on_instance_form")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([sb_ProjectKB_Class10010] of  Map_Entry
+([sb_ProjectKB_Class10042] of  Map_Entry
 
 	(key "change_tracking_active")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([sb_ProjectKB_Class10011] of  Map_Entry
+([sb_ProjectKB_Class10043] of  Map_Entry
 
 	(key "suppress_instance_counting")
 	(key_class "java.lang.String")
