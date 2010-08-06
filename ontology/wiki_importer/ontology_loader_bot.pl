@@ -199,7 +199,7 @@ foreach my $uri ( map($_->subject->as_string,
 
   $page_text .= "\n";
 
-  if ( $obj->ssw_isVirtual eq 'true' )
+  if ( $obj->ssw_isVirtual )
   {
     log_msg("  virtual");
     $page_text .= "[[Image:Warning.png]] '''$uc_label''' is [[isVirtual::true|virtual]], meaning that there are no instances of it, only of its subcategories.\n";
@@ -233,7 +233,7 @@ foreach my $uri ( map($_->subject->as_string,
   {
     edit_page("Category:$label", $page_text);
     # for virtual classes, skip template/form since their sole purpose is instance editing
-    unless ( $obj->ssw_isVirtual eq 'true' )
+    unless ( $obj->ssw_isVirtual )
     {
       edit_page("Template:Category_$label", $template_text) unless $skip_template;
       edit_page("Form:$label", $form_text) unless $skip_form;
@@ -408,7 +408,7 @@ foreach my $uri ( @datatype_property_uris )
   }
 
   log_msg("  range: $smw_type");
-  $page_text .= " Its range is literal [[Type:$smw_type|$smw_type]] values.";
+  $page_text .= " Its range is literal [[has_type::$smw_type]] values.";
 
   my $param_name = label_to_param($label);
   my $template_text = "|-\n! $label\n| ";
