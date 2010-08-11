@@ -47,8 +47,11 @@ function sbwEditNonexistentObject(&$editpage) {
   //   cleaner way to handle that.  A config option maybe?  The contents of
   //   a special page?
   // FIXME: we just check the first property for now and hope for the best
-  $property = $properties[0];
-  $query = "[[$property]] [[Has range hint:: <q>[[:Category:+]] [[Category:SBWiki thing]]</q> ]]";
+  $property = $properties[0]->getText();
+  // FIXME subcategory queries appear to be broken in SMW 1.5, so just
+  //   search all categories for now which works for us
+  //$query = "[[$property]] [[Has range hint:: <q>[[:Category:+]] [[Category:SBWiki thing]]</q> ]]";
+  $query = "[[Property:$property]] [[Has range hint:: <q>[[:Category:+]]</q> ]]";
   $printouts = array('?Has range hint');
   $result = sbwfSemanticQuery($query, $printouts);
   if (!$result->getCount()) return true;

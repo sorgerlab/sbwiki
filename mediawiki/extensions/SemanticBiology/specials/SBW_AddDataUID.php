@@ -59,9 +59,10 @@ function doSpecialAddDataUID() {
   }
 
   if ( $wgRequest->wasPosted() and $submitted and empty($errors) ) {
-    $special_adddata_title = Title::makeTitle(NS_SPECIAL, 'AddData');
+    $special_adddata_title = Title::makeTitle(NS_SPECIAL, 'FormEdit');
+    $form_base = $form->getText();
     $target = sbwfAllocateUID($type_code, $creator_initials, $annotation);
-    $url_params = "form=$form&target=$target";
+    $url_params = "form=$form_base&target=$target";
     // TODO decide whether we want to provide the annotation as a semantic relation
     // &Property_label[label]=" . urlencode($annotation);
     $wgOut->redirect($special_adddata_title->getFullURL($url_params));

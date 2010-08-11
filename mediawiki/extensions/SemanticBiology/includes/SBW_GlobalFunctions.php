@@ -275,7 +275,7 @@ function sbwfGetCategoryCreateInfo($category) {
 
   // extract value for 'abbreviation' (column 1)
   $abbreviation_content = $row[1]->getContent();
-  $abbreviation = count($abbreviation_content) ? $abbreviation_content[0]->getXSDValue() : null;
+  $abbreviation = count($abbreviation_content) ? $abbreviation_content[0]->getWikiValue() : null;
 
   return array($form, $abbreviation);
 }
@@ -321,8 +321,12 @@ function sbwfSemanticQuery($query_in, $printouts_in = array()) {
 }
 
 
-function debug($object) {
+function debug($object, $early_exit = false) {
   global $wgOut;
 
-  $wgOut->addHTML('<pre style="color:#f00;">'.htmlspecialchars(print_r($object,true)).'</pre>');
+  if ($early_exit) {
+    throw new SBWDebugException($object);
+  } else {
+    $wgOut->addHTML('<pre style="color:#f00;">'.htmlspecialchars(print_r($object,true)).'</pre>');
+  }
 }

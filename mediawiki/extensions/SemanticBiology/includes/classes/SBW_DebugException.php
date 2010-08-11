@@ -13,7 +13,7 @@ class SBWDebugException extends FatalError {
   }
 
   function getHTML() {
-    return $this->getMessage() . '<br><br><br><br><br><br><pre>' . print_r($this->variable, true) . '</pre>';
+    return '<h3>Debugging - variable dump</h3>' . $this->getMessage() . '<pre>' . print_r($this->variable, true) . '</pre>';
   }
 
   function getText() {
