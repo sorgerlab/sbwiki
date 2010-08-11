@@ -20,8 +20,8 @@ function doSpecialImportSBMLModel()
   global $wgOut, $wgRequest, $wgScriptPath, $smwgScriptPath;
 
   $step_2_combine   = $wgRequest->getCheck('step_2_combine');
-  $step_3_preview   = $wgRequest->getCheck('step_3_preview');
-  $step_4_import    = $wgRequest->getCheck('step_4_import');
+  //$step_x_preview   = $wgRequest->getCheck('step_x_preview');
+  $step_3_import    = $wgRequest->getCheck('step_3_import');
   $creator_initials = $wgRequest->getText('creator_initials');
   $model_title      = $wgRequest->getText('model_title');
   $model_contents   = $wgRequest->getText('model_contents');
@@ -47,9 +47,11 @@ function doSpecialImportSBMLModel()
     // successful form submission
     if ( $step_2_combine ) {
       renderCombine($model_contents, $creator_initials, $model_title);
-    } elseif ( $step_3_preview ) {
+    /*
+    } elseif ( $step_x_preview ) {
       renderPreview($model_contents, $creator_initials, $model_title, $page_names);
-    } elseif ( $step_4_import ) {
+    */
+    } elseif ( $step_3_import ) {
       importModel($model_contents, $creator_initials, $model_title, $page_names);
     } else {
       throw new MWException("Post without expected submit button click");
@@ -157,10 +159,12 @@ HTML
     $extra_html .= '</table>';
   }
 
-  renderHiddenForm('step_3_preview', 'Continue', $creator_initials, $model_title, $model_contents, null, $extra_html);
+  renderHiddenForm('step_3_import', 'Continue', $creator_initials, $model_title, $model_contents, null, $extra_html);
 }
 
 
+// preview is disabled -- turned out to be too confusing in practice
+/*
 function renderPreview($model_contents, $creator_initials, $model_title, $page_names)
 {
   global $wgOut, $wgScriptPath, $smwgScriptPath;
@@ -193,6 +197,7 @@ INTRO
 
   renderHiddenForm('step_4_import', 'Import', $creator_initials, $model_title, $model_contents, $page_names);
 }
+*/
 
 
 function importModel($model_contents, $creator_initials, $model_title, $page_names)
@@ -224,8 +229,7 @@ function importModel($model_contents, $creator_initials, $model_title, $page_nam
   }
 
   if ( !$error_titles ) {
-    $wgOut->addWikiText("Model imported successfully.  The following pages were created:\n");
-    foreach ($success_titles as $title) $wgOut->addWikiText("* [[$title]]\n");
+    $wgOut->addWikiText("Model imported successfully.  [[$success_titles[0]|View your imported model '$success_titles[0]' here]].\n");
   } else {
     $wgOut->addWikiText("Errors during import on the following pages:\n");
     foreach ($error_titles as $title) $wgOut->addWikiText("* $title\n");
