@@ -20,7 +20,7 @@ function doSpecialImportSBMLModel()
   global $wgOut, $wgRequest, $wgScriptPath, $smwgScriptPath;
 
   $step_2_combine   = $wgRequest->getCheck('step_2_combine');
-  //$step_x_preview   = $wgRequest->getCheck('step_x_preview');
+  $step_2a_preview  = $wgRequest->getCheck('step_2a_preview');
   $step_3_import    = $wgRequest->getCheck('step_3_import');
   $creator_initials = $wgRequest->getText('creator_initials');
   $model_title      = $wgRequest->getText('model_title');
@@ -47,10 +47,8 @@ function doSpecialImportSBMLModel()
     // successful form submission
     if ( $step_2_combine ) {
       renderCombine($model_contents, $creator_initials, $model_title);
-    /*
-    } elseif ( $step_x_preview ) {
+    } elseif ( $step_2a_preview ) {
       renderPreview($model_contents, $creator_initials, $model_title, $page_names);
-    */
     } elseif ( $step_3_import ) {
       importModel($model_contents, $creator_initials, $model_title, $page_names);
     } else {
@@ -159,12 +157,13 @@ HTML
     $extra_html .= '</table>';
   }
 
-  renderHiddenForm('step_3_import', 'Continue', $creator_initials, $model_title, $model_contents, null, $extra_html);
+  $extra_html .= '<input name="step_2a_preview" type="submit" value="Preview">';
+
+  renderHiddenForm('step_3_import', 'Import', $creator_initials, $model_title, $model_contents, null, $extra_html);
 }
 
 
-// preview is disabled -- turned out to be too confusing in practice
-/*
+// NOTE: Preview is disabled in the normal workflow, but still accessible for debugging.
 function renderPreview($model_contents, $creator_initials, $model_title, $page_names)
 {
   global $wgOut, $wgScriptPath, $smwgScriptPath;
@@ -195,9 +194,8 @@ INTRO
 
   $wgOut->addWikiText($formatter->formatAll());
 
-  renderHiddenForm('step_4_import', 'Import', $creator_initials, $model_title, $model_contents, $page_names);
+  renderHiddenForm('step_3_import', 'Import', $creator_initials, $model_title, $model_contents, $page_names);
 }
-*/
 
 
 function importModel($model_contents, $creator_initials, $model_title, $page_names)
