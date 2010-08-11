@@ -165,7 +165,7 @@ $notes
 WIKI;
 
     $wikitext .= "=== Compartments ===  \n";
-    $wikitext .= "{| class=\"smwtable\"\n! Name !! Version of !! Size\n";
+    $wikitext .= "{| class=\"sbtable\"\n! Name !! Version of !! Size\n";
     foreach ($this->pages['compartment'] as $page) {
       $wikitext .= "|-\n| [[has compartment::$page->uid]] || ";
       $wikitext .= $this->formatComponentRow($page->uid, array('is version of', 'parameterized by'));
@@ -174,31 +174,32 @@ WIKI;
     $wikitext .= "|}\n\n";
 
     $wikitext .= "=== Species ===  \n";
-    $wikitext .= "{| class=\"smwtable\"\n! Name !! Version of !! Compartment !! Initial condition\n";
+    $wikitext .= "{| class=\"sbtable\"\n! Name !! Version of !! Compartment !! Original ID\n";
     foreach ($this->pages['species'] as $page) {
       $wikitext .= "|-\n| [[has species::$page->uid]] || ";
-      $wikitext .= $this->formatComponentRow($page->uid, array('is version of', 'located in compartment', 'parameterized by'));
+      $wikitext .= $this->formatComponentRow($page->uid, array('is version of', 'located in compartment', 'model component ID'));
       $wikitext .= "\n";
     }
     $wikitext .= "|}\n\n";
 
     $wikitext .= "=== Reactions ===  \n";
-    $wikitext .= "{| class=\"smwtable\"\n! Name !! Mass action formula !! Parameters \n";
+    $wikitext .= "{| class=\"sbtable\"\n! Name !! Mass action formula !! Original ID\n";
     foreach ($this->pages['interaction'] as $page) {
       $wikitext .= "|-\n| [[has interaction::$page->uid]] || ";
-      $wikitext .= $this->formatComponentRow($page->uid, array('interaction definition', 'parameterized by'));
+      $wikitext .= $this->formatComponentRow($page->uid, array('interaction definition', 'model component ID'));
       $wikitext .= "\n";
     }
     $wikitext .= "|}\n\n";
       
     $wikitext .= "=== Parameters ===  \n";
-    $wikitext .= "{| class=\"smwtable\"\n! Name !! Value !! Source\n";
+    $wikitext .= "{| class=\"sbtable\"\n! Name !! Value !! Source\n";
     foreach ($this->pages['parameter'] as $page) {
       $wikitext .= "|-\n| [[has parameter::$page->uid]] || ";
       $wikitext .= $this->formatComponentRow($page->uid, array('parameter value', 'parameter value source'));
       $wikitext .= "\n";
     }
     $wikitext .= "|}\n\n";
+    $wikitext .= "__NOEDITSECTION__";
 
     return $wikitext;
   }
@@ -234,6 +235,7 @@ WIKI;
     }
 
     $wikitext .= "\n----\nThis species is part of the model '[[" . $this->getModelPage()->uid . "]]'\n";
+    $wikitext .= "__NOEDITSECTION__";
 
     return $wikitext;
   }
@@ -276,6 +278,7 @@ WIKI;
     }
 
     $wikitext .= "\n----\nThis interaction is part of the model '[[" . $this->getModelPage()->uid . "]]'\n";
+    $wikitext .= "__NOEDITSECTION__";
 
     return $wikitext;
   }
@@ -310,6 +313,7 @@ WIKI;
     }
 
     $wikitext .= "\n----\nThis parameter is part of the model '[[" . $this->getModelPage()->uid . "]]'\n";
+    $wikitext .= "__NOEDITSECTION__";
 
     return $wikitext;
   }
@@ -362,6 +366,7 @@ WIKI;
     }
 
     $wikitext .= "\n----\nThis compartment is part of the model '[[" . $this->getModelPage()->uid . "]]'\n";
+    $wikitext .= "__NOEDITSECTION__";
 
     return $wikitext;
   }
