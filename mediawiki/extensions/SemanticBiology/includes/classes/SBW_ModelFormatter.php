@@ -263,20 +263,30 @@ WIKI;
 === $name ===
 '''Model reaction ID:''' [[model_component_ID::$id]]<br>
 '''Reaction scheme:''' [[interaction_definition::$scheme]]<br>
-'''Parameters:''' 
 WIKI;
-      $seen = array();  // track previously-displayed params to prevent duplicate semantic links
-      foreach ( $reaction->getParameters() as $parameter ) {
-	$p_uid = $this->getPageForEntity($parameter)->uid;
-        if ( ! array_key_exists($p_uid, $seen) ) {
-	  $seen[$p_uid] = 1;
-	  $wikitext .= "[[parameterized_by::$p_uid]]";
-	} else {
-	  $wikitext .= "[[$p_uid]]";
+
+      $wikitext .= "'''Species:'''\n";
+      $seen_species = array();  // track previously-displayed species pages to prevent duplicates
+      foreach ( $reaction->getSpecies() as $species ) {
+	$s_uid = $this->getPageForEntity($species)->uid;
+        if ( ! array_key_exists($s_uid, $seen_species) ) {
+	  $seen_species[$s_uid] = 1;
+	  $wikitext .= "[[has_interaction_participant::$s_uid]] ; ";
 	}
-	$wikitext .= ": {{#show: $p_uid | ?parameter value}} ; ";
       }
       $wikitext .= "<br>";
+
+      $wikitext .= "'''Parameters:'''\n";
+      $seen_params = array();  // same as with species above
+      foreach ( $reaction->getParameters() as $parameter ) {
+	$p_uid = $this->getPageForEntity($parameter)->uid;
+        if ( ! array_key_exists($p_uid, $seen_params) ) {
+	  $seen_params[$p_uid] = 1;
+	  $wikitext .= "[[parameterized_by::$p_uid]]: {{#show: $p_uid | ?parameter value}} ; ";
+	}
+      }
+      $wikitext .= "<br>";
+
       $wikitext .= "'''Notes:''' $notes\n";
     }
 

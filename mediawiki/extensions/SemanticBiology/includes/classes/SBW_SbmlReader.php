@@ -330,6 +330,10 @@ class SBWSbmlReaction extends SBWSbmlEntity {
 
   // FIXME: support modifiers
 
+  public function getSpecies() {
+    return array_merge($this->reactants, $this->products);
+  }
+
   public function addParameter($parameter) {
     $this->parameters[] = $parameter;
   }
