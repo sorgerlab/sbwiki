@@ -344,7 +344,7 @@ class SBWSbmlReaction extends SBWSbmlEntity {
   public function asText() {
     return
       implode(' + ', array_map(create_function('$s', 'return $s->getBestName();'), $this->reactants)) .
-      ($this->isReversible ? ' <--> ' : ' --> ') .
+      ($this->isReversible ? ' ↔ ' : ' → ') .
       implode(' + ', array_map(create_function('$s', 'return $s->getBestName();'), $this->products)) .
       ' (' . implode(', ', array_map(create_function('$p', 'return $p->getBestName();'), $this->parameters)) . ')'
       ;
