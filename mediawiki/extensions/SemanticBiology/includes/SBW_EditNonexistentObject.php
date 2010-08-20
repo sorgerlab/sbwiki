@@ -25,7 +25,7 @@ $wgHooks['ArticleInsertComplete'][] = 'sbwFixNonexistentObjectLinks';
  * the edit page of course, but at that point a UID will have been
  * allocated so condition #2 will be false.
  */
-function sbwEditNonexistentObject(&$editpage) {
+function sbwEditNonexistentObject($editpage) {
   global $wgRequest, $wgOut;
   $fname = 'sbwEditNonexistentObject';
 
@@ -73,8 +73,8 @@ function sbwEditNonexistentObject(&$editpage) {
  *
  * It's triggered when a new article is successfully saved.
  */
-function sbwFixNonexistentObjectLinks(&$article, &$user, &$text, &$summary, &$minoredit, 
-				      &$watchthis, &$sectionanchor, &$flags, &$revision) {
+function sbwFixNonexistentObjectLinks($article, $user, $text, $summary, $minoredit, 
+				      $watchthis, $sectionanchor, $flags, $revision) {
   global $wgRequest, $wgOut;
 
   // abort if the title isn't a UID
