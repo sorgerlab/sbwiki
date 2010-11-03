@@ -1,4 +1,4 @@
-; Wed Aug 11 14:23:44 EDT 2010
+; Mon Aug 16 15:56:13 EDT 2010
 ; 
 ;+ (version "3.4")
 ;+ (build "Build 533")
@@ -6,11 +6,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[sbwiki_ProjectKB_Class10004]
-		[sbwiki_ProjectKB_Class10005]
-		[sbwiki_ProjectKB_Class10006]
-		[sbwiki_ProjectKB_Class10007]
-		[sbwiki_ProjectKB_Class10008]))
+		[sbwiki_ProjectKB_Class10012]
+		[sbwiki_ProjectKB_Class10013]
+		[sbwiki_ProjectKB_Class10014]
+		[sbwiki_ProjectKB_Class10015]
+		[sbwiki_ProjectKB_Class10016]))
 
 ([CLSES_TAB] of  Widget
 
@@ -748,9 +748,9 @@
 ([KB_325529_Class0] of  Map
 
 	(entries
-		[sbwiki_ProjectKB_Class10009]
-		[sbwiki_ProjectKB_Class10010]
-		[sbwiki_ProjectKB_Class10011]))
+		[sbwiki_ProjectKB_Class10017]
+		[sbwiki_ProjectKB_Class10018]
+		[sbwiki_ProjectKB_Class10019]))
 
 ([KB_325529_Class4] of  String
 
@@ -5614,46 +5614,46 @@
 ([sbwiki_ProjectKB_Class10] of  Property_List
 )
 
-([sbwiki_ProjectKB_Class10004] of  String
+([sbwiki_ProjectKB_Class10012] of  String
 
 	(name ":INSTANCE-ANNOTATION")
 	(string_value "%3AANNOTATION-TEXT"))
 
-([sbwiki_ProjectKB_Class10005] of  String
+([sbwiki_ProjectKB_Class10013] of  String
 
 	(name "http://www.w3.org/2002/07/owl#Class")
 	(string_value "%3ANAME"))
 
-([sbwiki_ProjectKB_Class10006] of  String
+([sbwiki_ProjectKB_Class10014] of  String
 
 	(name ":PAL-CONSTRAINT")
 	(string_value "%3APAL-NAME"))
 
-([sbwiki_ProjectKB_Class10007] of  String
+([sbwiki_ProjectKB_Class10015] of  String
 
 	(name ":META-CLASS")
 	(string_value "%3ANAME"))
 
-([sbwiki_ProjectKB_Class10008] of  String
+([sbwiki_ProjectKB_Class10016] of  String
 
 	(name "http://www.w3.org/2002/07/owl#Thing")
 	(string_value "%3ANAME"))
 
-([sbwiki_ProjectKB_Class10009] of  Map_Entry
+([sbwiki_ProjectKB_Class10017] of  Map_Entry
 
 	(key "add_name_on_instance_form")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([sbwiki_ProjectKB_Class10010] of  Map_Entry
+([sbwiki_ProjectKB_Class10018] of  Map_Entry
 
 	(key "change_tracking_active")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([sbwiki_ProjectKB_Class10011] of  Map_Entry
+([sbwiki_ProjectKB_Class10019] of  Map_Entry
 
 	(key "suppress_instance_counting")
 	(key_class "java.lang.String")

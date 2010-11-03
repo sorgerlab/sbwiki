@@ -83,6 +83,10 @@
     <ssw:isVirtual rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
     >true</ssw:isVirtual>
   </rdf:Description>
+  <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20100803.owl#interactionDefinition">
+    <ssw:isHidden rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >true</ssw:isHidden>
+  </rdf:Description>
   <rdf:Description rdf:about="http://pipeline.med.harvard.edu/sb-20100803.owl#hasSpecies">
     <ssw:isHidden rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >true</ssw:isHidden>
