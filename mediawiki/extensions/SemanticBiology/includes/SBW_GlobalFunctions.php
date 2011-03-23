@@ -37,6 +37,7 @@ function sbwgSetupExtension() {
   require_once($sbwgIP . '/specials/SBW_ListUIDs.php');
   require_once($sbwgIP . '/specials/SBW_API.php');
   require_once($sbwgIP . '/specials/SBW_UploadAttachFileUID.php');
+  require_once($sbwgIP . '/specials/SBW_RenderMath.php');
 
   /**********************************************/
   /***** register hooks                     *****/
