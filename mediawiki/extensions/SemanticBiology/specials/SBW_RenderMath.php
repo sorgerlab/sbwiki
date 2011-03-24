@@ -13,7 +13,7 @@ function doSpecialRenderMath() {
 
   $mathml = $wgRequest->getVal('mathml');
   if ( !strlen($mathml) ) {
-    $mathml = '<math xmlns="http://www.w3.org/1998/Math/MathML"> <apply> <divide/> <apply> <times/> <ci> default </ci> <ci> Vs </ci> <apply> <power/> <ci> KI </ci> <ci> n </ci> </apply> </apply> <apply> <plus/> <apply> <power/> <ci> KI </ci> <ci> n </ci> </apply> <apply> <power/> <ci> Pn </ci> <ci> n </ci> </apply> </apply> </apply> </math>';
+    $mathml = '<math xmlns="http://www.w3.org/1998/Math/MathML"><apply><minus/><apply><minus/><apply><plus/><apply><times/><ci>alpha_ce</ci><piecewise><piece><cn type="integer">1</cn><apply><gt/><apply><divide/><ci>cEa</ci><ci>b2</ci></apply><ci>epsilon_Eb2</ci></apply></piece><piece><cn type="integer">0</cn><apply><leq/><apply><divide/><ci>cEa</ci><ci>b2</ci></apply><ci>epsilon_Eb2</ci></apply></piece></piecewise></apply><apply><times/><ci>alpha_cj</ci><piecewise><piece><cn type="integer">1</cn><apply><gt/><apply><divide/><ci>j</ci><ci>b2</ci></apply><ci>epsilon_jb2</ci></apply></piece><piece><cn type="integer">0</cn><apply><leq/><apply><divide/><ci>j</ci><ci>b2</ci></apply><ci>epsilon_jb2</ci></apply></piece></piecewise></apply></apply><apply><minus/><apply><divide/><apply><times/><ci>kh</ci><ci>Cc</ci><ci>A1</ci></apply><apply><plus/><cn type="integer">1</cn><apply><times/><ci>KH</ci><ci>Cc</ci></apply><apply><times/><ci>KI</ci><apply><divide/><ci>bx</ci><apply><plus/><cn type="integer">1</cn><apply><times/><ci>KJ</ci><ci>be</ci></apply></apply></apply></apply></apply></apply><apply><divide/><ci>A1_Cc</ci><ci>KH</ci></apply></apply></apply><apply><times/><ci>mu</ci><ci>Cc</ci></apply></apply></math>';
   }
 
   $wgOut->addHTML(<<<FORM
@@ -36,7 +36,7 @@ FORM
 		  );
 
   $asciimath = convertMathmlToAscii($mathml);
-  $wgOut->addHTML("<pre>$asciimath</pre><br/>" . mathfilter("<m>$asciimath</m>", 16, "/wiki/extensions/SemanticBiology/includes/phpmathpublisher/img/"));
+  $wgOut->addHTML("<p style=\"background: #f0f0f0; border: 1px dashed #808080;\">asciimath intermediate: <tt>$asciimath</tt></p>" . mathfilter("<m>$asciimath</m>", 16, "/wiki/extensions/SemanticBiology/includes/phpmathpublisher/img/"));
 }
 
 
