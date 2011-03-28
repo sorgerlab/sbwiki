@@ -1410,6 +1410,26 @@ form.createbox td {
 }
 
 
+.infobox {
+  background-color:#F9F9F9;
+  border:1px solid #AAAAAA;
+  clear:right;
+  color:black;
+  float:right;
+  margin:0.5em 0 0.5em 1em;
+  padding:0.2em;
+}
+
+.infobox td, .infobox th {
+  vertical-align:top;
+  text-align: left;
+}
+
+.infobox caption {
+  font-size:larger;
+}
+
+
 /* sbtable is a tweaked version of SMW's smwtable */
 
 table.sbtable {
