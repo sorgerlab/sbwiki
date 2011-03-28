@@ -1412,12 +1412,12 @@ form.createbox td {
 
 .infobox {
   background-color:#F9F9F9;
-  border:1px solid #AAAAAA;
-  clear:right;
   color:black;
   float:right;
-  margin:0.5em 0 0.5em 1em;
-  padding:0.2em;
+  font-size: 88%;
+  margin-left: 0.5em;
+  margin-bottom: 0.5em;
+  width: 24em;
 }
 
 .infobox td, .infobox th {
@@ -1425,8 +1425,16 @@ form.createbox td {
   text-align: left;
 }
 
+.infobox th {
+  width: 10em;
+}
+
 .infobox caption {
   font-size:larger;
+}
+
+.infobox caption:before {
+  content: "Infobox: ";
 }
 
 
@@ -1438,7 +1446,6 @@ table.sbtable {
 
 table.sbtable th {
   background-color: #f3e1cf;
-  white-space: nowrap;
 }
 
 table.sbtable td {
