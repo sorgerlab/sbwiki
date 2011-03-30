@@ -4,25 +4,26 @@
 #   (e.g. Property:Abbreviation before Categories, since they use Abbrevs)
 
 use strict;
-use Getopt::Long;
+use Getopt::Long qw(:config auto_help);
+use Pod::Usage;
 use RDF::Helper;
 use RDF::Helper::Constants qw(:rdf :rdfs);
-use Perlwikipedia;
 use POSIX;
+use URI;
+use File::Temp;
 
 
 my ($skip_import, $skip_category, $skip_object, $skip_datatype, $skip_template, $skip_form);
-my ($wiki_url, $wiki_scriptpath, $wiki_username, $wiki_password);
-my $xml = 1;
+my ($wiki_url, $wiki_username, $wiki_password);
+my $api_import = 0;
 my $minor = 1;
 
 # NB: add new skip_* parameters to the dry-run line at the bottom
 #   (could probably do this programatically if I read up on Getopt)
 GetOptions(
-  "xml!"                 => \$xml,
+  "import!"              => \$api_import,
   "minor!"               => \$minor,
   "wiki-url|wu=s"        => \$wiki_url,
-  "wiki-scriptpath|ws=s" => \$wiki_scriptpath,
   "wiki-username|wn=s"   => \$wiki_username,
   "wiki-password|wp=s"   => \$wiki_password,
   "skip-import|si"       => \$skip_import,
@@ -32,26 +33,25 @@ GetOptions(
   "skip-template|st"     => \$skip_template,
   "skip-form|sf"         => \$skip_form,
   "dry-run|n"            => sub {$skip_import=$skip_category=$skip_object=$skip_datatype=$skip_template=$skip_form=1},
-) or die "GetOptions error";
-
+) or pod2usage();
 
 my ($owl_filespec, @owl_extra_filespecs) = @ARGV;
-defined $owl_filespec  or die "error: no OWL filespec given\n";
+defined $owl_filespec or pod2usage();
 
 
-if ( $xml )
-{
-  defined $wiki_username   or die "error: no --wiki-username given (used as import contributor name)\n"
-}
-else
+if ( $api_import )
 {
   my $err;
   defined $wiki_url        or $err=1, warn "error: no --wiki-url given\n";
-  defined $wiki_scriptpath or $err=1, warn "error: no --wiki-scriptpath given\n";
   defined $wiki_username   or $err=1, warn "error: no --wiki-username given\n";
   defined $wiki_password   or $err=1, warn "error: no --wiki-password given\n";
-  exit 1 if $err;
+  pod2usage(1) if $err;
 }
+else
+{
+  defined $wiki_username or pod2usage("error: no --wiki-username given (used as import contributor name)");
+}
+
 
 # force this to make bot module happy and since mediawiki generally likes it this way
 $wiki_username = ucfirst($wiki_username);
@@ -59,17 +59,31 @@ $wiki_username = ucfirst($wiki_username);
 # end of option parsing
 
 
-my $wiki;
-if ( $xml )
+my $bot;
+my $xml = <<XML;
+<mediawiki version="0.3" xml:lang="en"
+  xmlns="http://www.mediawiki.org/xml/export-0.3/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.mediawiki.org/xml/export-0.3/ http://www.mediawiki.org/xml/export-0.3.xsd">
+XML
+
+if ( $api_import )
 {
-  print qq{<mediawiki version="0.3" xml:lang="en" xmlns="http://www.mediawiki.org/xml/export-0.3/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mediawiki.org/xml/export-0.3/ http://www.mediawiki.org/xml/export-0.3.xsd">\n};
-}
-else
-{
-  $wiki = Perlwikipedia->new;
-  $wiki->set_wiki($wiki_url, $wiki_scriptpath);
-  $wiki->login($wiki_username, $wiki_password) == 0
-    or die "error: could not log into wiki:\n", $wiki->{errstr}, "\n";
+  require MediaWiki::Bot;
+  my $uri = URI->new($wiki_url);
+  die("error: wiki-url must be an http/https URL.\n") if $uri->scheme !~ /^https?$/;
+  $bot = MediaWiki::Bot->new({
+    protocol => $uri->scheme,
+    host     => $uri->host,
+    path     => $uri->path,
+  });
+  $bot->{api}{config}{retries} = 0;  # no official interface in MW::Bot to set this
+  my $result = $bot->login({ username => $wiki_username, password => $wiki_password });
+  if (!$result)
+  {
+    my $msg = format_bot_error($bot->{error}) || "wrong username/password (probably)";
+    die("error: could not log into wiki: " . $msg . "\n");
+  }
 }
 
 
@@ -125,7 +139,9 @@ my $form_pre  = "<noinclude>\nEdit the page to see the form text.\n</noinclude><
 my $form_post = <<FORM_POST;
 '''Free text:'''
 
-{{{field|free text}}}
+{{{standard input|free text}}}
+
+{{{for template|Import generated content}}}{{{field|content|hidden}}}{{{end template}}}
 
 <p>{{{standard input|summary}}}</p>
 <p>{{{standard input|minor edit}}} {{{standard input|watch}}}</p>
@@ -153,7 +169,7 @@ foreach my $uri ( map($_->subject->as_string,
   my $id = uri_split($uri, $ontology_ns) or next;
 
   my $label = $obj->rdfs_label or
-    die "error: no rdfs:label given for '$uri'\n";
+    die "error: no rdfs:label given for Class '$uri'\n";
   my $uc_label = ucfirst($label);
 
   log_msg("category: $label");
@@ -202,25 +218,24 @@ foreach my $uri ( map($_->subject->as_string,
   if ( $obj->ssw_isVirtual )
   {
     log_msg("  virtual");
-    $page_text .= "[[Image:Warning.png]] '''$uc_label''' is [[isVirtual::true|virtual]], meaning that there are no instances of it, only of its subcategories.\n";
+    $page_text .= "[[Image:SemanticBiology_Warning.png|link=]] '''$uc_label''' is [[isVirtual::true|virtual]], meaning that there are no instances of it, only of its subcategories.\n";
   }
   else
   {
     $page_text .= "[[has default form::Form:$label| ]]\n";
-    $page_text .= "[[Image:Add.png]] [{{fullurl:Special:AddDataUID|category={{urlencode:$label}}}} Create a new '''$label''']\n\n";
+    $page_text .= "[[Image:SemanticBiology_Add.png|link=]] [{{fullurl:Special:AddDataUID|category={{urlencode:$label}}}} Create a new '''$label''']\n\n";
   }
 
   # FIXME re-enable ontology browser in the wiki then uncomment this next line
   #$page_text .= "[[Image:Ontobrowser.gif]] [{{fullurl:Special:OntologyBrowser|entitytitle={{PAGENAMEE}}&ns={{NAMESPACEE}}}} Open '''$label''' in the OntologyBrowser]\n\n";
 
-  my $template_text = "[[Category:$label]]\n{| {{Categoryhelper_table_options}}\n! colspan=\"2\" {{Categoryhelper_table_title_options}} | [[:Category:$label|$uc_label]]\n";
+  my $template_text = "[[Category:$label]]\n{| class=\"infobox sbtable\"\n|+ [[:Category:$label|$uc_label]]\n";
   $template_text = $template_pre . $template_text . $template_post;
 
   my $form_text = "{{{for template|Category $label}}}{{{end template}}}\n";
   $form_text .= "<table>\n";
   my @properties = map(domain_to_properties($rdf, $_), ancestors($rdf, $obj));
   my %seen;
-  #$DB::single=1 if $label eq 'physicochemical reaction'; # XXX
   @properties = grep { !$seen{$_->object_uri->as_string}++ } @properties;
   $form_text .= properties_to_formtext($rdf, grep(!is_object_nonfunctional_prop($rdf, $_), @properties));
   $form_text .= properties_to_formtext($rdf, grep(is_object_nonfunctional_prop($rdf, $_), @properties));
@@ -257,7 +272,7 @@ foreach my $uri ( @object_property_uris )
   my $id = uri_split($uri, $ontology_ns) or next;
 
   my $label = $obj->rdfs_label or
-    die "error: no rdfs:label given for '$uri'\n";
+    die "error: no rdfs:label given for ObjectProperty '$uri'\n";
 
   my @domain_labels;
   my @domains = ($obj->rdfs_domain);
@@ -362,7 +377,7 @@ foreach my $uri ( @datatype_property_uris )
     die "error: unknown XML Schema data type '$xsd_type' on datatype property '$uri'\n";
 
   my $label = $obj->rdfs_label or
-    die "error: no rdfs:label given for '$uri'\n";
+    die "error: no rdfs:label given for DatatypeProperty '$uri'\n";
 
   my @domain_labels;
   my @domains = ($obj->rdfs_domain);
@@ -451,12 +466,22 @@ unless ( $skip_import )
 
 
 
-if ( $xml )
-{
-  print qq{</mediawiki>\n};
-}
+$xml .= qq{</mediawiki>\n};
 log_msg();
 log_msg("Done");
+
+if ( $api_import )
+{
+  log_msg("\n", "Importing to wiki directly via API...");
+  my $fh = File::Temp->new( SUFFIX => '.xml' );
+  $fh->write($xml);
+  $fh->flush;
+  $bot->import_xml($fh->filename) or die("error: could not import xml: " . format_bot_error() . "\n");
+  log_msg("Success!");
+}
+
+# dump the xml to stdout, regardless of whether we did the api import
+print $xml;
 
 
 
@@ -496,10 +521,8 @@ sub edit_page
 {
   my ($title, $text) = @_;
 
-  if ( $xml )
-  {
-    my $minor_text = "<minor/>";
-    print <<XML_PAGE;
+  my $minor_elt = $minor ? '<minor/>' : '';
+  $xml .= <<XML_PAGE;
   <page>
     <title>$title</title>
     <revision>
@@ -507,17 +530,12 @@ sub edit_page
       <contributor>
         <username>$wiki_username</username>
       </contributor>
-      $minor_text
+      $minor_elt
       <comment><![CDATA[$edit_summary]]></comment>
       <text xml:space="preserve"><![CDATA[$text]]></text>
     </revision>
   </page>
 XML_PAGE
-  }
-  else
-  {
-    $wiki->edit($title, $text, $edit_summary);
-  }
 }
 
 
@@ -658,8 +676,7 @@ sub properties_to_formtext
     next if $property->ssw_isHidden;
 
     my $property_label = $property->rdfs_label or
-      die "error: no rdfs:label given for '".$property->object_uri."'\n";
-    #$DB::single=1 if $property_label eq 'has target protein';
+      die "error: no rdfs:label given for Property '".$property->object_uri->as_string."'\n";
     my $nice_label = nice_property_label($property_label);
     my $param_name = label_to_param($nice_label);
     my $multiple = "";
@@ -729,7 +746,53 @@ sub is_object_prop
 
 
 
+sub format_bot_error
+{
+  return $bot->{error}{details};
+}
+
+
+
 # FIXME info card should display object_nonfunctional props as a list
 # in one cell instead of in multiple cells with duplicate labels
 #
 # {{#ask: [[{{FULLPAGENAME}}]] | ?has source organism = }}
+
+
+__END__
+
+=head1 NAME
+
+ontology_loader_bot.pl - Load OWL ontology into SemanticBiology wiki
+
+=head1 SYNOPSIS
+
+ontology_loader_bot.pl OWLSPEC... -wn Name [OPTIONS]
+
+Generates a MediaWiki XML import file, or optionally uses the API to make
+edits directly.
+
+OWLSPEC is of the following form:  file.owl:prefix:uri
+
+ Output format:
+  --import                use wiki API to make edits directly
+  --minor                 mark all edits as "minor"
+
+ Wiki access: (all are required for --import, otherwise just username)
+  -wu. --wiki-url         URL of wiki (e.g. https://example.com/wiki)
+  -wn, --wiki-username    account name for edit attribution
+  -wp, --wiki-password    wiki password for wiki-username
+
+ Section skipping: (skips creation of a given type of page)
+  -si, --skip-import      SMW ontology import page (smw_import_*)
+  -sc, --skip-category    categories
+  -so, --skip-object      object properties
+  -sd, --skip-datatype    datatype properties
+  -st, --skip-template    templates
+  -sf, --skip-form        forms
+  -n,  --dry-run          skip everything
+
+ Miscellaneous:
+  -h,  --help             this help message
+
+=cut
