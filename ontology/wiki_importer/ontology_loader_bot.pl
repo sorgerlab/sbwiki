@@ -681,7 +681,7 @@ sub properties_to_formtext
     my $param_name = label_to_param($nice_label);
     my $multiple = "";
     my $autocomplete = "";
-    my $info_text = "";
+    my $info_text = $property->rdfs_comment or '';
 
     if ( is_object_prop($rdf, $property) )
     {
@@ -695,10 +695,6 @@ sub properties_to_formtext
       $autocomplete = "autocomplete on category=$range_category|remote autocompletion";
       # insert prefix form
       $form_text .= "{{{for template|PropertyPrefix $property_label}}}{{{end template}}}";
-    }
-    else # datatype
-    {
-      $info_text = "semicolon; delimited; list" if !is_functional_prop($rdf, $property);
     }
 
     my $field_text = "{{{field|$param_name|$autocomplete}}}";
