@@ -32,6 +32,7 @@ function sbwgSetupExtension() {
   /***** register specials                  *****/
   /**********************************************/
   require_once($sbwgIP . '/specials/SBW_AddDataUID.php');
+  require_once($sbwgIP . '/specials/SBW_Admin.php');
   require_once($sbwgIP . '/specials/SBW_GenerateUIDList.php');
   require_once($sbwgIP . '/specials/SBW_ImportSBMLModel.php');
   require_once($sbwgIP . '/specials/SBW_ListUIDs.php');
@@ -80,6 +81,7 @@ function sbwfSetupMessages() {
 
   $messages = array(
                     'adddatauid'          => 'Add data with UID',
+                    'sbwadmin'            => 'SBW Admin',
                     'generateuidlist'     => 'Generate several UIDs at once',
                     'importsbmlmodel'     => 'Import SBML Model',
                     'listuids'            => 'UID List',
