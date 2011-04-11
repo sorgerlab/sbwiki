@@ -1533,10 +1533,6 @@
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >molecular weight</rdfs:label>
   </owl:FunctionalProperty>
-  <rdf:Description rdf:ID="Treatment">
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >A step in an assay</rdfs:comment>
-  </rdf:Description>
 </rdf:RDF>
 
 <!-- Created with Protege (with OWL Plugin 3.4, Build 533)  http://protege.stanford.edu -->
