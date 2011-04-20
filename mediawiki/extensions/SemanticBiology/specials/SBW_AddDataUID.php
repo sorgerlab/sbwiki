@@ -4,6 +4,7 @@ if ( !defined('MEDIAWIKI') ) die();
 
 global $IP;
 require_once( "$IP/includes/SpecialPage.php" );
+require_once( $sbwgIP . '/includes/classes/SBW_CategoryTree.php' );
 
 SpecialPage::addPage( new SpecialPage('AddDataUID','',true,'doSpecialAddDataUID',false) );
 
@@ -23,20 +24,22 @@ function doSpecialAddDataUID() {
   }
 
   # either category or root_category must be specified
+  
   $form = $type_code = $category_list = null;
   if ( $category ) {
     $category_title = Title::newFromText($category, NS_CATEGORY);
-    if ( $category_title->exists() ) {
-      $category_list = array($category_title);
-    } else {
-      $errors[] = "category <em>category</em> does not exist";
+    if ( !$category_title->exists() ) {
+      $errors[] = "category <em>$category</em> does not exist";
     }
   } else {
     if ( $root_category ) {
       $root_category = Title::newFromText($root_category, NS_CATEGORY);
       if ( $root_category->exists() ) {
-	$category_list = sbwfGetSubcategories($root_category);
-	array_unshift($category_list, $root_category);
+        $category_tree = new SBWCategoryTree($root_category);
+        $ct_entries = $category_tree->getEntries();
+        if ( count($ct_entries) == 1 ) {
+          $category_title = $ct_entries[0]->title;
+        }
       } else {
 	$errors[] = "category <em>$root_category</em> does not exist";
       }
@@ -69,14 +72,17 @@ function doSpecialAddDataUID() {
     return; // success!
   }
 
-  $category_input = null;
-  if ( count($category_list) == 1 ) {
-    $category_input = '<input name="category" type="hidden" value="' . $category_list[0] . '" />' . $category_list[0]->getText();
-  } else {
-    $category_input .= 'Please choose the most specific category:<br/><select name="category" style="width: 15em;" size="' . count($category_list) . '">';
+  $category_input = '';
+  if ( isset($category_title) ) {
+    $category_input = '<input name="category" type="hidden" value="' . $category_title . '" />' . $category_title->getText();
+  } elseif ( isset($category_tree) ) {
+    $entries = $category_tree->getEntries();
+    $category_input .= 'Please choose the most specific category:<br/><select name="category" style="width: 15em;" size="' . count($entries) . '">';
     $is_first = true;
-    foreach ($category_list as $cat) {
-      $category_input .= '<option value="' . $cat . '">' . $cat->getText() . ($is_first ? ' (most general)' : '') . '</option>';
+    foreach ($entries as $e) {
+      $text = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $e->depth) . '&bull; ' . $e->title->getText() . ($is_first ? ' (most general)' : '');
+      //$text = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $e->depth - 1) . ($e->depth > 0 ? '+--- ' : '') . $e->title->getText() . ($is_first ? ' (most general)' : '');
+      $category_input .= '<option value="' . $e->title . '">' . $text . '</option>';
       $is_first = false;
     }
     $category_input .= '</select>';
