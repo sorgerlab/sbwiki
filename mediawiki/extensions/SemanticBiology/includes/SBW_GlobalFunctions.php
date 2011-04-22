@@ -97,7 +97,8 @@ function sbwfSetupMessages() {
  * Assembles a UID string from its four parts
  */
 function sbwfFormatUID($type_code, $creator_initials, $id, $annotation) {
-  $annotation = strtr($annotation, ' ', '_'); // normalize space to underscore
+  $annotation_title = Title::newFromText($annotation);  // normalize to MW title rules
+  $annotation = $annotation_title->getText();
   $uid = "$annotation.$type_code$id$creator_initials";
 
   return $uid;
@@ -115,7 +116,8 @@ function sbwfParseUID($uid, $want_hash=false) {
     return null;
   }
   array_splice($uid_parts, 0, 1); // remove first element, the entire match
-  $uid_parts[0] = strtr($uid_parts[0], ' ', '_'); // normalize space to underscore
+  $annotation_title = Title::newFromText($uid_parts[0]);  // normalize to MW title rules
+  $uid_parts[0] = $annotation_title->getText();
 
   if ($want_hash) {
     return array_combine(array('annotation', 'type_code', 'id', 'creator_initials'), $uid_parts);
@@ -140,11 +142,10 @@ function sbwfAllocateUID($type_code, $creator_initials, $annotation) {
   $fname = 'SBW::sbwfAllocateUID';
 
   // FIXME add full page title (or probably just a link to the 'page' table)
-  // FIXME pre-validate page title to ensure no bad characters (use Title::newFromText)
-  $annotation = strtr($annotation, ' ', '_'); // normalize space to underscore
+  $annotation_title = Title::newFromText($annotation);  // normalize to MW title rules
   $insert_values = array('type_code'        => $type_code,
                          'creator_initials' => $creator_initials,
-			 'annotation'       => $annotation);
+			 'annotation'       => $annotation_title->getText());
 
   $db =& wfGetDB(DB_MASTER);
   $db->insert($db->tableName('sbw_uid'), $insert_values, $fname);
