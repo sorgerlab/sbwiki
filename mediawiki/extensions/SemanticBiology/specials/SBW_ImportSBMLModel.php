@@ -99,7 +99,17 @@ function renderCombine($model_contents, $creator_initials, $model_title)
 {
   global $wgOut, $wgScriptPath, $smwgScriptPath, $sbwgScriptPath;
 
-  $parser = new SBWSbmlReader($model_contents);
+  /* This is the first point in the SBML import workflow where we try to parse the user-submitted
+   SBML.  We probably don't need to catch this exception from the later steps in the workflow, as
+   there's no user-accessible mechanism to alter the SBML content once it successfully parses here
+   (the content is stored in a hidden form field). */
+  try {
+    $parser = new SBWSbmlReader($model_contents);
+  } catch (SBWSbmlException $e) {
+    $errors = array($e->getHTML());
+    renderUploadForm($errors, $creator_initials, $model_title);
+    return;
+  }
   $model = $parser->getModel();
 
   $model_contents   = htmlspecialchars($model_contents);

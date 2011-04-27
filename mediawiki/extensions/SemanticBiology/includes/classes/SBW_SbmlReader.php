@@ -15,7 +15,12 @@ class SBWSbmlReader {
 
   public function readSbmlFromString($content) {
 
+    libxml_use_internal_errors(true);
     $xml = simplexml_load_string($content);
+    if ( $xml === false ) {
+      throw new SBWSbmlParseException();
+    }
+
     $model = new SBWSbmlModel($xml->model['id']);
     $this->parseNotes($model, $xml->model);
 
@@ -185,7 +190,7 @@ class SBWSbmlModel extends SBWSbmlEntity {
 
   public function addSpecies($species) {
     if ( array_key_exists($species->id, $this->species_set) ) {
-      throw new RuntimeException("Duplicate species id: '$species->id'");
+      throw new SBWSbmlStructureException("Duplicate species id: '$species->id'");
     }
     $this->species_set[$species->id] = $species;
   }
@@ -193,7 +198,7 @@ class SBWSbmlModel extends SBWSbmlEntity {
 
   public function addReaction($reaction) {
     if ( array_key_exists($reaction->id, $this->reaction_set) ) {
-      throw new RuntimeException("Duplicate reaction id: '$reaction->id'");
+      throw new SBWSbmlStructureException("Duplicate reaction id: '$reaction->id'");
     }
     $this->reaction_set[$reaction->id] = $reaction;
   }
@@ -201,7 +206,7 @@ class SBWSbmlModel extends SBWSbmlEntity {
 
   public function addParameter($parameter) {
     if ( array_key_exists($parameter->id, $this->parameter_set) ) {
-      throw new RuntimeException("Duplicate parameter id: '$parameter->id'");
+      throw new SBWSbmlStructureException("Duplicate parameter id: '$parameter->id'");
     }
     $this->parameter_set[$parameter->id] = $parameter;
   }
@@ -209,7 +214,7 @@ class SBWSbmlModel extends SBWSbmlEntity {
 
   public function addCompartment($compartment) {
     if ( array_key_exists($compartment->id, $this->compartment_set) ) {
-      throw new RuntimeException("Duplicate compartment id: '$compartment->id'");
+      throw new SBWSbmlStructureException("Duplicate compartment id: '$compartment->id'");
     }
     $this->compartment_set[$compartment->id] = $compartment;
   }
@@ -381,6 +386,43 @@ class SBWSbmlCompartment extends SBWSbmlEntity {
     return 'size = ' . $this->sizeParameter->value;
   }
 
+}
+
+
+
+class SBWSbmlException extends RuntimeException {
+}
+
+
+
+class SBWSbmlParseException extends SBWSbmlException {
+
+  protected $xmlErrors;
+
+
+  public function SBWSbmlParseException() {
+    $this->xmlErrors = libxml_get_errors();
+  }
+
+  public function getHTML() {
+    $html = "SBML file is not valid XML:<br><table><tr><th>Line</th><th>Column</th><th>Error message</th></td>";
+    foreach ( $this->xmlErrors as $error ) {
+      $html .= "<tr><td>$error->line</td><td>$error->column</td><td>$error->message</td></tr>";
+    }
+    $html .= "</table>";
+
+    return $html;
+  }
+}
+
+
+
+class SBWSbmlStructureException extends SBWSbmlException {
+
+  public function getHTML() {
+    $html = "SBML structural problem detected: $this->message";
+    return $html;
+  }      
 }
 
 
